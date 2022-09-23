@@ -29,6 +29,7 @@ module tests_sodium
 			new_unittest("test for compare", test_compare), &
 			new_unittest("test for is_zero", test_is_zero), &
 			new_unittest("test for stackzero", test_stackzero), &
+			new_unittest("test for padding", test_padding), &
 			new_unittest("test for secretbox_keygen", test_key), &
 			new_unittest("test for secretbox_easy", test_easy)]
 		end subroutine collect_tests_sodium
@@ -223,6 +224,23 @@ module tests_sodium
 			! call check(error, res, 0)
 			! if (allocated(error)) return
 		end subroutine test_stackzero
+
+		subroutine test_padding(error)
+			type(error_type), allocatable, intent(out) :: error
+			character(len=:), allocatable :: buf
+			integer(kind=c_size_t) :: padded_buflen, unpadded_buflen, blocksize, max_buflen
+			integer :: res
+			unpadded_buflen = 10
+			blocksize = 16
+			max_buflen = 100
+			allocate(character(len=max_buflen) :: buf)
+			res = sodium_pad(padded_buflen, buf, unpadded_buflen, blocksize, max_buflen)
+			call check(error, res, 0)
+			if (allocated(error)) return
+			res = sodium_unpad(unpadded_buflen, buf, padded_buflen, blocksize)
+			call check(error, res, 0)
+			if (allocated(error)) return
+		end subroutine test_padding
 
 		subroutine test_key(error)
 			type(error_type), allocatable, intent(out) :: error

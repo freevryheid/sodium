@@ -28,6 +28,8 @@ module sodium
 	public :: sodium_compare
 	public :: sodium_is_zero
 	public :: sodium_stackzero
+	public :: sodium_pad
+	public :: sodium_unpad
 	public :: randombytes_random
 	public :: randombytes_uniform
 	public :: randombytes_buf
@@ -177,6 +179,26 @@ module sodium
 			import :: c_size_t
 			integer(kind=c_size_t), value, intent(in) :: nlen
 		end subroutine sodium_stackzero
+
+		! int sodium_pad(size_t *padded_buflen_p, unsigned char *buf,
+		!                size_t unpadded_buflen, size_t blocksize, size_t max_buflen)
+		function s_pad(padded_buflen_p, buf, unpadded_buflen, blocksize, max_buflen) bind(c, name="sodium_pad") result(res)
+			import :: c_size_t, c_char, c_int
+			integer(kind=c_size_t), intent(inout) :: padded_buflen_p
+			character(kind=c_char), intent(in) :: buf
+			integer(kind=c_size_t), value, intent(in) :: unpadded_buflen, blocksize, max_buflen
+			integer(kind=c_int) :: res
+		end function s_pad
+
+		! int sodium_unpad(size_t *unpadded_buflen_p, const unsigned char *buf,
+		!                  size_t padded_buflen, size_t blocksize)
+		function s_unpad(unpadded_buflen_p, buf, padded_buflen, blocksize) bind(c, name="sodium_unpad") result(res)
+			import :: c_size_t, c_char, c_int
+			integer(kind=c_size_t), intent(inout) :: unpadded_buflen_p
+			character(kind=c_char), intent(in) :: buf
+			integer(kind=c_size_t), value, intent(in) :: padded_buflen, blocksize
+			integer(kind=c_int) :: res
+		end function s_unpad
 
 		! size_t  crypto_secretbox_keybytes(void)
 		function crypto_secretbox_keybytes() bind(c, name="crypto_secretbox_keybytes") result(res)
@@ -419,6 +441,27 @@ module sodium
 			integer :: res
 			res = s_is_zero(n, nlen)
 		end function sodium_is_zero
+
+		function sodium_pad(padded_buflen_p, buf, unpadded_buflen, blocksize, max_buflen) result(res)
+			!! adds padding data to a buffer buf whose original size is unpadded_buflen in order to extend its total length to a multiple of blocksize.
+			!! The new length is put into padded_buflen_p.
+			!!The function returns -1 if the padded buffer length would exceed max_buflen, or if the block size is 0. It returns 0 on success.
+			integer(kind=c_size_t), intent(inout) :: padded_buflen_p
+			character(len=:), allocatable, intent(in) :: buf
+			integer(kind=c_size_t), intent(in) :: unpadded_buflen, blocksize, max_buflen
+			integer(kind=c_int) :: res
+			res = s_pad(padded_buflen_p, buf, unpadded_buflen, blocksize, max_buflen)
+		end function sodium_pad
+
+		function sodium_unpad(unpadded_buflen_p, buf, padded_buflen, blocksize) result(res)
+			!! computes the original, unpadded length of a message previously padded using sodium_pad().
+			!! The original length is put into unpadded_buflen_p.
+			integer(kind=c_size_t), intent(inout) :: unpadded_buflen_p
+			character(len=:), allocatable, intent(in) :: buf
+			integer(kind=c_size_t), intent(in) :: padded_buflen, blocksize
+			integer(kind=c_int) :: res
+			res = s_unpad(unpadded_buflen_p, buf, padded_buflen, blocksize)
+		end function sodium_unpad
 
 		function randombytes_random() result(res)
 			!! returns an unpredictable value between 0 and 0xffffffff (included)
