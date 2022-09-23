@@ -23,6 +23,12 @@ module tests_sodium
 			new_unittest("test for hex2bin", test_hex2bin), &
 			new_unittest("test for bin2base64", test_bin2base64), &
 			new_unittest("test for base642bin", test_base642bin), &
+			new_unittest("test for increment", test_increment), &
+			new_unittest("test for add", test_add), &
+			new_unittest("test for sub", test_sub), &
+			new_unittest("test for compare", test_compare), &
+			new_unittest("test for is_zero", test_is_zero), &
+			new_unittest("test for stackzero", test_stackzero), &
 			new_unittest("test for secretbox_keygen", test_key), &
 			new_unittest("test for secretbox_easy", test_easy)]
 		end subroutine collect_tests_sodium
@@ -138,6 +144,85 @@ module tests_sodium
 			call check(error, res, 0)
 			if (allocated(error)) return
 		end subroutine test_base642bin
+
+		subroutine test_increment(error)
+			type(error_type), allocatable, intent(out) :: error
+			character(len=:), allocatable :: n
+			integer(kind=c_size_t) :: nlen
+			n = "111"
+			nlen = len(n)
+			call sodium_increment(n, nlen)
+			call check(error, n, "211")
+			if (allocated(error)) return
+		end subroutine test_increment
+
+		subroutine test_add(error)
+			type(error_type), allocatable, intent(out) :: error
+			character(len=:), allocatable :: a, b
+			integer(kind=c_size_t) :: nlen
+			a = "111"
+			b = "111"
+			nlen = len(a)
+			call sodium_add(a, b, nlen)
+			call check(error, a, "bbb")
+			if (allocated(error)) return
+		end subroutine test_add
+
+		! FIXME
+		subroutine test_sub(error)
+			type(error_type), allocatable, intent(out) :: error
+			character(len=:), allocatable :: a, b
+			integer(kind=c_size_t) :: nlen
+			a = "1"
+			b = "A"
+			nlen = len(a)
+			call sodium_sub(a, b, nlen)
+			print *, a
+			! call check(error, a, "bbb")
+			! if (allocated(error)) return
+		end subroutine test_sub
+
+		subroutine test_compare(error)
+			type(error_type), allocatable, intent(out) :: error
+			character(len=:), allocatable :: b1, b2
+			integer(kind=c_size_t) :: blen
+			integer :: res
+			b1 = "11"
+			b2 = b1
+			blen = len(b1)
+			res = sodium_compare(b1, b2, blen)
+			call check(error, res, 0)
+			if (allocated(error)) return
+			b2 = "10"
+			res = sodium_compare(b1, b2, blen)
+			call check(error, res, 1)
+			if (allocated(error)) return
+			res = sodium_compare(b2, b1, blen)
+			call check(error, res, -1)
+			if (allocated(error)) return
+		end subroutine test_compare
+
+		subroutine test_is_zero(error)
+			type(error_type), allocatable, intent(out) :: error
+			character(len=:), allocatable :: n
+			integer(kind=c_size_t) :: nlen
+			integer :: res
+			n = "11"
+			nlen = len(n)
+			res = sodium_is_zero(n, nlen)
+			call check(error, res, 0)
+			if (allocated(error)) return
+		end subroutine test_is_zero
+
+		! TODO: how to test?
+		subroutine test_stackzero(error)
+			type(error_type), allocatable, intent(out) :: error
+			integer(kind=c_size_t) :: nlen
+			nlen = 100
+			call sodium_stackzero(nlen)
+			! call check(error, res, 0)
+			! if (allocated(error)) return
+		end subroutine test_stackzero
 
 		subroutine test_key(error)
 			type(error_type), allocatable, intent(out) :: error

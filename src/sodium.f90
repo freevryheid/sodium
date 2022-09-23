@@ -22,6 +22,12 @@ module sodium
 	public :: sodium_base64_encoded_len
 	public :: sodium_bin2base64
 	public :: sodium_base642bin
+	public :: sodium_increment
+	public :: sodium_add
+	public :: sodium_sub
+	public :: sodium_compare
+	public :: sodium_is_zero
+	public :: sodium_stackzero
 	public :: randombytes_random
 	public :: randombytes_uniform
 	public :: randombytes_buf
@@ -123,6 +129,54 @@ module sodium
 			integer(kind=c_int), value, intent(in) :: variant
 			integer(kind=c_int) :: res
 		end function s_base642bin
+
+		! void sodium_increment(unsigned char *n, const size_t nlen)
+		subroutine s_increment(n, nlen) bind(c, name="sodium_increment")
+			import :: c_char, c_size_t
+			character(kind=c_char), intent(inout) :: n
+			integer(kind=c_size_t), value, intent(in) :: nlen
+		end subroutine s_increment
+
+		! void sodium_add(unsigned char *a, const unsigned char *b, const size_t len)
+		subroutine s_add(a, b, nlen) bind(c, name="sodium_add")
+			import :: c_char, c_size_t
+			character(kind=c_char), intent(inout) :: a
+			character(kind=c_char), intent(in) :: b
+			integer(kind=c_size_t), value, intent(in) :: nlen
+		end subroutine s_add
+
+		! void sodium_sub(unsigned char *a, const unsigned char *b, const size_t len)
+		subroutine s_sub(a, b, nlen) bind(c, name="sodium_sub")
+			import :: c_char, c_size_t
+			character(kind=c_char), intent(inout) :: a
+			character(kind=c_char), intent(in) :: b
+			integer(kind=c_size_t), value, intent(in) :: nlen
+		end subroutine s_sub
+
+		! int sodium_compare(const void * const b1_, const void * const b2_, size_t len)
+		function s_compare(b1, b2, blen) bind(c, name="sodium_compare") result(res)
+			import :: c_char, c_size_t, c_int
+			character(kind=c_char), intent(in) :: b1, b2
+			integer(kind=c_size_t), value, intent(in) :: blen
+			integer(kind=c_int) :: res
+		end function s_compare
+
+		! int sodium_is_zero(const unsigned char *n, const size_t nlen)
+		function s_is_zero(n, nlen) bind(c, name="sodium_is_zero") result(res)
+			import :: c_char, c_size_t, c_int
+			character(kind=c_char), intent(in) :: n
+			integer(kind=c_size_t), value, intent(in) :: nlen
+			integer(kind=c_int) :: res
+		end function s_is_zero
+
+		!void sodium_stackzero(const size_t len)
+		subroutine sodium_stackzero(nlen) bind(c, name="sodium_stackzero")
+			!! clears len bytes above the current stack pointer, to overwrite sensitive
+			!! values that may have been temporarily stored on the stack.
+			!! Note that these values can still be present in registers.
+			import :: c_size_t
+			integer(kind=c_size_t), value, intent(in) :: nlen
+		end subroutine sodium_stackzero
 
 		! size_t  crypto_secretbox_keybytes(void)
 		function crypto_secretbox_keybytes() bind(c, name="crypto_secretbox_keybytes") result(res)
@@ -316,6 +370,55 @@ module sodium
 			integer(kind=c_int) :: res
 			res = s_base642bin(bin, bin_maxlen, b64, b64_len, ignore, bin_len, b64_end, variant)
 		end function sodium_base642bin
+
+		subroutine sodium_increment(n, nlen)
+			!! takes a pointer to an arbitrary-long unsigned number and increments it.
+			!! It runs in constant time for a given length and considers the number to be encoded in a little-endian format.
+			!! sodium_increment() can be used to increment nonces in constant time.
+			character(len=:), allocatable, intent(inout) :: n
+			integer(kind=c_size_t), intent(in) :: nlen
+			call s_increment(n, nlen)
+		end subroutine sodium_increment
+
+		subroutine sodium_add(a, b, nlen)
+			!! accepts two pointers to unsigned numbers encoded in little-endian format, a and b, both of size len bytes.
+			!! It computes (a + b) mod 2^(8*len) in constant time for a given length and overwrites a with the result.
+			character(len=:), allocatable, intent(inout) :: a
+			character(len=:), allocatable, intent(in) :: b
+			integer(kind=c_size_t), intent(in) :: nlen
+			call s_add(a, b, nlen)
+		end subroutine sodium_add
+
+		subroutine sodium_sub(a, b, nlen)
+			!! accepts two pointers to unsigned numbers encoded in little-endian format, a and b, both of size len bytes.
+			!! It computes (a - b) mod 2^(8*len) in constant time for a given length and overwrites a with the result.
+			character(len=:), allocatable, intent(inout) :: a
+			character(len=:), allocatable, intent(in) :: b
+			integer(kind=c_size_t), intent(in) :: nlen
+			call s_sub(a, b, nlen)
+		end subroutine sodium_sub
+
+		function sodium_compare(b1, b2, blen) result(res)
+			!! given b1_ and b2_, two len bytes numbers encoded in little-endian format, this function returns:
+			!! -1 if b1_ is less than b2_
+			!! 0 if b1_ equals b2_
+			!! 1 if b1_ is greater than b2_
+			!! The comparison is done in constant time for a given length.
+			!!This function can be used with nonces to prevent replay attacks.
+			character(len=:), allocatable, intent(in) :: b1, b2
+			integer(kind=c_size_t), intent(in) :: blen
+			integer :: res
+			res = s_compare(b1, b2, blen)
+		end function sodium_compare
+
+		function sodium_is_zero(n, nlen) result(res)
+			!! returns 1 if the nlen bytes vector pointed by n contains only zeros. It returns 0 if non-zero bits are found.
+			!! Its execution time is constant for a given length.
+			character(len=:), allocatable, intent(in) :: n
+			integer(kind=c_size_t), intent(in) :: nlen
+			integer :: res
+			res = s_is_zero(n, nlen)
+		end function sodium_is_zero
 
 		function randombytes_random() result(res)
 			!! returns an unpredictable value between 0 and 0xffffffff (included)
