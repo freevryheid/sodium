@@ -19,6 +19,10 @@ module tests_sodium
 			new_unittest("test for random", test_random), &
 			new_unittest("test for uniform", test_uniform), &
 			new_unittest("test for buf", test_buf), &
+			new_unittest("test for bin2hex", test_bin2hex), &
+			new_unittest("test for hex2bin", test_hex2bin), &
+			new_unittest("test for bin2base64", test_bin2base64), &
+			new_unittest("test for base642bin", test_base642bin), &
 			new_unittest("test for secretbox_keygen", test_key), &
 			new_unittest("test for secretbox_easy", test_easy)]
 		end subroutine collect_tests_sodium
@@ -66,6 +70,75 @@ module tests_sodium
 			if (allocated(error)) return
 		end subroutine test_buf
 
+		subroutine test_bin2hex(error)
+			type(error_type), allocatable, intent(out) :: error
+			character(len=:), allocatable :: bin, hex, res
+			integer(kind=c_size_t) :: hex_maxlen, bin_len
+			bin = "11"
+			bin_len = len(bin)
+			hex_maxlen = bin_len*2 + 1
+			allocate(character(len=hex_maxlen) :: hex)
+			allocate(character(len=hex_maxlen) :: res)
+			res = sodium_bin2hex(hex, hex_maxlen, bin, bin_len)
+			call check(error, c_str(res), hex)
+			if (allocated(error)) return
+		end subroutine test_bin2hex
+
+		! TODO: experiment with different hexes
+		subroutine test_hex2bin(error)
+			type(error_type), allocatable, intent(out) :: error
+			character(len=:), allocatable :: bin, hex, ignore
+			integer(kind=c_size_t) :: bin_maxlen, hex_len, bin_len
+			type(c_ptr) :: hex_end
+			integer :: res
+			hex = "3131"
+			hex_len = len(hex)
+			ignore = c_null_char ! disallow any non-hexadecimal character
+			hex_end = c_null_ptr
+			bin_maxlen = 2
+			bin_len = bin_maxlen
+			allocate(character(len=bin_maxlen) :: bin)
+			res = sodium_hex2bin(bin, bin_maxlen, hex, hex_len, ignore, bin_len, hex_end)
+			call check(error, res, 0)
+			if (allocated(error)) return
+		end subroutine test_hex2bin
+
+		subroutine test_bin2base64(error)
+			type(error_type), allocatable, intent(out) :: error
+			character(len=:), allocatable :: bin, b64, res
+			integer(kind=c_size_t) :: b64_maxlen, bin_len
+			integer :: variant
+			bin = "11"
+			bin_len = len(bin)
+			variant = SODIUM_BASE64_VARIANT_ORIGINAL
+			b64_maxlen = sodium_base64_encoded_len(bin_len, variant)
+			allocate(character(len=b64_maxlen) :: b64)
+			allocate(character(len=b64_maxlen) :: res)
+			res = sodium_bin2base64(b64, b64_maxlen, bin, bin_len, variant)
+			call check(error, c_str(res), b64)
+			if (allocated(error)) return
+		end subroutine test_bin2base64
+
+		subroutine test_base642bin(error)
+			type(error_type), allocatable, intent(out) :: error
+			character(len=:), allocatable :: bin, b64, ignore
+			integer(kind=c_size_t) :: bin_maxlen, b64_len, bin_len
+			type(c_ptr) :: b64_end
+			integer :: res, variant
+			variant = SODIUM_BASE64_VARIANT_ORIGINAL
+			b64 = "1010"
+			! b64 = "VGhpcyBpcyBhIGpvdXJu" // "\n" // "ZXkgaW50by" // " " // "Bzb3VuZA=="
+			b64_len = len(b64)
+			ignore = c_null_char ! disallow any non-b64adecimal character
+			b64_end = c_null_ptr
+			bin_maxlen = b64_len/4*3
+			bin_len = bin_maxlen
+			allocate(character(len=bin_maxlen) :: bin)
+			res = sodium_base642bin(bin, bin_maxlen, b64, b64_len, ignore, bin_len, b64_end, variant)
+			call check(error, res, 0)
+			if (allocated(error)) return
+		end subroutine test_base642bin
+
 		subroutine test_key(error)
 			type(error_type), allocatable, intent(out) :: error
 			character(len=:), allocatable :: key
@@ -84,7 +157,7 @@ module tests_sodium
 			k = crypto_secretbox_keygen() ! key
 			allocate(character(len=crypto_secretbox_noncebytes()) :: n) ! nonce
 			call randombytes_buf(n, crypto_secretbox_noncebytes())
-			m = "test" // c_null_char ! msg - c strings are null terminated
+			m = c_str("test") ! msg - c strings are null terminated
 			mlen = len(m) - 1 ! length without trailing null
 			clen = mlen + crypto_secretbox_macbytes()
 			allocate(character(len=clen) :: c)
