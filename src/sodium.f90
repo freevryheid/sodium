@@ -30,6 +30,10 @@ module sodium
 	public :: sodium_stackzero
 	public :: sodium_pad
 	public :: sodium_unpad
+	public :: sodium_memzero
+	public :: sodium_mlock
+	public :: sodium_munlock
+	public :: sodium_malloc
 	public :: randombytes_random
 	public :: randombytes_uniform
 	public :: randombytes_buf
@@ -200,6 +204,38 @@ module sodium
 			integer(kind=c_int) :: res
 		end function s_unpad
 
+		! void sodium_memzero(void * const pnt, const size_t len)
+		subroutine s_memzero(n, nlen) bind(c, name="sodium_memzero")
+			import :: c_char, c_size_t
+			character(kind=c_char), intent(in) :: n
+			integer(kind=c_size_t), value, intent(in) :: nlen
+		end subroutine s_memzero
+
+		! int sodium_mlock(void * const addr, const size_t len)
+		function s_mlock(n, nlen) bind(c, name="sodium_mlock") result(res)
+			import :: c_char, c_size_t, c_int
+			character(kind=c_char), intent(in) :: n
+			integer(kind=c_size_t), value, intent(in) :: nlen
+			integer(kind=c_int) :: res
+		end function s_mlock
+
+		! int sodium_munlock(void * const addr, const size_t len)
+		function s_munlock(n, nlen) bind(c, name="sodium_munlock") result(res)
+			import :: c_char, c_size_t, c_int
+			character(kind=c_char), intent(in) :: n
+			integer(kind=c_size_t), value, intent(in) :: nlen
+			integer(kind=c_int) :: res
+		end function s_munlock
+
+		! void *sodium_malloc(size_t size)
+		function s_malloc(siz) bind(c, name="sodium_malloc") result(res)
+			import :: c_char, c_size_t
+			integer(kind=c_size_t), value, intent(in) :: siz
+			character(kind=c_char) :: res
+		end function s_malloc
+
+
+
 		! size_t  crypto_secretbox_keybytes(void)
 		function crypto_secretbox_keybytes() bind(c, name="crypto_secretbox_keybytes") result(res)
 			import :: c_size_t
@@ -317,6 +353,7 @@ module sodium
 			res = s_memcmp(b1, b2, siz)
 		end function sodium_memcmp
 
+		! TODO - we should just be able to set res to hex and be done with it - explore this as an option
 		function sodium_bin2hex(hex, hex_maxlen, bin, bin_len) result(res)
 			!! converts bin_len bytes stored at bin into a hexadecimal string.
 			!! The string is stored into hex and includes a nul byte (\0) terminator.
@@ -462,6 +499,40 @@ module sodium
 			integer(kind=c_int) :: res
 			res = s_unpad(unpadded_buflen_p, buf, padded_buflen, blocksize)
 		end function sodium_unpad
+
+		subroutine sodium_memzero(n, nlen)
+			!! After use, sensitive data should be overwritten, but memset() and hand-written code can be silently stripped
+			!! out by an optimizing compiler or the linker.
+			!! The sodium_memzero() function tries to effectively zero len bytes starting at pnt, even if optimizations are
+			!! being applied to the code.
+			character(len=:), allocatable, intent(in) :: n
+			integer(kind=c_size_t), intent(in) :: nlen
+			call s_memzero(n, nlen)
+		end subroutine sodium_memzero
+
+		function sodium_mlock(n, nlen) result(res)
+			!! locks at least len bytes of memory starting at addr. This can help avoid swapping sensitive data to disk.
+			character(len=:), allocatable, intent(in) :: n
+			integer(kind=c_size_t), intent(in) :: nlen
+			integer :: res
+			res = s_mlock(n, nlen)
+		end function sodium_mlock
+
+		function sodium_munlock(n, nlen) result(res)
+			!! should be called after locked memory is not being used anymore. It will zero len bytes starting at addr before
+			!! flagging the pages as swappable again. Calling sodium_memzero() prior to sodium_munlock() is thus not required.
+			character(len=:), allocatable, intent(in) :: n
+			integer(kind=c_size_t), intent(in) :: nlen
+			integer :: res
+			res = s_munlock(n, nlen)
+		end function sodium_munlock
+
+		function sodium_malloc(siz) result(res)
+			!! returns a pointer from which exactly size contiguous bytes of memory can be accessed.
+			character(len=:), allocatable :: res
+			integer(kind=c_size_t), intent(in) :: siz
+			res = s_malloc(siz)
+		end function sodium_malloc
 
 		function randombytes_random() result(res)
 			!! returns an unpredictable value between 0 and 0xffffffff (included)

@@ -30,6 +30,8 @@ module tests_sodium
 			new_unittest("test for is_zero", test_is_zero), &
 			new_unittest("test for stackzero", test_stackzero), &
 			new_unittest("test for padding", test_padding), &
+			new_unittest("test for memzero", test_memzero), &
+			new_unittest("test for malloc", test_malloc), &
 			new_unittest("test for secretbox_keygen", test_key), &
 			new_unittest("test for secretbox_easy", test_easy)]
 		end subroutine collect_tests_sodium
@@ -241,6 +243,31 @@ module tests_sodium
 			call check(error, res, 0)
 			if (allocated(error)) return
 		end subroutine test_padding
+
+		subroutine test_memzero(error)
+			type(error_type), allocatable, intent(out) :: error
+			character(len=:), allocatable :: buf
+			integer(kind=c_size_t) :: buflen
+			integer :: res
+			buf = "hello"
+			buflen = len(buf)
+			call sodium_memzero(buf, buflen)
+			res = sodium_is_zero(buf, buflen)
+			call check(error, res, 1)
+			if (allocated(error)) return
+		end subroutine test_memzero
+
+		subroutine test_malloc(error)
+			type(error_type), allocatable, intent(out) :: error
+			character(len=:), allocatable :: buf
+			integer(kind=c_size_t) :: siz
+			siz = 100
+			buf = sodium_malloc(siz)
+			buf = "AAA"
+			print *, buf
+			! call check(error, res, 1)
+			! if (allocated(error)) return
+		end subroutine test_malloc
 
 		subroutine test_key(error)
 			type(error_type), allocatable, intent(out) :: error
