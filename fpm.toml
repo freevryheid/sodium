@@ -13,5 +13,6 @@ auto-examples = true
 stdlib = { git="https://github.com/fortran-lang/stdlib", branch="stdlib-fpm" }
 [dev-dependencies]
 test-drive = { git="https://github.com/fortran-lang/test-drive" }
+scanner = { git="https://github.com/freevryheid/scanner" }
 [install]
 library = false
