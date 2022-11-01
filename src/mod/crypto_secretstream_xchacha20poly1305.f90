@@ -123,14 +123,14 @@ module mod_crypto_secretstream_xchacha20poly1305
 		function crypto_secretstream_xchacha20poly1305_push(state,c,clen,m,mlen,ad,adlen,tag)&
 		&bind(c,name='crypto_secretstream_xchacha20poly1305_push')&
 		&result(res)
-			import::c_int,c_char,c_signed_char,c_long_long,crypto_secretstream_xchacha20poly1305_state
+			import::c_int,c_char,c_long_long,crypto_secretstream_xchacha20poly1305_state
 			integer(kind=c_int)::res
 			type(crypto_secretstream_xchacha20poly1305_state)::state
 			integer(kind=c_long_long)::clen
 			character(kind=c_char)::c
 			integer(kind=c_long_long),value::mlen,adlen
 			character(kind=c_char)::m,ad
-			integer(kind=c_signed_char),value::tag
+			character(kind=c_char),value::tag
 		endfunction crypto_secretstream_xchacha20poly1305_push
 
 		function crypto_secretstream_xchacha20poly1305_init_pull(state,header,k)&
@@ -146,14 +146,14 @@ module mod_crypto_secretstream_xchacha20poly1305
 		function crypto_secretstream_xchacha20poly1305_pull(state,m,mlen,tag,c,clen,ad,adlen)&
 		&bind(c,name='crypto_secretstream_xchacha20poly1305_pull')&
 		&result(res)
-			import::c_int,c_char,c_signed_char,c_long_long,crypto_secretstream_xchacha20poly1305_state
+			import::c_int,c_char,c_long_long,crypto_secretstream_xchacha20poly1305_state
 			integer(kind=c_int)::res
 			type(crypto_secretstream_xchacha20poly1305_state)::state
 			integer(kind=c_long_long)::mlen
 			character(kind=c_char)::m
 			integer(kind=c_long_long),value::clen,adlen
 			character(kind=c_char)::c,ad
-			integer(kind=c_signed_char)::tag
+			character(kind=c_char)::tag
 		endfunction crypto_secretstream_xchacha20poly1305_pull
 
 		subroutine crypto_secretstream_xchacha20poly1305_rekey(state)&

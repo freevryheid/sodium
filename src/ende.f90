@@ -46,7 +46,8 @@ module ende
 			character(len=:),allocatable::fin,fout,key
 			character(len=:),allocatable::bin,bout,header,ad
 			integer::in,out,stin,stout,siz,pos,remaining,abytes,hbytes,ret
-			integer(kind=c_signed_char)::tag
+			! integer(kind=c_signed_char)::tag
+			character(len=1)::tag
 			integer(kind=c_long_long)::binlen,adlen
 			logical::eof
 			type(crypto_secretstream_xchacha20poly1305_state)::state
@@ -60,7 +61,7 @@ module ende
 			eof=.false.
 			ad=c_null_char
 			adlen=0
-			tag=crypto_secretstream_xchacha20poly1305_tag_message()
+			tag=char(crypto_secretstream_xchacha20poly1305_tag_message())
 			ret=crypto_secretstream_xchacha20poly1305_init_push(state,header,key)
 			if(ret.ne.0) call error_stop("error: cannot init push")
 			open(newunit=in,file=fin,status="old",access="stream",iostat=stin)
@@ -74,7 +75,7 @@ module ende
 					deallocate(bout)
 					allocate(character(len=remaining)::bin)
 					allocate(character(len=remaining+abytes)::bout)
-					tag=crypto_secretstream_xchacha20poly1305_tag_final()
+					tag=char(crypto_secretstream_xchacha20poly1305_tag_final())
 					eof=.true.
 				endif
 				read(in) bin
@@ -92,11 +93,12 @@ module ende
 			character(len=:),allocatable::bin,bout,header,ad
 			integer::in,out,stin,stout,siz,pos,remaining,abytes,hbytes,ret
 			integer(kind=c_long_long)::binlen,adlen
-			integer(kind=c_signed_char),pointer::tag
+			! integer(kind=c_signed_char),pointer::tag
+			character(len=1)::tag
 			logical::eof
 			type(crypto_secretstream_xchacha20poly1305_state)::state
 			integer(kind=c_long_long),pointer::blen=>null() ! not cared about chunk lengths
-			allocate(tag)
+			! allocate(tag)
 			inquire(file=fin,size=siz)
 			abytes=crypto_secretstream_xchacha20poly1305_abytes()
 			hbytes=crypto_secretstream_xchacha20poly1305_headerbytes()
@@ -129,7 +131,7 @@ module ende
 			enddo
 			close(out)
 			close(in)
-			if(tag.ne.crypto_secretstream_xchacha20poly1305_tag_final()) error stop "decryption failed"
+			if(tag.ne.char(crypto_secretstream_xchacha20poly1305_tag_final())) error stop "decryption failed"
 		endsubroutine decrypt
 
 endmodule ende

@@ -1,16 +1,16 @@
 program tester
-	use, intrinsic :: iso_fortran_env, only : error_unit
-	use testdrive, only : run_testsuite
-	use tests_version, only : collect_tests_version
-	use tests_crypto_auth, only : collect_tests_crypto_auth
-	use tests_utils, only : collect_tests_utils
-	use tests_crypto_box, only : collect_tests_crypto_box
-	use tests_crypto_secretbox, only : collect_tests_crypto_secretbox
-	use tests_crypto_secretstream, only : collect_tests_crypto_secretstream
+	use, intrinsic::iso_fortran_env,only:error_unit
+	use testdrive,only:run_testsuite
+	use tests_version,only:collect_tests_version
+	use tests_crypto_auth,only:collect_tests_crypto_auth
+	use tests_utils, only:collect_tests_utils
+	use tests_crypto_box,only:collect_tests_crypto_box
+	use tests_crypto_secretbox,only:collect_tests_crypto_secretbox
+	use tests_crypto_secretstream,only:collect_tests_crypto_secretstream
 
 	implicit none
-	integer :: i,stat
-	character(len=:), allocatable :: test,post
+	integer::i,stat
+	character(len=:),allocatable::test,post
 
 	test="f"
 

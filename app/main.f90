@@ -20,6 +20,7 @@ program main
 		nam=aproc%nam
 		print*,"! public::"//nam
 	enddo
+
 	do i=1,size(procs)
 		aproc=procs(i)
 		nam=aproc%nam
@@ -51,3 +52,4 @@ program main
 	enddo
 
 endprogram main
+

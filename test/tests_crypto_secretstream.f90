@@ -21,8 +21,11 @@ module tests_crypto_secretstream
 			type(error_type),allocatable,intent(out)::error
 			type(crypto_secretstream_xchacha20poly1305_state)::state
 			character(len=:),allocatable::key,header,m1,m2,m3,c1,c2,c3,r1,r2,r3,ad
-			integer(kind=c_signed_char),pointer::tag
-			integer(kind=c_signed_char)::tag0
+			! integer(kind=c_signed_char),pointer::tag
+			character(len=1)::tag
+
+			! integer(kind=c_signed_char)::tag0
+			character(len=1)::tag0
 			integer(kind=c_size_t)::kb,hb,ab
 			integer::res
 			integer(kind=c_long_long),pointer::c1l,c2l,c3l
@@ -30,7 +33,8 @@ module tests_crypto_secretstream
 			integer(kind=c_long_long)::r1l,r2l,r3l,adlen
 
 			! test tags
-			allocate(tag)
+			! allocate(tag)
+			! allocate(character(len=1)::tag)
 			allocate(c1l)
 			allocate(c2l)
 			allocate(c3l)
@@ -54,7 +58,8 @@ module tests_crypto_secretstream
 			r3l=m3l+ab
 			ad=c_null_char
 			adlen=0
-			tag0=crypto_secretstream_xchacha20poly1305_tag_message()
+			! tag0=crypto_secretstream_xchacha20poly1305_tag_message()
+			tag0=char(crypto_secretstream_xchacha20poly1305_tag_message())
 
 			allocate(character(len=kb)::key)
 			allocate(character(len=hb)::header)
@@ -92,7 +97,8 @@ module tests_crypto_secretstream
 			! encrypt the last chunk.
 			! c3 will contain an encrypted, authenticated representation of m3
 			! note the `TAG_FINAL` tag to indicate that this is the final chunk.
-			tag0=crypto_secretstream_xchacha20poly1305_tag_final()
+			! tag0=crypto_secretstream_xchacha20poly1305_tag_final()
+			tag0=char(crypto_secretstream_xchacha20poly1305_tag_final())
 			res=crypto_secretstream_xchacha20poly1305_push(state,c3,c3l,c_str(m3),m3l,ad,adlen,tag0)
 			call check(error,res,0,"push3")
 
@@ -108,7 +114,8 @@ module tests_crypto_secretstream
 			! decrypted.
 			res=crypto_secretstream_xchacha20poly1305_pull(state,r1,c1l,tag,c1,r1l,ad,adlen)
 			call check(error,res,0,"pull1")
-			tag0=crypto_secretstream_xchacha20poly1305_tag_message()
+			! tag0=crypto_secretstream_xchacha20poly1305_tag_message()
+			tag0=char(crypto_secretstream_xchacha20poly1305_tag_message())
 			call check(error,tag,tag0,"tag_message1")
 			call check(error,r1,m1,"r1=m1")
 
@@ -121,7 +128,8 @@ module tests_crypto_secretstream
 			! decrypt the last chunk, store the result into r3
 			res=crypto_secretstream_xchacha20poly1305_pull(state,r3,c3l,tag,c3,r3l,ad,adlen)
 			call check(error,res,0,"pull3")
-			tag0=crypto_secretstream_xchacha20poly1305_tag_final()
+			! tag0=crypto_secretstream_xchacha20poly1305_tag_final()
+			tag0=char(crypto_secretstream_xchacha20poly1305_tag_final())
 			call check(error,tag,tag0,"tag_final")
 			call check(error,r3,m3,"r3=m3")
 			! the tag indicates that this is the final chunk, no need to read and decrypt more

@@ -10,5 +10,10 @@ module sodium
 	use mod_crypto_secretbox
 	use mod_crypto_secretstream_xchacha20poly1305
 	! use crypto_aead_aes256gcm
+	use mod_crypto_hash
+	use mod_crypto_hash_sha512
+	use mod_crypto_hash_sha256
+	use mod_crypto_sign
+
 endmodule sodium
 
