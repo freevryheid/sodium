@@ -15,6 +15,9 @@ module sodium
 	use mod_crypto_hash_sha256
 	use mod_crypto_generichash_blake2b
 	use mod_crypto_generichash
+	use mod_crypto_shorthash
+	use mod_crypto_shorthash_siphash24
+	use mod_crypto_pwhash
 	use mod_crypto_sign
 	use mod_crypto_sign_ed25519
 
