@@ -14,7 +14,9 @@ module tests_crypto_box
 
 		subroutine collect_tests_crypto_box(testsuite)
 			type(unittest_type),allocatable,intent(out)::testsuite(:)
-			testsuite=[new_unittest("test for keypair",test_keypair)]
+			testsuite=[&
+			&new_unittest("test for keypair",test_keypair),&
+			&new_unittest("test for sealed boxes",test_sealed)]
 		endsubroutine collect_tests_crypto_box
 
 		subroutine test_keypair(error)
@@ -59,5 +61,32 @@ module tests_crypto_box
 			call check(error,bob_pk,alice_pk)
 			if (allocated(error)) return
 		endsubroutine test_keypair
+
+		subroutine test_sealed(error)
+			type(error_type),allocatable,intent(out)::error
+			character(len=:),allocatable::m,c,d,rpk,rsk
+			integer(kind=c_long_long)::mlen,clen
+			integer(kind=c_size_t)::pb,sb,sbb
+			integer::res
+			pb=crypto_box_publickeybytes()
+			sb=crypto_box_secretkeybytes()
+			sbb=crypto_box_sealbytes()
+			allocate(character(len=pb)::rpk)
+			allocate(character(len=sb)::rsk)
+			res=crypto_box_keypair(rpk,rsk)
+			call check(error,res,0)
+			m="Secret message"
+			mlen=len(m)
+			clen=sbb+mlen
+			allocate(character(len=clen)::c)
+			allocate(character(len=mlen)::d)
+			res=crypto_box_seal(c,m,mlen,rpk)
+			call check(error,res,0)
+			res=crypto_box_seal_open(d,c,clen,rpk,rsk)
+			call check(error,res,0)
+			call check(error,m,d)
+			print*,d
+		endsubroutine test_sealed
+
 
 endmodule tests_crypto_box

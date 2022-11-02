@@ -1,6 +1,6 @@
 module tests_version
 
-	use, intrinsic :: iso_c_binding
+	use,intrinsic::iso_c_binding
 	use sodium
 	use testdrive
 
@@ -8,7 +8,7 @@ module tests_version
 
 	private
 
-	public :: collect_tests_version
+	public::collect_tests_version
 
 	contains
 

@@ -30,14 +30,14 @@ module mod_crypto_hash_sha512
 		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_hash_sha512_statebytes
+		endfunction crypto_hash_sha512_statebytes
 
 		function crypto_hash_sha512_bytes()&
 		&bind(c,name='crypto_hash_sha512_bytes')&
 		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_hash_sha512_bytes
+		endfunction crypto_hash_sha512_bytes
 
 		function crypto_hash_sha512(out,in,inlen)&
 		&bind(c,name='crypto_hash_sha512')&
@@ -47,7 +47,7 @@ module mod_crypto_hash_sha512
 			character(kind=c_char)::out
 			character(kind=c_char)::in
 			integer(kind=c_long_long),value::inlen
-		end function crypto_hash_sha512
+		endfunction crypto_hash_sha512
 
 		function crypto_hash_sha512_init(state)&
 		&bind(c,name='crypto_hash_sha512_init')&
@@ -55,7 +55,7 @@ module mod_crypto_hash_sha512
 			import::c_int,crypto_hash_sha512_state
 			integer(kind=c_int)::res
 			type(crypto_hash_sha512_state)::state
-		end function crypto_hash_sha512_init
+		endfunction crypto_hash_sha512_init
 
 		function crypto_hash_sha512_update(state,in,inlen)&
 		&bind(c,name='crypto_hash_sha512_update')&
@@ -65,7 +65,7 @@ module mod_crypto_hash_sha512
 			type(crypto_hash_sha512_state)::state
 			character(kind=c_char)::in
 			integer(kind=c_long_long),value::inlen
-		end function crypto_hash_sha512_update
+		endfunction crypto_hash_sha512_update
 
 		function crypto_hash_sha512_final(state,out)&
 		&bind(c,name='crypto_hash_sha512_final')&
@@ -74,7 +74,7 @@ module mod_crypto_hash_sha512
 			integer(kind=c_int)::res
 			type(crypto_hash_sha512_state)::state
 			character(kind=c_char)::out
-		end function crypto_hash_sha512_final
+		endfunction crypto_hash_sha512_final
 
 	endinterface
 
