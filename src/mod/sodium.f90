@@ -20,5 +20,7 @@ module sodium
 	use::mod_crypto_sign
 	use::mod_crypto_sign_ed25519
 	use::mod_crypto_aead_aes256gcm
+	use::mod_crypto_aead_chacha20poly1305
+	use::mod_crypto_aead_xchacha20poly1305
 endmodule sodium
 
