@@ -16,7 +16,6 @@ module mod_crypto_secretstream_xchacha20poly1305
 	! integer(kind=c_signed_char),public,parameter::CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_TAG_FINAL_=ior(&
 	! &CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_TAG_PUSH_,CRYPTO_SECRETSTREAM_XCHACHA20POLY1305_TAG_REKEY_)
 
-	! thank you modern fortran
 	type,public,bind(c)::crypto_secretstream_xchacha20poly1305_state
 		character(kind=c_char)::k(CRYPTO_STREAM_CHACHA20_IETF_KEYBYTES)
 		character(kind=c_char)::nonce(CRYPTO_STREAM_CHACHA20_IETF_NONCEBYTES)

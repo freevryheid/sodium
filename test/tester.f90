@@ -11,12 +11,13 @@ program tester
 	use tests_crypto_sign,only:collect_tests_crypto_sign
 	use tests_crypto_hash,only:collect_tests_crypto_hash
 	use tests_crypto_pwhash,only:collect_tests_crypto_pwhash
+	use tests_crypto_aead_aes256gcm,only:collect_tests_crypto_aead_aes256gcm
 
 	implicit none
 	integer::i,stat
 	character(len=:),allocatable::test
 
-	test="i"
+	test="j"
 
 	do i=1,len(test)
 		stat=0
@@ -48,6 +49,9 @@ program tester
 			case('i')
 				print*,new_line('a'),"sodium crypto_pwhash tests"
 				call run_testsuite(collect_tests_crypto_pwhash,error_unit,stat)
+			case('j')
+				print*,new_line('a'),"sodium crypto_aead_aes256gcm tests"
+				call run_testsuite(collect_tests_crypto_aead_aes256gcm,error_unit,stat)
 			case default
 				error stop "test not defined"
 		endselect
