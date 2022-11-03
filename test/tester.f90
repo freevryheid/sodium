@@ -10,12 +10,13 @@ program tester
 	use tests_crypto_secretstream,only:collect_tests_crypto_secretstream
 	use tests_crypto_sign,only:collect_tests_crypto_sign
 	use tests_crypto_hash,only:collect_tests_crypto_hash
+	use tests_crypto_pwhash,only:collect_tests_crypto_pwhash
 
 	implicit none
 	integer::i,stat
 	character(len=:),allocatable::test
 
-	test="h"
+	test="i"
 
 	do i=1,len(test)
 		stat=0
@@ -44,6 +45,9 @@ program tester
 			case('h')
 				print*,new_line('a'),"sodium crypto_hash tests"
 				call run_testsuite(collect_tests_crypto_hash,error_unit,stat)
+			case('i')
+				print*,new_line('a'),"sodium crypto_pwhash tests"
+				call run_testsuite(collect_tests_crypto_pwhash,error_unit,stat)
 			case default
 				error stop "test not defined"
 		endselect

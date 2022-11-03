@@ -61,190 +61,226 @@ module mod_crypto_pwhash
 
 	interface
 
-		function crypto_pwhash_alg_argon2i13(void)bind(c,name='crypto_pwhash_alg_argon2i13')result(res)
+		function crypto_pwhash_alg_argon2i13()&
+		&bind(c,name='crypto_pwhash_alg_argon2i13')&
+		&result(res)
 			import::c_int
 			integer(kind=c_int)::res
-		end function crypto_pwhash_alg_argon2i13
+		endfunction crypto_pwhash_alg_argon2i13
 
-		function crypto_pwhash_alg_argon2id13(void)bind(c,name='crypto_pwhash_alg_argon2id13')result(res)
+		function crypto_pwhash_alg_argon2id13()&
+		&bind(c,name='crypto_pwhash_alg_argon2id13')&
+		&result(res)
 			import::c_int
 			integer(kind=c_int)::res
-		end function crypto_pwhash_alg_argon2id13
+		endfunction crypto_pwhash_alg_argon2id13
 
-		function crypto_pwhash_alg_default(void)bind(c,name='crypto_pwhash_alg_default')result(res)
+		function crypto_pwhash_alg_default()&
+		&bind(c,name='crypto_pwhash_alg_default')&
+		&result(res)
 			import::c_int
 			integer(kind=c_int)::res
-		end function crypto_pwhash_alg_default
+		endfunction crypto_pwhash_alg_default
 
-		function crypto_pwhash_bytes_min(void)bind(c,name='crypto_pwhash_bytes_min')result(res)
+		function crypto_pwhash_bytes_min()&
+		&bind(c,name='crypto_pwhash_bytes_min')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_bytes_min
+		endfunction crypto_pwhash_bytes_min
 
-		function crypto_pwhash_bytes_max(void)bind(c,name='crypto_pwhash_bytes_max')result(res)
+		function crypto_pwhash_bytes_max()&
+		&bind(c,name='crypto_pwhash_bytes_max')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_bytes_max
+		endfunction crypto_pwhash_bytes_max
 
-		function crypto_pwhash_passwd_min(void)bind(c,name='crypto_pwhash_passwd_min')result(res)
+		function crypto_pwhash_passwd_min()&
+		&bind(c,name='crypto_pwhash_passwd_min')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_passwd_min
+		endfunction crypto_pwhash_passwd_min
 
-		function crypto_pwhash_passwd_max(void)bind(c,name='crypto_pwhash_passwd_max')result(res)
+		function crypto_pwhash_passwd_max()&
+		&bind(c,name='crypto_pwhash_passwd_max')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_passwd_max
+		endfunction crypto_pwhash_passwd_max
 
-		function crypto_pwhash_saltbytes(void)bind(c,name='crypto_pwhash_saltbytes')result(res)
+		function crypto_pwhash_saltbytes()&
+		&bind(c,name='crypto_pwhash_saltbytes')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_saltbytes
+		endfunction crypto_pwhash_saltbytes
 
-		function crypto_pwhash_strbytes(void)bind(c,name='crypto_pwhash_strbytes')result(res)
+		function crypto_pwhash_strbytes()&
+		&bind(c,name='crypto_pwhash_strbytes')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_strbytes
+		endfunction crypto_pwhash_strbytes
 
-		function bind_crypto_pwhash_strprefix(void)bind(c,name='crypto_pwhash_strprefix')result(res)
+		function bind_crypto_pwhash_strprefix()&
+		&bind(c,name='crypto_pwhash_strprefix')&
+		&result(res)
 			import::c_ptr
 			type(c_ptr)::res
-		end function bind_crypto_pwhash_strprefix
+		endfunction bind_crypto_pwhash_strprefix
 
-		function crypto_pwhash_opslimit_min(void)bind(c,name='crypto_pwhash_opslimit_min')result(res)
+		function crypto_pwhash_opslimit_min()&
+		&bind(c,name='crypto_pwhash_opslimit_min')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_opslimit_min
+		endfunction crypto_pwhash_opslimit_min
 
-		function crypto_pwhash_opslimit_max(void)bind(c,name='crypto_pwhash_opslimit_max')result(res)
+		function crypto_pwhash_opslimit_max()&
+		&bind(c,name='crypto_pwhash_opslimit_max')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_opslimit_max
+		endfunction crypto_pwhash_opslimit_max
 
-		function crypto_pwhash_memlimit_min(void)bind(c,name='crypto_pwhash_memlimit_min')result(res)
+		function crypto_pwhash_memlimit_min()&
+		&bind(c,name='crypto_pwhash_memlimit_min')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_memlimit_min
+		endfunction crypto_pwhash_memlimit_min
 
-		function crypto_pwhash_memlimit_max(void)bind(c,name='crypto_pwhash_memlimit_max')result(res)
+		function crypto_pwhash_memlimit_max()&
+		&bind(c,name='crypto_pwhash_memlimit_max')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_memlimit_max
+		endfunction crypto_pwhash_memlimit_max
 
-		function crypto_pwhash_opslimit_interactive(void)bind(c,name='crypto_pwhash_opslimit_interactive')result(res)
+		function crypto_pwhash_opslimit_interactive()&
+		&bind(c,name='crypto_pwhash_opslimit_interactive')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_opslimit_interactive
+		endfunction crypto_pwhash_opslimit_interactive
 
-		function crypto_pwhash_memlimit_interactive(void)bind(c,name='crypto_pwhash_memlimit_interactive')result(res)
+		function crypto_pwhash_memlimit_interactive()&
+		&bind(c,name='crypto_pwhash_memlimit_interactive')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_memlimit_interactive
+		endfunction crypto_pwhash_memlimit_interactive
 
-		function crypto_pwhash_opslimit_moderate(void)bind(c,name='crypto_pwhash_opslimit_moderate')result(res)
+		function crypto_pwhash_opslimit_moderate()&
+		&bind(c,name='crypto_pwhash_opslimit_moderate')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_opslimit_moderate
+		endfunction crypto_pwhash_opslimit_moderate
 
-		function crypto_pwhash_memlimit_moderate(void)bind(c,name='crypto_pwhash_memlimit_moderate')result(res)
+		function crypto_pwhash_memlimit_moderate()&
+		&bind(c,name='crypto_pwhash_memlimit_moderate')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_memlimit_moderate
+		endfunction crypto_pwhash_memlimit_moderate
 
-		function crypto_pwhash_opslimit_sensitive(void)bind(c,name='crypto_pwhash_opslimit_sensitive')result(res)
+		function crypto_pwhash_opslimit_sensitive()&
+		&bind(c,name='crypto_pwhash_opslimit_sensitive')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_opslimit_sensitive
+		endfunction crypto_pwhash_opslimit_sensitive
 
-		function crypto_pwhash_memlimit_sensitive(void)bind(c,name='crypto_pwhash_memlimit_sensitive')result(res)
+		function crypto_pwhash_memlimit_sensitive()&
+		&bind(c,name='crypto_pwhash_memlimit_sensitive')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
-		end function crypto_pwhash_memlimit_sensitive
+		endfunction crypto_pwhash_memlimit_sensitive
 
+		function crypto_pwhash(out,outlen,passwd,passwdlen,salt,opslimit,memlimit,alg)&
+		&bind(c,name='crypto_pwhash')&
+		&result(res)
+			import::c_char,c_int,c_long_long,c_size_t
+			integer(kind=c_int)::res
+			character(kind=c_char)::out
+			character(kind=c_char)::passwd
+			integer(kind=c_size_t),value::memlimit
+			integer(kind=c_long_long),value::outlen,passwdlen,opslimit
+			character(kind=c_char)::salt
+			integer(kind=c_int),value::alg
+		endfunction crypto_pwhash
 
+		function crypto_pwhash_str(out,passwd,passwdlen,opslimit,memlimit)&
+		&bind(c,name='crypto_pwhash_str')&
+		&result(res)
+			import::c_char,c_int,c_long_long,c_size_t
+			integer(kind=c_int)::res
+			character(kind=c_char)::out
+			character(kind=c_char)::passwd
+			integer(kind=c_size_t),value::memlimit
+			integer(kind=c_long_long),value::passwdlen,opslimit
+		endfunction crypto_pwhash_str
 
- ! int
-		function crypto_pwhash(out,outlen,passwd,passwdlen,salt,opslimit,memlimit,alg)bind(c,name='crypto_pwhash')result(res)
+		function crypto_pwhash_str_alg(out,passwd,passwdlen,opslimit,memlimit,alg)&
+		&bind(c,name='crypto_pwhash_str_alg')&
+		&result(res)
+			import::c_char,c_int,c_long_long,c_size_t
+			integer(kind=c_int)::res
+			character(kind=c_char)::out
+			character(kind=c_char)::passwd
+			integer(kind=c_size_t),value::memlimit
+			integer(kind=c_long_long),value::passwdlen,opslimit
+			integer(kind=c_int),value::alg
+		endfunction crypto_pwhash_str_alg
 
-		end function crypto_pwhash
+		function crypto_pwhash_str_verify(str,passwd,passwdlen)&
+		&bind(c,name='crypto_pwhash_str_verify')&
+		&result(res)
+			import::c_char,c_int,c_long_long
+			integer(kind=c_int)::res
+			character(kind=c_char)::str
+			character(kind=c_char)::passwd
+			integer(kind=c_long_long),value::passwdlen
+		endfunction crypto_pwhash_str_verify
 
- ! unsigned char * const :: out
- ! unsigned long long :: outlen
- ! const char * const :: passwd
- ! unsigned long long :: passwdlen
- ! const unsigned char * const :: salt
- ! unsigned long long :: opslimit
- ! size_t :: memlimit
- ! int :: alg
- !---
- ! int
-		function crypto_pwhash_str(out,passwd,passwdlen,opslimit,memlimit)bind(c,name='crypto_pwhash_str')result(res)
+		function crypto_pwhash_str_needs_rehash(str,opslimit,memlimit)&
+		&bind(c,name='crypto_pwhash_str_needs_rehash')&
+		&result(res)
+			import::c_char,c_int,c_long_long,c_size_t
+			integer(kind=c_int)::res
+			character(kind=c_char)::str
+			integer(kind=c_size_t),value::memlimit
+			integer(kind=c_long_long),value::opslimit
+		endfunction crypto_pwhash_str_needs_rehash
 
-		end function crypto_pwhash_str
-
- ! char :: out
- ! const char * const :: passwd
- ! unsigned long long :: passwdlen
- ! unsigned long long :: opslimit
- ! size_t :: memlimit
- !---
- ! int
-		function crypto_pwhash_str_alg(out,passwd,passwdlen,opslimit,memlimit,alg)bind(c,name='crypto_pwhash_str_alg')result(res)
-
-		end function crypto_pwhash_str_alg
-
- ! char :: out
- ! const char * const :: passwd
- ! unsigned long long :: passwdlen
- ! unsigned long long :: opslimit
- ! size_t :: memlimit
- ! int :: alg
- !---
- ! int
-		function crypto_pwhash_str_verify(str,passwd,passwdlen)bind(c,name='crypto_pwhash_str_verify')result(res)
-
-		end function crypto_pwhash_str_verify
-
- ! const char :: str
- ! const char * const :: passwd
- ! unsigned long long :: passwdlen
- !---
- ! int
-		function crypto_pwhash_str_needs_rehash(str,opslimit,memlimit)bind(c,name='crypto_pwhash_str_needs_rehash')result(res)
-
-		end function crypto_pwhash_str_needs_rehash
-
- ! const char :: str
- ! unsigned long long :: opslimit
- ! size_t :: memlimit
-
-
-
-
-
-
-		function crypto_pwhash_primitive(void)bind(c,name='crypto_pwhash_primitive')result(res)
+		function bind_crypto_pwhash_primitive()&
+		&bind(c,name='crypto_pwhash_primitive')&
+		&result(res)
 			import::c_ptr
 			type(c_ptr)::res
-		end function crypto_pwhash_primitive
+		endfunction bind_crypto_pwhash_primitive
 
 	endinterface
 
 	contains
 
-		function crypto_pwhash_strprefix()
+		function crypto_pwhash_strprefix()result(res)
 			type(c_ptr)::res1
 			character(len=:),allocatable::res
 			res1=bind_crypto_pwhash_strprefix()
 			call c_f_str_ptr(res1,res)
-		end function crypto_pwhash_strprefix
+		endfunction crypto_pwhash_strprefix
 
-		function crypto_pwhash_primitive()
+		function crypto_pwhash_primitive()result(res)
 			type(c_ptr)::res1
 			character(len=:),allocatable::res
 			res1=bind_crypto_pwhash_primitive()
 			call c_f_str_ptr(res1,res)
-		end function crypto_pwhash_primitive
+		endfunction crypto_pwhash_primitive
 
 endmodule mod_crypto_pwhash
 
