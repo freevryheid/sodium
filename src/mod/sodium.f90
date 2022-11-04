@@ -2,6 +2,7 @@ module sodium
 	use::mod_common
 	use::mod_version
 	use::mod_core
+	use::mod_crypto_core_ed25519
 	use::mod_utils
 	use::mod_randombytes
 	use::mod_crypto_scalarmult
