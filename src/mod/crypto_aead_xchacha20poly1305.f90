@@ -68,6 +68,7 @@ module mod_crypto_aead_xchacha20poly1305
 		function crypto_aead_xchacha20poly1305_ietf_encrypt(c,clen_p,m,mlen,ad,adlen,nsec,npub,k)&
 		&bind(c,name='crypto_aead_xchacha20poly1305_ietf_encrypt')&
 		&result(res)
+			import::c_int,c_char,c_long_long
 			integer(kind=c_int)::res
 			character(kind=c_char)::c
 			integer(kind=c_long_long)::clen_p
