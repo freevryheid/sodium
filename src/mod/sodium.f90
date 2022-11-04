@@ -3,6 +3,12 @@ module sodium
 	use::mod_version
 	use::mod_core
 	use::mod_crypto_core_ed25519
+	use::mod_crypto_core_hchacha20
+	use::mod_crypto_core_hsalsa20
+	use::mod_crypto_core_ristretto255
+	use::mod_crypto_core_salsa2012
+	use::mod_crypto_core_salsa208
+	use::mod_crypto_core_salsa20
 	use::mod_utils
 	use::mod_randombytes
 	use::mod_crypto_scalarmult
@@ -23,6 +29,9 @@ module sodium
 	use::mod_crypto_shorthash
 	use::mod_crypto_shorthash_siphash24
 	use::mod_crypto_pwhash
+	use::mod_crypto_pwhash_argon2i
+	use::mod_crypto_pwhash_argon2id
+	use::mod_crypto_pwhash_scryptsalsa208sha256
 	use::mod_crypto_sign
 	use::mod_crypto_sign_ed25519
 	use::mod_crypto_aead_aes256gcm
