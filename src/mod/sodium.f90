@@ -12,6 +12,8 @@ module sodium
 	use::mod_utils
 	use::mod_randombytes
 	use::mod_crypto_scalarmult
+	use::mod_crypto_scalarmult_curve25519
+	use::mod_crypto_scalarmult_ed25519
 	use::mod_crypto_auth
 	use::mod_crypto_auth_hmacsha256
 	use::mod_crypto_auth_hmacsha512
@@ -20,6 +22,8 @@ module sodium
 	use::mod_crypto_box_curve25519xchacha20poly1305
 	use::mod_crypto_box_curve25519xsalsa20poly1305
 	use::mod_crypto_secretbox
+	use::mod_crypto_secretbox_xchacha20poly1305
+	use::mod_crypto_secretbox_xsalsa20poly1305
 	use::mod_crypto_secretstream_xchacha20poly1305
 	use::mod_crypto_hash
 	use::mod_crypto_hash_sha512
