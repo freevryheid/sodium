@@ -4,11 +4,16 @@ license = "MIT"
 author = "Andre Smit"
 maintainer = "freevryheid@gmail.com"
 copyright = "Copyright 2022, Andre Smit"
+executable = [
+  { name = "enc", main = "enc.f90" },
+  { name = "ffi", main = "ffi.f90" },
+  { name = "ende", main = "ende.c" },
+]
 [build]
 link = ["sodium"]
 auto-executables = true
 auto-tests = true
-auto-examples = true
+# auto-examples = true
 [dependencies]
 stdlib = { git="https://github.com/fortran-lang/stdlib", branch="stdlib-fpm" }
 [dev-dependencies]
