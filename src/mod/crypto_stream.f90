@@ -14,10 +14,10 @@ module mod_crypto_stream
 	public::crypto_stream_xor
 	public::crypto_stream_keygen
 
- ! #define crypto_stream_KEYBYTES crypto_stream_xsalsa20_KEYBYTES
- ! #define crypto_stream_NONCEBYTES crypto_stream_xsalsa20_NONCEBYTES
- ! #define crypto_stream_MESSAGEBYTES_MAX crypto_stream_xsalsa20_MESSAGEBYTES_MAX
- ! #define crypto_stream_PRIMITIVE "xsalsa20"
+	! #define crypto_stream_KEYBYTES crypto_stream_xsalsa20_KEYBYTES
+	! #define crypto_stream_NONCEBYTES crypto_stream_xsalsa20_NONCEBYTES
+	! #define crypto_stream_MESSAGEBYTES_MAX crypto_stream_xsalsa20_MESSAGEBYTES_MAX
+	! #define crypto_stream_PRIMITIVE "xsalsa20"
 
 	interface
 
@@ -76,9 +76,9 @@ module mod_crypto_stream
 			character(kind=c_char)::k
 		endsubroutine crypto_stream_keygen
 
-	 endinterface
+	endinterface
 
-	 contains
+	contains
 
 		function crypto_stream_primitive()result(res)
 			type(c_ptr)::res1
@@ -88,4 +88,3 @@ module mod_crypto_stream
 		end function crypto_stream_primitive
 
 endmodule mod_crypto_stream
-

@@ -13,9 +13,9 @@ module mod_crypto_scalarmult
 	public::crypto_scalarmult_base
 	public::crypto_scalarmult
 
- ! #define crypto_scalarmult_BYTES crypto_scalarmult_curve25519_BYTES
- ! #define crypto_scalarmult_PRIMITIVE "curve25519"
- ! #define crypto_scalarmult_SCALARBYTES crypto_scalarmult_curve25519_SCALARBYTES
+	! #define crypto_scalarmult_BYTES crypto_scalarmult_curve25519_BYTES
+	! #define crypto_scalarmult_PRIMITIVE "curve25519"
+	! #define crypto_scalarmult_SCALARBYTES crypto_scalarmult_curve25519_SCALARBYTES
 
 	interface
 

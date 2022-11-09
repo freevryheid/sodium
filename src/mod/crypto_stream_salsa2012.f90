@@ -67,7 +67,6 @@ module mod_crypto_stream_salsa2012
 			character(kind=c_char)::k
 		endsubroutine crypto_stream_salsa2012_keygen
 
-	 endinterface
+	endinterface
 
 endmodule mod_crypto_stream_salsa2012
-

@@ -12,34 +12,44 @@ module mod_crypto_core_hchacha20
 	public::crypto_core_hchacha20_constbytes
 	public::crypto_core_hchacha20
 
- ! #define crypto_core_hchacha20_OUTPUTBYTES 32U
- ! #define crypto_core_hchacha20_INPUTBYTES 16U
- ! #define crypto_core_hchacha20_KEYBYTES 32U
- ! #define crypto_core_hchacha20_CONSTBYTES 16U
+	! #define crypto_core_hchacha20_OUTPUTBYTES 32U
+	! #define crypto_core_hchacha20_INPUTBYTES 16U
+	! #define crypto_core_hchacha20_KEYBYTES 32U
+	! #define crypto_core_hchacha20_CONSTBYTES 16U
 
 	interface
 
-		function crypto_core_hchacha20_outputbytes(void)bind(c,name='crypto_core_hchacha20_outputbytes')result(res)
+		function crypto_core_hchacha20_outputbytes()&
+		&bind(c,name='crypto_core_hchacha20_outputbytes')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
 		end function crypto_core_hchacha20_outputbytes
 
-		function crypto_core_hchacha20_inputbytes(void)bind(c,name='crypto_core_hchacha20_inputbytes')result(res)
+		function crypto_core_hchacha20_inputbytes()&
+		&bind(c,name='crypto_core_hchacha20_inputbytes')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
 		end function crypto_core_hchacha20_inputbytes
 
-		function crypto_core_hchacha20_keybytes(void)bind(c,name='crypto_core_hchacha20_keybytes')result(res)
+		function crypto_core_hchacha20_keybytes()&
+		&bind(c,name='crypto_core_hchacha20_keybytes')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
 		end function crypto_core_hchacha20_keybytes
 
-		function crypto_core_hchacha20_constbytes(void)bind(c,name='crypto_core_hchacha20_constbytes')result(res)
+		function crypto_core_hchacha20_constbytes()&
+		&bind(c,name='crypto_core_hchacha20_constbytes')&
+		&result(res)
 			import::c_size_t
 			integer(kind=c_size_t)::res
 		end function crypto_core_hchacha20_constbytes
 
-		function crypto_core_hchacha20(out,in,k,c)bind(c,name='crypto_core_hchacha20')result(res)
+		function crypto_core_hchacha20(out,in,k,c)&
+		&bind(c,name='crypto_core_hchacha20')&
+		&result(res)
 			import::c_int,c_char
 			integer(kind=c_int)::res
 			character(kind=c_char)::out,in,k,c

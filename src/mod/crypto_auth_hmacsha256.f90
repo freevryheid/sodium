@@ -1,7 +1,6 @@
 module mod_crypto_auth_hmacsha256
 
 	use,intrinsic::iso_c_binding
-	! use::mod_common
 	use::mod_crypto_hash_sha256
 
 	implicit none
@@ -18,8 +17,8 @@ module mod_crypto_auth_hmacsha256
 	public::crypto_auth_hmacsha256_final
 	public::crypto_auth_hmacsha256_keygen
 
- ! #define crypto_auth_hmacsha256_BYTES 32U
- ! #define crypto_auth_hmacsha256_KEYBYTES 32U
+	! #define crypto_auth_hmacsha256_BYTES 32U
+	! #define crypto_auth_hmacsha256_KEYBYTES 32U
 
 	type,public,bind(c)::crypto_auth_hmacsha256_state
 		type(crypto_hash_sha256_state)::ictx

@@ -1,7 +1,6 @@
 module mod_crypto_hash_sha256
 
 	use,intrinsic::iso_c_binding
-	! use::mod_common
 
 	implicit none
 
@@ -14,7 +13,7 @@ module mod_crypto_hash_sha256
 	public::crypto_hash_sha256_update
 	public::crypto_hash_sha256_final
 
-! #define crypto_hash_sha256_BYTES 32U
+	! #define crypto_hash_sha256_BYTES 32U
 
 	! TODO: perhaps bump these up to match unsigned equivalents
 	type,public,bind(c)::crypto_hash_sha256_state

@@ -1,7 +1,6 @@
 module mod_crypto_pwhash_argon2id
 
 	use,intrinsic::iso_c_binding
-	! use::mod_crypto_generichash_blake2b
 	use::mod_common
 
 	implicit none

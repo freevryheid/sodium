@@ -83,4 +83,3 @@ module mod_crypto_stream_salsa20
 	endinterface
 
 endmodule mod_crypto_stream_salsa20
-

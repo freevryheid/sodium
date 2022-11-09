@@ -52,4 +52,3 @@ module mod_crypto_scalarmult_curve25519
 	endinterface
 
 endmodule mod_crypto_scalarmult_curve25519
-

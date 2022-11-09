@@ -108,4 +108,4 @@ module mod_crypto_onetimeauth_poly1305
 
 	endinterface
 
- endmodule mod_crypto_onetimeauth_poly1305
+endmodule mod_crypto_onetimeauth_poly1305

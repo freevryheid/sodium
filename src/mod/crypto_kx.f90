@@ -1,7 +1,6 @@
 module mod_crypto_kx
 
 	use,intrinsic::iso_c_binding
-	! use::mod_crypto_generichash_blake2b
 	use::mod_common
 
 	implicit none
@@ -18,11 +17,11 @@ module mod_crypto_kx
 	public::crypto_kx_client_session_keys
 	public::crypto_kx_server_session_keys
 
- ! #define crypto_kx_PUBLICKEYBYTES 32
- ! #define crypto_kx_SECRETKEYBYTES 32
- ! #define crypto_kx_SEEDBYTES 32
- ! #define crypto_kx_SESSIONKEYBYTES 32
- ! #define crypto_kx_PRIMITIVE "x25519blake2b"
+	! #define crypto_kx_PUBLICKEYBYTES 32
+	! #define crypto_kx_SECRETKEYBYTES 32
+	! #define crypto_kx_SEEDBYTES 32
+	! #define crypto_kx_SESSIONKEYBYTES 32
+	! #define crypto_kx_PRIMITIVE "x25519blake2b"
 
 	interface
 
@@ -98,9 +97,9 @@ module mod_crypto_kx
 			character(kind=c_char)::client_pk,server_pk,server_sk
 		endfunction crypto_kx_server_session_keys
 
-	 endinterface
+	endinterface
 
-	 contains
+	contains
 
 		function crypto_kx_primitive()result(res)
 			type(c_ptr)::res1
@@ -110,4 +109,3 @@ module mod_crypto_kx
 		endfunction crypto_kx_primitive
 
 endmodule mod_crypto_kx
-

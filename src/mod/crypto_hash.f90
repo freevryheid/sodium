@@ -11,8 +11,8 @@ module mod_crypto_hash
 	public::crypto_hash
 	public::crypto_hash_primitive
 
-! #define crypto_hash_BYTES crypto_hash_sha512_BYTES
-! #define crypto_hash_PRIMITIVE "sha512"
+	! #define crypto_hash_BYTES crypto_hash_sha512_BYTES
+	! #define crypto_hash_PRIMITIVE "sha512"
 
 	interface
 
@@ -53,4 +53,3 @@ module mod_crypto_hash
 		end function crypto_hash_primitive
 
 endmodule mod_crypto_hash
-

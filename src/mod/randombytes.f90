@@ -1,7 +1,6 @@
 module mod_randombytes
 
 	use,intrinsic::iso_c_binding
-	! use::mod_common
 
 	implicit none
 
@@ -18,11 +17,10 @@ module mod_randombytes
 	! public::randombytes_implementation_name
 	public::randombytes
 
+	! #define randombytes_BYTES_MAX SODIUM_MIN(SODIUM_SIZE_MAX,0xffffffffUL)
+	! #define randombytes_SEEDBYTES 32U
+
 	interface
-
- ! #define randombytes_BYTES_MAX SODIUM_MIN(SODIUM_SIZE_MAX,0xffffffffUL)
- ! #define randombytes_SEEDBYTES 32U
-
 
 		function randombytes_seedbytes()&
 		&bind(c,name='randombytes_seedbytes')&

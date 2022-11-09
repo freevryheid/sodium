@@ -19,9 +19,9 @@ module mod_crypto_onetimeauth
 	public::crypto_onetimeauth_final
 	public::crypto_onetimeauth_keygen
 
- ! #define crypto_onetimeauth_BYTES crypto_onetimeauth_poly1305_BYTES
- ! #define crypto_onetimeauth_KEYBYTES crypto_onetimeauth_poly1305_KEYBYTES
- ! #define crypto_onetimeauth_PRIMITIVE "poly1305"
+	! #define crypto_onetimeauth_BYTES crypto_onetimeauth_poly1305_BYTES
+	! #define crypto_onetimeauth_KEYBYTES crypto_onetimeauth_poly1305_KEYBYTES
+	! #define crypto_onetimeauth_PRIMITIVE "poly1305"
 
 	interface
 
@@ -111,9 +111,9 @@ module mod_crypto_onetimeauth
 			character(kind=c_char)::k
 		endsubroutine crypto_onetimeauth_keygen
 
-	 endinterface
+	endinterface
 
-	 contains
+	contains
 
 		function crypto_onetimeauth_primitive()result(res)
 			type(c_ptr)::res1
@@ -123,4 +123,3 @@ module mod_crypto_onetimeauth
 		endfunction crypto_onetimeauth_primitive
 
 endmodule mod_crypto_onetimeauth
-

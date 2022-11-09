@@ -60,4 +60,3 @@ module sodium
 	use::mod_utils
 	use::mod_version
 endmodule sodium
-

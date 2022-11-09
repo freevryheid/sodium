@@ -17,16 +17,16 @@ module mod_crypto_aead_xchacha20poly1305
 	public::crypto_aead_xchacha20poly1305_ietf_decrypt_detached
 	public::crypto_aead_xchacha20poly1305_ietf_keygen
 
- ! #define crypto_aead_xchacha20poly1305_H
- ! #define crypto_aead_xchacha20poly1305_ietf_KEYBYTES 32U
- ! #define crypto_aead_xchacha20poly1305_ietf_NSECBYTES 0U
- ! #define crypto_aead_xchacha20poly1305_ietf_NPUBBYTES 24U
- ! #define crypto_aead_xchacha20poly1305_ietf_ABYTES 16U
- ! #define crypto_aead_xchacha20poly1305_IETF_KEYBYTES crypto_aead_xchacha20poly1305_ietf_KEYBYTES
- ! #define crypto_aead_xchacha20poly1305_IETF_NSECBYTES crypto_aead_xchacha20poly1305_ietf_NSECBYTES
- ! #define crypto_aead_xchacha20poly1305_IETF_NPUBBYTES crypto_aead_xchacha20poly1305_ietf_NPUBBYTES
- ! #define crypto_aead_xchacha20poly1305_IETF_ABYTES crypto_aead_xchacha20poly1305_ietf_ABYTES
- ! #define crypto_aead_xchacha20poly1305_IETF_MESSAGEBYTES_MAX crypto_aead_xchacha20poly1305_ietf_MESSAGEBYTES_MAX
+	! #define crypto_aead_xchacha20poly1305_H
+	! #define crypto_aead_xchacha20poly1305_ietf_KEYBYTES 32U
+	! #define crypto_aead_xchacha20poly1305_ietf_NSECBYTES 0U
+	! #define crypto_aead_xchacha20poly1305_ietf_NPUBBYTES 24U
+	! #define crypto_aead_xchacha20poly1305_ietf_ABYTES 16U
+	! #define crypto_aead_xchacha20poly1305_IETF_KEYBYTES crypto_aead_xchacha20poly1305_ietf_KEYBYTES
+	! #define crypto_aead_xchacha20poly1305_IETF_NSECBYTES crypto_aead_xchacha20poly1305_ietf_NSECBYTES
+	! #define crypto_aead_xchacha20poly1305_IETF_NPUBBYTES crypto_aead_xchacha20poly1305_ietf_NPUBBYTES
+	! #define crypto_aead_xchacha20poly1305_IETF_ABYTES crypto_aead_xchacha20poly1305_ietf_ABYTES
+	! #define crypto_aead_xchacha20poly1305_IETF_MESSAGEBYTES_MAX crypto_aead_xchacha20poly1305_ietf_MESSAGEBYTES_MAX
 
 	interface
 

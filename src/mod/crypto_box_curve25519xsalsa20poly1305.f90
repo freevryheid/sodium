@@ -1,7 +1,6 @@
 module mod_crypto_box_curve25519xsalsa20poly1305
 
 	use,intrinsic::iso_c_binding
-	! use::mod_common
 
 	implicit none
 
@@ -24,13 +23,13 @@ module mod_crypto_box_curve25519xsalsa20poly1305
 	public::crypto_box_curve25519xsalsa20poly1305_afternm
 	public::crypto_box_curve25519xsalsa20poly1305_open_afternm
 
- ! #define crypto_box_curve25519xsalsa20poly1305_SEEDBYTES 32U
- ! #define crypto_box_curve25519xsalsa20poly1305_PUBLICKEYBYTES 32U
- ! #define crypto_box_curve25519xsalsa20poly1305_SECRETKEYBYTES 32U
- ! #define crypto_box_curve25519xsalsa20poly1305_BEFORENMBYTES 32U
- ! #define crypto_box_curve25519xsalsa20poly1305_NONCEBYTES 24U
- ! #define crypto_box_curve25519xsalsa20poly1305_MACBYTES 16U
- ! #define crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES 16U
+	! #define crypto_box_curve25519xsalsa20poly1305_SEEDBYTES 32U
+	! #define crypto_box_curve25519xsalsa20poly1305_PUBLICKEYBYTES 32U
+	! #define crypto_box_curve25519xsalsa20poly1305_SECRETKEYBYTES 32U
+	! #define crypto_box_curve25519xsalsa20poly1305_BEFORENMBYTES 32U
+	! #define crypto_box_curve25519xsalsa20poly1305_NONCEBYTES 24U
+	! #define crypto_box_curve25519xsalsa20poly1305_MACBYTES 16U
+	! #define crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES 16U
 
 	interface
 

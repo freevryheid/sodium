@@ -13,9 +13,9 @@ module mod_crypto_stream_salsa208
 	public::crypto_stream_salsa208_xor
 	public::crypto_stream_salsa208_keygen
 
- ! #define crypto_stream_salsa208_KEYBYTES 32U
- ! #define crypto_stream_salsa208_NONCEBYTES 8U
- ! #define crypto_stream_salsa208_MESSAGEBYTES_MAX SODIUM_SIZE_MAX
+	! #define crypto_stream_salsa208_KEYBYTES 32U
+	! #define crypto_stream_salsa208_NONCEBYTES 8U
+	! #define crypto_stream_salsa208_MESSAGEBYTES_MAX SODIUM_SIZE_MAX
 
 	interface
 

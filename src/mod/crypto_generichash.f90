@@ -22,13 +22,13 @@ module mod_crypto_generichash
 	public::crypto_generichash_final
 	public::crypto_generichash_keygen
 
-! #define crypto_generichash_BYTES_MIN crypto_generichash_blake2b_BYTES_MIN
-! #define crypto_generichash_BYTES_MAX crypto_generichash_blake2b_BYTES_MAX
-! #define crypto_generichash_KEYBYTES_MAX crypto_generichash_blake2b_KEYBYTES_MAX
-! #define crypto_generichash_KEYBYTES crypto_generichash_blake2b_KEYBYTES
-! #define crypto_generichash_PRIMITIVE "blake2b"
-! #define crypto_generichash_BYTES crypto_generichash_blake2b_BYTES
-! #define crypto_generichash_KEYBYTES_MIN crypto_generichash_blake2b_KEYBYTES_MIN
+	! #define crypto_generichash_BYTES_MIN crypto_generichash_blake2b_BYTES_MIN
+	! #define crypto_generichash_BYTES_MAX crypto_generichash_blake2b_BYTES_MAX
+	! #define crypto_generichash_KEYBYTES_MAX crypto_generichash_blake2b_KEYBYTES_MAX
+	! #define crypto_generichash_KEYBYTES crypto_generichash_blake2b_KEYBYTES
+	! #define crypto_generichash_PRIMITIVE "blake2b"
+	! #define crypto_generichash_BYTES crypto_generichash_blake2b_BYTES
+	! #define crypto_generichash_KEYBYTES_MIN crypto_generichash_blake2b_KEYBYTES_MIN
 
 	interface
 
@@ -136,9 +136,9 @@ module mod_crypto_generichash
 			character(kind=c_char)::k
 		endsubroutine crypto_generichash_keygen
 
-	 endinterface
+	endinterface
 
-	 contains
+	contains
 
 		function crypto_generichash_primitive()result(res)
 			type(c_ptr)::res1
@@ -148,4 +148,3 @@ module mod_crypto_generichash
 		endfunction crypto_generichash_primitive
 
 endmodule mod_crypto_generichash
-

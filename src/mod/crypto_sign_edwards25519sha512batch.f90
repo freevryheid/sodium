@@ -1,8 +1,6 @@
 module mod_crypto_sign_edwards25519sha512batch
 
 	use,intrinsic::iso_c_binding
-	! use::mod_common
-	! use::mod_crypto_hash_sha512,only:crypto_hash_sha512_state
 
 	implicit none
 

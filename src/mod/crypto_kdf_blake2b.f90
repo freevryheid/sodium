@@ -1,7 +1,6 @@
 module mod_crypto_kdf_blake2b
 
 	use,intrinsic::iso_c_binding
-	! use::mod_common
 
 	implicit none
 
@@ -60,6 +59,6 @@ module mod_crypto_kdf_blake2b
 			character(kind=c_char)::key
 		endfunction crypto_kdf_blake2b_derive_from_key
 
-	 endinterface
+	endinterface
 
-end module mod_crypto_kdf_blake2b
+endmodule mod_crypto_kdf_blake2b

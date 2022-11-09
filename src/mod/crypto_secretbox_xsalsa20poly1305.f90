@@ -1,7 +1,6 @@
 module mod_crypto_secretbox_xsalsa20poly1305
 
 	use,intrinsic::iso_c_binding
-	! use::mod_common
 
 	implicit none
 
@@ -97,4 +96,3 @@ module mod_crypto_secretbox_xsalsa20poly1305
 	endinterface
 
 endmodule mod_crypto_secretbox_xsalsa20poly1305
-

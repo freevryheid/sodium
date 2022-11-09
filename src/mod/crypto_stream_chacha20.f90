@@ -152,7 +152,6 @@ module mod_crypto_stream_chacha20
 			character(kind=c_char)::k
 		endsubroutine crypto_stream_chacha20_ietf_keygen
 
-	 endinterface
+	endinterface
 
 endmodule mod_crypto_stream_chacha20
-

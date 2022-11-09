@@ -1,7 +1,6 @@
 module mod_crypto_auth_hmacsha512256
 
 	use,intrinsic::iso_c_binding
-	! use::mod_common
 	use::mod_crypto_auth_hmacsha512
 
 	implicit none
@@ -17,9 +16,9 @@ module mod_crypto_auth_hmacsha512256
 	public::crypto_auth_hmacsha512256_update
 	public::crypto_auth_hmacsha512256_final
 	public::crypto_auth_hmacsha512256_keygen
- !
- ! #define crypto_auth_hmacsha512256_BYTES 32U
- ! #define crypto_auth_hmacsha512256_KEYBYTES 32U
+
+	! #define crypto_auth_hmacsha512256_BYTES 32U
+	! #define crypto_auth_hmacsha512256_KEYBYTES 32U
 
 	interface
 
@@ -104,4 +103,3 @@ module mod_crypto_auth_hmacsha512256
 	endinterface
 
 endmodule mod_crypto_auth_hmacsha512256
-

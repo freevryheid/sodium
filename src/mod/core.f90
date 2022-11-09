@@ -10,7 +10,9 @@ module mod_core
 
 	interface
 
-		function sodium_init()bind(c,name='sodium_init')result(res)
+		function sodium_init()&
+		&bind(c,name='sodium_init')&
+		&result(res)
 			import::c_int
 			integer(kind=c_int)::res
 		endfunction sodium_init

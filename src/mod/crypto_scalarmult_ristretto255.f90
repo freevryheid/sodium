@@ -1,7 +1,6 @@
 module mod_crypto_scalarmult_ristretto255
 
 	use,intrinsic::iso_c_binding
-	! use::mod_common
 
 	implicit none
 
@@ -12,8 +11,8 @@ module mod_crypto_scalarmult_ristretto255
 	public::crypto_scalarmult_ristretto255
 	public::crypto_scalarmult_ristretto255_base
 
- ! #define crypto_scalarmult_ristretto255_BYTES 32U
- ! #define crypto_scalarmult_ristretto255_SCALARBYTES 32U
+	! #define crypto_scalarmult_ristretto255_BYTES 32U
+	! #define crypto_scalarmult_ristretto255_SCALARBYTES 32U
 
 	interface
 
@@ -52,4 +51,3 @@ module mod_crypto_scalarmult_ristretto255
 	endinterface
 
 endmodule mod_crypto_scalarmult_ristretto255
-

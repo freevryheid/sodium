@@ -1,7 +1,6 @@
 module mod_crypto_generichash_blake2b
 
 	use,intrinsic::iso_c_binding
-	use::mod_common
 
 	implicit none
 
@@ -24,14 +23,14 @@ module mod_crypto_generichash_blake2b
 	public::crypto_generichash_blake2b_final
 	public::crypto_generichash_blake2b_keygen
 
- ! #define crypto_generichash_blake2b_BYTES_MIN 16U
- ! #define crypto_generichash_blake2b_BYTES_MAX 64U
- ! #define crypto_generichash_blake2b_BYTES 32U
- ! #define crypto_generichash_blake2b_KEYBYTES_MIN 16U
- ! #define crypto_generichash_blake2b_KEYBYTES_MAX 64U
- ! #define crypto_generichash_blake2b_KEYBYTES 32U
- ! #define crypto_generichash_blake2b_SALTBYTES 16U
- ! #define crypto_generichash_blake2b_PERSONALBYTES 16U
+	! #define crypto_generichash_blake2b_BYTES_MIN 16U
+	! #define crypto_generichash_blake2b_BYTES_MAX 64U
+	! #define crypto_generichash_blake2b_BYTES 32U
+	! #define crypto_generichash_blake2b_KEYBYTES_MIN 16U
+	! #define crypto_generichash_blake2b_KEYBYTES_MAX 64U
+	! #define crypto_generichash_blake2b_KEYBYTES 32U
+	! #define crypto_generichash_blake2b_SALTBYTES 16U
+	! #define crypto_generichash_blake2b_PERSONALBYTES 16U
 
 	type,bind(c)::blake2b
 		character(kind=c_char)::opaque(384)
@@ -176,7 +175,6 @@ module mod_crypto_generichash_blake2b
 			character(kind=c_char)::k
 		endsubroutine crypto_generichash_blake2b_keygen
 
-	 endinterface
+	endinterface
 
 endmodule mod_crypto_generichash_blake2b
-

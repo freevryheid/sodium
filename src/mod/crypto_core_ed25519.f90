@@ -26,11 +26,11 @@ module mod_crypto_core_ed25519
 	public::crypto_core_ed25519_scalar_mul
 	public::crypto_core_ed25519_scalar_reduce
 
- ! #define crypto_core_ed25519_BYTES 32
- ! #define crypto_core_ed25519_UNIFORMBYTES 32
- ! #define crypto_core_ed25519_HASHBYTES 64
- ! #define crypto_core_ed25519_SCALARBYTES 32
- ! #define crypto_core_ed25519_NONREDUCEDSCALARBYTES 64
+	! #define crypto_core_ed25519_BYTES 32
+	! #define crypto_core_ed25519_UNIFORMBYTES 32
+	! #define crypto_core_ed25519_HASHBYTES 64
+	! #define crypto_core_ed25519_SCALARBYTES 32
+	! #define crypto_core_ed25519_NONREDUCEDSCALARBYTES 64
 
 	interface
 
@@ -165,6 +165,6 @@ module mod_crypto_core_ed25519
 			character(kind=c_char)::r,s
 		endsubroutine crypto_core_ed25519_scalar_reduce
 
- 	endinterface
+	endinterface
 
 endmodule mod_crypto_core_ed25519

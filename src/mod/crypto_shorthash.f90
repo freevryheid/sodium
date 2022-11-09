@@ -1,7 +1,6 @@
 module mod_crypto_shorthash
 
 	use,intrinsic::iso_c_binding
-	! use::mod_crypto_generichash_blake2b
 	use::mod_common
 
 	implicit none
@@ -14,9 +13,9 @@ module mod_crypto_shorthash
 	public::crypto_shorthash
 	public::crypto_shorthash_keygen
 
- ! #define crypto_shorthash_BYTES crypto_shorthash_siphash24_BYTES
- ! #define crypto_shorthash_KEYBYTES crypto_shorthash_siphash24_KEYBYTES
- ! #define crypto_shorthash_PRIMITIVE "siphash24"
+	! #define crypto_shorthash_BYTES crypto_shorthash_siphash24_BYTES
+	! #define crypto_shorthash_KEYBYTES crypto_shorthash_siphash24_KEYBYTES
+	! #define crypto_shorthash_PRIMITIVE "siphash24"
 
 	interface
 
@@ -58,9 +57,9 @@ module mod_crypto_shorthash
 			character(kind=c_char)::k
 		endsubroutine crypto_shorthash_keygen
 
-	 endinterface
+	endinterface
 
-	 contains
+	contains
 
 		function crypto_shorthash_primitive()result(res)
 			type(c_ptr)::res1

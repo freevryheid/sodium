@@ -77,9 +77,9 @@ module mod_crypto_kdf
 			character(kind=c_char)::k
 		endsubroutine crypto_kdf_keygen
 
-	 endinterface
+	endinterface
 
-	 contains
+	contains
 
 		function crypto_kdf_primitive()result(res)
 			type(c_ptr)::res1

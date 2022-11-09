@@ -24,10 +24,10 @@ module mod_crypto_aead_aes256gcm
 	public::crypto_aead_aes256gcm_decrypt_detached_afternm
 	public::crypto_aead_aes256gcm_keygen
 
- ! #define crypto_aead_aes256gcm_KEYBYTES 32U
- ! #define crypto_aead_aes256gcm_NSECBYTES 0U
- ! #define crypto_aead_aes256gcm_NPUBBYTES 12U
- ! #define crypto_aead_aes256gcm_ABYTES 16U
+	! #define crypto_aead_aes256gcm_KEYBYTES 32U
+	! #define crypto_aead_aes256gcm_NSECBYTES 0U
+	! #define crypto_aead_aes256gcm_NPUBBYTES 12U
+	! #define crypto_aead_aes256gcm_ABYTES 16U
 
 	type,bind(c)::aead
 		character(kind=c_char)::opaque(512)
@@ -206,4 +206,3 @@ module mod_crypto_aead_aes256gcm
 	endinterface
 
 endmodule mod_crypto_aead_aes256gcm
-

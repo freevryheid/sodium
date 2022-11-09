@@ -1,7 +1,6 @@
 module mod_crypto_shorthash_siphash24
 
 	use,intrinsic::iso_c_binding
-	! use::mod_crypto_generichash_blake2b
 	use::mod_common
 
 	implicit none
@@ -15,11 +14,10 @@ module mod_crypto_shorthash_siphash24
 	public::crypto_shorthash_siphashx24_keybytes
 	public::crypto_shorthash_siphashx24
 
- ! #define crypto_shorthash_siphash24_BYTES 8U
- ! #define crypto_shorthash_siphash24_KEYBYTES 16U
- ! #define crypto_shorthash_siphashx24_BYTES 16U
- ! #define crypto_shorthash_siphashx24_KEYBYTES 16U
-
+	! #define crypto_shorthash_siphash24_BYTES 8U
+	! #define crypto_shorthash_siphash24_KEYBYTES 16U
+	! #define crypto_shorthash_siphashx24_BYTES 16U
+	! #define crypto_shorthash_siphashx24_KEYBYTES 16U
 
 	interface
 
@@ -73,6 +71,6 @@ module mod_crypto_shorthash_siphash24
 			character(kind=c_char)::k
 		endfunction crypto_shorthash_siphashx24
 
-	 endinterface
+	endinterface
 
 endmodule mod_crypto_shorthash_siphash24

@@ -1,7 +1,6 @@
 module mod_crypto_auth_hmacsha512
 
 	use,intrinsic::iso_c_binding
-	! use::mod_common
 	use::mod_crypto_hash_sha512
 
 	implicit none
@@ -18,8 +17,8 @@ module mod_crypto_auth_hmacsha512
 	public::crypto_auth_hmacsha512_final
 	public::crypto_auth_hmacsha512_keygen
 
- ! #define crypto_auth_hmacsha512_BYTES 64U
- ! #define crypto_auth_hmacsha512_KEYBYTES 32U
+	! #define crypto_auth_hmacsha512_BYTES 64U
+	! #define crypto_auth_hmacsha512_KEYBYTES 32U
 
 	type,public,bind(c)::crypto_auth_hmacsha512_state
 		type(crypto_hash_sha512_state)::ictx

@@ -1,7 +1,6 @@
 module mod_crypto_pwhash_scryptsalsa208sha256
 
 	use,intrinsic::iso_c_binding
-	! use::mod_crypto_generichash_blake2b
 	use::mod_common
 
 	implicit none
@@ -222,4 +221,3 @@ module mod_crypto_pwhash_scryptsalsa208sha256
 		endfunction crypto_pwhash_scryptsalsa208sha256_strprefix
 
 endmodule mod_crypto_pwhash_scryptsalsa208sha256
-

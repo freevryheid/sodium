@@ -1,7 +1,6 @@
 module mod_crypto_hash_sha512
 
 	use,intrinsic::iso_c_binding
-	! use::mod_common
 
 	implicit none
 
@@ -14,7 +13,7 @@ module mod_crypto_hash_sha512
 	public::crypto_hash_sha512_update
 	public::crypto_hash_sha512_final
 
-! #define crypto_hash_sha512_BYTES 64U
+	! #define crypto_hash_sha512_BYTES 64U
 
 	! TODO: perhaps bump these up to match unsigned equivalents
 	type,public,bind(c)::crypto_hash_sha512_state

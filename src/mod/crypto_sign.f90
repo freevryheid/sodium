@@ -26,12 +26,12 @@ module mod_crypto_sign
 	public::crypto_sign_final_create
 	public::crypto_sign_final_verify
 
-! #define crypto_sign_BYTES crypto_sign_ed25519_BYTES
-! #define crypto_sign_SEEDBYTES crypto_sign_ed25519_SEEDBYTES
-! #define crypto_sign_PUBLICKEYBYTES crypto_sign_ed25519_PUBLICKEYBYTES
-! #define crypto_sign_SECRETKEYBYTES crypto_sign_ed25519_SECRETKEYBYTES
-! #define crypto_sign_MESSAGEBYTES_MAX crypto_sign_ed25519_MESSAGEBYTES_MAX
-! #define crypto_sign_PRIMITIVE "ed25519"
+	! #define crypto_sign_BYTES crypto_sign_ed25519_BYTES
+	! #define crypto_sign_SEEDBYTES crypto_sign_ed25519_SEEDBYTES
+	! #define crypto_sign_PUBLICKEYBYTES crypto_sign_ed25519_PUBLICKEYBYTES
+	! #define crypto_sign_SECRETKEYBYTES crypto_sign_ed25519_SECRETKEYBYTES
+	! #define crypto_sign_MESSAGEBYTES_MAX crypto_sign_ed25519_MESSAGEBYTES_MAX
+	! #define crypto_sign_PRIMITIVE "ed25519"
 
 	type,public,bind(c)::crypto_sign_state
 		type(crypto_hash_sha512_state)::hs
@@ -187,9 +187,9 @@ module mod_crypto_sign
 			character(kind=c_char)::pk
 		end function crypto_sign_final_verify
 
-	 endinterface
+	endinterface
 
-	 contains
+	contains
 
 		function crypto_sign_primitive()result(res)
 			type(c_ptr)::res1

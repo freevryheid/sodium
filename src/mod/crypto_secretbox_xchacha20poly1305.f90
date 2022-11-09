@@ -1,7 +1,6 @@
 module mod_crypto_secretbox_xchacha20poly1305
 
 	use,intrinsic::iso_c_binding
-	! use::mod_common
 
 	implicit none
 

@@ -31,4 +31,3 @@ module mod_crypto_verify_64
 	endinterface
 
 endmodule mod_crypto_verify_64
-

@@ -29,11 +29,11 @@ module mod_crypto_sign_ed25519
 	public::crypto_sign_ed25519ph_final_create
 	public::crypto_sign_ed25519ph_final_verify
 
-! #define crypto_sign_ed25519_BYTES 64U
-! #define crypto_sign_ed25519_SEEDBYTES 32U
-! #define crypto_sign_ed25519_PUBLICKEYBYTES 32U
-! #define crypto_sign_ed25519_SECRETKEYBYTES (32U + 32U)
-! #define crypto_sign_ed25519_MESSAGEBYTES_MAX (SODIUM_SIZE_MAX - crypto_sign_ed25519_BYTES)
+	! #define crypto_sign_ed25519_BYTES 64U
+	! #define crypto_sign_ed25519_SEEDBYTES 32U
+	! #define crypto_sign_ed25519_PUBLICKEYBYTES 32U
+	! #define crypto_sign_ed25519_SECRETKEYBYTES (32U + 32U)
+	! #define crypto_sign_ed25519_MESSAGEBYTES_MAX (SODIUM_SIZE_MAX - crypto_sign_ed25519_BYTES)
 
 	type,public,bind(c)::crypto_sign_ed25519ph_state
 		type(crypto_hash_sha512_state)::hs
