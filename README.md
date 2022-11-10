@@ -10,3 +10,5 @@ check apps and tests for application. [enc.f90](https://github.com/freevryheid/s
 the aim was to wrap all functions (including depreciated/obsolete) although I only tested those i needed.
 
 [ffi](https://github.com/freevryheid/sodium/blob/main/app/ffi.f90) was used to semi-automate the wrapping process, which was possible given the consistency in the c header files.
+
+Still working on the secure memory funcs.
