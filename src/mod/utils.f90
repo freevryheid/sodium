@@ -148,52 +148,77 @@ module mod_utils
 			integer(kind=c_int),value::variant
 		endfunction sodium_base642bin
 
-		function sodium_mlock(addr,len)bind(c,name='sodium_mlock')result(res)
+		function sodium_mlock(addr,len)&
+		&bind(c,name='sodium_mlock')&
+		&result(res)
 			import::c_char,c_int,c_size_t
 			integer(kind=c_int)::res
 			character(kind=c_char)::addr
 			integer(kind=c_size_t),value::len
 		endfunction sodium_mlock
 
-		function sodium_munlock(addr,len)bind(c,name='sodium_munlock')result(res)
+		function sodium_munlock(addr,len)&
+		&bind(c,name='sodium_munlock')&
+		&result(res)
 			import::c_char,c_int,c_size_t
 			integer(kind=c_int)::res
 			character(kind=c_char)::addr
 			integer(kind=c_size_t),value::len
 		endfunction sodium_munlock
 
-		function sodium_malloc(size)bind(c,name='sodium_malloc')result(res)
-			import::c_char,c_size_t
+		! function bind_sodium_malloc(size)&
+		! &bind(c,name='sodium_malloc')&
+		! &result(res)
+		! 	import::c_ptr,c_size_t
+		! 	integer(kind=c_size_t),value::size
+		! 	type(c_ptr)::res
+		! endfunction bind_sodium_malloc
+
+		function bind_sodium_malloc(size)&
+		&bind(c,name='sodium_malloc')&
+		&result(res)
+			import::c_ptr,c_size_t
 			integer(kind=c_size_t),value::size
-			character(kind=c_char)::res
-		endfunction sodium_malloc
+			type(c_ptr)::res
+		endfunction bind_sodium_malloc
 
 		! TODO: convert to fortran pointer
-		function sodium_allocarray(count,size)bind(c,name='sodium_allocarray')result(res)
+		function sodium_allocarray(count,size)&
+		&bind(c,name='sodium_allocarray')&
+		&result(res)
 			import::c_size_t,c_ptr
 			integer(kind=c_size_t)::count
 			integer(kind=c_size_t)::size
 			type(c_ptr)::res
 		endfunction sodium_allocarray
 
-		subroutine sodium_free(ptr)bind(c,name='sodium_free')
+		subroutine sodium_free(ptr)&
+		&bind(c,name='sodium_free')
 			import::c_ptr
-			type(c_ptr)::ptr
+			type(c_ptr),value::ptr
+			! import c_char
+			! character(len=:,kind=c_char),pointer::ptr
 		endsubroutine sodium_free
 
-		function sodium_mprotect_noaccess(ptr)bind(c,name='sodium_mprotect_noaccess')result(res)
+		function sodium_mprotect_noaccess(ptr)&
+		&bind(c,name='sodium_mprotect_noaccess')&
+		&result(res)
 			import::c_int,c_ptr
 			integer(kind=c_int)::res
 			type(c_ptr)::ptr
 		endfunction sodium_mprotect_noaccess
 
-		function sodium_mprotect_readonly(ptr)bind(c,name='sodium_mprotect_readonly')result(res)
+		function sodium_mprotect_readonly(ptr)&
+		&bind(c,name='sodium_mprotect_readonly')&
+		&result(res)
 			import::c_int,c_ptr
 			integer(kind=c_int)::res
 			type(c_ptr)::ptr
 		endfunction sodium_mprotect_readonly
 
-		function sodium_mprotect_readwrite(ptr)bind(c,name='sodium_mprotect_readwrite')result(res)
+		function sodium_mprotect_readwrite(ptr)&
+		&bind(c,name='sodium_mprotect_readwrite')&
+		&result(res)
 			import::c_int,c_ptr
 			integer(kind=c_int)::res
 			type(c_ptr)::ptr
@@ -246,5 +271,14 @@ module mod_utils
 			allocate(character(len=b64_maxlen)::res)
 			call c_f_str_ptr(res1,res)
 		endfunction sodium_bin2base64
+
+		function sodium_malloc(res1,size)result(res)
+			character(len=:),pointer::res1
+			integer(kind=c_size_t)::size
+			type(c_ptr)::res
+			res=bind_sodium_malloc(size)
+			call c_f_pointer(res,res1)
+			res1=>res1(1:size)
+		endfunction sodium_malloc
 
 endmodule mod_utils
