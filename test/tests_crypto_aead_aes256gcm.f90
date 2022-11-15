@@ -23,11 +23,11 @@ module tests_crypto_aead_aes256gcm
 			integer(kind=c_size_t)::kb,nb,ab
 			integer(kind=c_long_long),pointer::clen,dlen
 			integer(kind=c_long_long)::mlen,adlen
-			integer::res
-			res=sodium_init()
-			call check(error,res,0)
-			res=crypto_aead_aes256gcm_is_available()
-			if(res.eq.0) error stop "not available on this cpu"
+			integer::ret
+			ret=sodium_init()
+			call check(error,ret.ne.-1,"init")
+			ret=crypto_aead_aes256gcm_is_available()
+			if(ret.eq.0) error stop "not available on this cpu"
 			! combined mode
 			kb=crypto_aead_aes256gcm_keybytes()
 			nb=crypto_aead_aes256gcm_npubbytes()
@@ -44,11 +44,13 @@ module tests_crypto_aead_aes256gcm
 			allocate(character(len=mlen)::dmsg) ! decrypted message
 			call crypto_aead_aes256gcm_keygen(key)
 			call randombytes_buf(nonce,nb)
-			res=crypto_aead_aes256gcm_encrypt(ciphertext,clen,msg,mlen,ad,adlen,c_null_char,nonce,key)
-			call check(error,res,0)
-			res=crypto_aead_aes256gcm_decrypt(dmsg,dlen,c_null_char,ciphertext,clen,ad,adlen,nonce,key)
-			call check(error,res,0)
+			ret=crypto_aead_aes256gcm_encrypt(ciphertext,clen,msg,mlen,ad,adlen,c_null_char,nonce,key)
+			call check(error,ret,0,"encrypt")
+			ret=crypto_aead_aes256gcm_decrypt(dmsg,dlen,c_null_char,ciphertext,clen,ad,adlen,nonce,key)
+			call check(error,ret,0,"decrypt")
+			print*,"here1"
 			call check(error,msg,dmsg)
+			print*,"here2"
 			call check(error,mlen,dlen)
 			if (allocated(error)) return
 		endsubroutine test_aead_aes256gcm

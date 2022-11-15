@@ -40,7 +40,7 @@ module tests_crypto_aead_aes256gcm2
 			integer::ret
 
 			ret=sodium_init()
-			call check(error,ret,0)
+			call check(error,ret.ne.-1,"init")
 			ret=crypto_aead_aes256gcm_is_available()
 			call check(error,ret,1)
 

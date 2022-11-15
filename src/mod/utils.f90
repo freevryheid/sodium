@@ -196,8 +196,6 @@ module mod_utils
 		&bind(c,name='sodium_free')
 			import::c_ptr
 			type(c_ptr),value::ptr
-			! import c_char
-			! character(len=:,kind=c_char),pointer::ptr
 		endsubroutine sodium_free
 
 		function sodium_mprotect_noaccess(ptr)&
@@ -251,7 +249,9 @@ module mod_utils
 
 		function sodium_bin2hex(hex,hex_maxlen,bin,bin_len)result(res)
 			character(len=:),allocatable::hex
-			character(len=:),allocatable::bin
+			! character(len=:),allocatable::bin
+			character(len=*)::bin
+			! character(len=*),intent(in)::bin
 			character(len=:),allocatable::res
 			integer(kind=c_size_t)::hex_maxlen,bin_len
 			type(c_ptr)::res1
@@ -262,7 +262,8 @@ module mod_utils
 
 		function sodium_bin2base64(b64,b64_maxlen,bin,bin_len,variant)result(res)
 			character(len=:),allocatable::b64
-			character(len=:),allocatable::bin
+			! character(len=:),allocatable::bin
+			character(len=*)::bin
 			character(len=:),allocatable::res
 			integer(kind=c_size_t)::b64_maxlen,bin_len
 			integer(kind=c_int)::variant
