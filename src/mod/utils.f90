@@ -38,18 +38,22 @@ module mod_utils
 
 	interface
 
-		subroutine sodium_memzero(pnt,len)bind(c,name='sodium_memzero')
+		subroutine sodium_memzero(pnt,len)&
+		&bind(c,name='sodium_memzero')
 			import::c_char,c_size_t
 			character(kind=c_char)::pnt
 			integer(kind=c_size_t),value::len
 		endsubroutine sodium_memzero
 
-		subroutine sodium_stackzero(len)bind(c,name='sodium_stackzero')
+		subroutine sodium_stackzero(len)&
+		&bind(c,name='sodium_stackzero')
 			import::c_size_t
 			integer(kind=c_size_t),value::len
 		endsubroutine sodium_stackzero
 
-		function sodium_memcmp(b1_,b2_,len)bind(c,name='sodium_memcmp')result(res)
+		function sodium_memcmp(b1_,b2_,len)&
+		&bind(c,name='sodium_memcmp')&
+		&result(res)
 			import::c_int,c_size_t,c_char
 			integer(kind=c_int)::res
 			character(kind=c_char)::b1_
@@ -57,7 +61,9 @@ module mod_utils
 			integer(kind=c_size_t)::len ! CHK:value
 		endfunction sodium_memcmp
 
-		function sodium_compare(b1_,b2_,len)bind(c,name='sodium_compare')result(res)
+		function sodium_compare(b1_,b2_,len)&
+		&bind(c,name='sodium_compare')&
+		&result(res)
 			import::c_char,c_int,c_size_t
 			integer(kind=c_int)::res
 			character(kind=c_char)::b1_
@@ -65,27 +71,32 @@ module mod_utils
 			integer(kind=c_size_t),value::len
 		endfunction sodium_compare
 
-		function sodium_is_zero(n,nlen)bind(c,name='sodium_is_zero')result(res)
+		function sodium_is_zero(n,nlen)&
+		&bind(c,name='sodium_is_zero')&
+		&result(res)
 			import::c_char,c_int,c_size_t
 			integer(kind=c_int)::res
 			character(kind=c_char)::n
 			integer(kind=c_size_t),value::nlen
 		endfunction sodium_is_zero
 
-		subroutine sodium_increment(n,nlen)bind(c,name='sodium_increment')
+		subroutine sodium_increment(n,nlen)&
+		&bind(c,name='sodium_increment')
 			import::c_char,c_size_t
 			character(kind=c_char)::n
 			integer(kind=c_size_t),value::nlen
 		endsubroutine sodium_increment
 
-		subroutine sodium_add(a,b,len)bind(c,name='sodium_add')
+		subroutine sodium_add(a,b,len)&
+		&bind(c,name='sodium_add')
 			import::c_char,c_size_t
 			character(kind=c_char)::a
 			character(kind=c_char)::b
 			integer(kind=c_size_t),value::len
 		endsubroutine sodium_add
 
-		subroutine sodium_sub(a,b,len)bind(c,name='sodium_sub')
+		subroutine sodium_sub(a,b,len)&
+		&bind(c,name='sodium_sub')
 			import::c_char,c_size_t
 			character(kind=c_char)::a
 			character(kind=c_char)::b
@@ -93,7 +104,8 @@ module mod_utils
 		endsubroutine sodium_sub
 
 		function bind_sodium_bin2hex(hex,hex_maxlen,bin,bin_len)&
-		&bind(c,name='sodium_bin2hex')result(res)
+		&bind(c,name='sodium_bin2hex')&
+		&result(res)
 			import::c_char,c_ptr,c_size_t
 			type(c_ptr)::res
 			character(kind=c_char)::hex
@@ -103,7 +115,8 @@ module mod_utils
 		endfunction bind_sodium_bin2hex
 
 		function sodium_hex2bin(bin,bin_maxlen,hex,hex_len,ignore,bin_len,hex_end)&
-		&bind(c,name='sodium_hex2bin')result(res)
+		&bind(c,name='sodium_hex2bin')&
+		&result(res)
 			import::c_char,c_int,c_ptr,c_size_t
 			integer(kind=c_int)::res
 			character(kind=c_char)::bin
@@ -116,7 +129,8 @@ module mod_utils
 		endfunction sodium_hex2bin
 
 		function sodium_base64_encoded_len(bin_len,variant)&
-		&bind(c,name='sodium_base64_encoded_len')result(res)
+		&bind(c,name='sodium_base64_encoded_len')&
+		&result(res)
 			import::c_int,c_size_t
 			integer(kind=c_size_t)::res
 			integer(kind=c_size_t),value::bin_len
@@ -124,7 +138,8 @@ module mod_utils
 		endfunction sodium_base64_encoded_len
 
 		function bind_sodium_bin2base64(b64,b64_maxlen,bin,bin_len,variant)&
-		&bind(c,name='sodium_bin2base64')result(res)
+		&bind(c,name='sodium_bin2base64')&
+		&result(res)
 			import::c_char,c_int,c_ptr,c_size_t
 			type(c_ptr)::res
 			character(kind=c_char)::b64
@@ -135,7 +150,8 @@ module mod_utils
 		endfunction bind_sodium_bin2base64
 
 		function sodium_base642bin(bin,bin_maxlen,b64,b64_len,ignore,bin_len,b64_end,variant)&
-		&bind(c,name='sodium_base642bin')result(res)
+		&bind(c,name='sodium_base642bin')&
+		&result(res)
 			import::c_char,c_int,c_ptr,c_size_t
 			integer(kind=c_int)::res
 			character(kind=c_char)::bin

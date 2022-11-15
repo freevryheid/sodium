@@ -14,12 +14,14 @@ program tester
 	use tests_crypto_aead_aes256gcm,only:collect_tests_crypto_aead_aes256gcm
 	use tests_crypto_aead_aes256gcm2,only:collect_tests_crypto_aead_aes256gcm2
 	use tests_crypto_scalarmult,only:collect_tests_crypto_scalarmult
+	use tests_crypto_generichash,only:collect_tests_crypto_generichash
 
 	implicit none
 	integer::i,stat
 	character(len=:),allocatable::test
 
-	test="abcdefghijkl"
+	test="abcdefghijklm"
+	! test="m"
 
 	do i=1,len(test)
 		stat=0
@@ -60,6 +62,9 @@ program tester
 			case('l')
 				print*,new_line('a'),"l. sodium crypto_scalarmult tests"
 				call run_testsuite(collect_tests_crypto_scalarmult,error_unit,stat)
+			case('m')
+				print*,new_line('a'),"m. sodium crypto_generichash tests"
+				call run_testsuite(collect_tests_crypto_generichash,error_unit,stat)
 			case default
 				error stop "test not defined"
 		endselect
