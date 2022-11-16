@@ -1,12 +1,14 @@
 # sodium
 fortran bindings for libsodium
 
+**alpha** version still under development
+
 [libsodium c encryption library](https://github.com/jedisct1/libsodium)
 
 [documentation](https://doc.libsodium.org/)
 
 [enc.f90](https://github.com/freevryheid/sodium/blob/main/app/enc.f90) is the fortran version of [ende.c](https://github.com/freevryheid/sodium/blob/main/app/ende.c) to encrypt binary files. 
 
-[ffi](https://github.com/freevryheid/sodium/blob/main/app/ffi.f90) was used to semi-automate the wrapping process, which was possible given the consistency in the c header files.
+[ffi](https://github.com/freevryheid/sodium/blob/main/app/ffi.f90) was used to semi-automate the wrapping process.
 
-to use the secure memory functions it is necessary to keep track of the pointer to the string that can later be freed. Given the difference in string definitions in c and fortran, to achieve this, the sodium_malloc function now returns the fortran string and the pointer to the string. See the new [test](https://github.com/freevryheid/sodium/blob/main/test/tests_crypto_aead_aes256gcm2.f90) that demonstrates this. I'm unsure how this is achieved in other language bindings and if you know of a better approach please let me know - PR's welcome!
+the only difference with the c library is that the secure memory "pointer-related" functions have been converted to subroutines to allow allocation of strings outside of fortran - see the tests and apps for examples.
