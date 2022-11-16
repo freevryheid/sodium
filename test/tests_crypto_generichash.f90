@@ -30,16 +30,16 @@ module tests_crypto_generichash
 			integer::u,iostat,ret,i
 			character(len=:),pointer::key,out,expected_out,in
 			character(len=:),allocatable::res
-			type(c_ptr)::p_key,p_out,p_expected_out,p_in
+			! type(c_ptr)::p_key,p_out,p_expected_out,p_in
 			integer(kind=c_size_t)::km,bm,hlen
 			integer(kind=c_size_t),pointer::blen=>null()
 			ret=sodium_init()
 			call check(error,ret.ne.-1)
 			km=crypto_generichash_blake2b_keybytes_max()
 			bm=crypto_generichash_blake2b_bytes_max()
-			p_key=sodium_malloc(key,km)
-			p_out=sodium_malloc(out,bm)
-			p_expected_out=sodium_malloc(expected_out,bm)
+			call sodium_malloc(key,km)
+			call sodium_malloc(out,bm)
+			call sodium_malloc(expected_out,bm)
 			u=open('test/tests_crypto_generichash.data',iostat=iostat)
 			i=0
 			do while(iostat.eq.0)
@@ -54,17 +54,17 @@ module tests_crypto_generichash
 					hlen=len(test%out_hex)
 					ret=sodium_hex2bin(expected_out,bm,test%out_hex,hlen,c_null_char,blen,c_null_ptr)
 					hlen=len(test%in_hex)
-					p_in=sodium_malloc(in,hlen)
+					call sodium_malloc(in,hlen)
 					ret=sodium_hex2bin(in,hlen/2,test%in_hex,hlen,c_null_char,blen,c_null_ptr)
 					ret=crypto_generichash(out,bm,in,hlen/2,key,km)
 					call check(error,out,expected_out)
-					call sodium_free(p_in)
+					call sodium_free(in)
 				endif
 			enddo
 			close(u)
-			call sodium_free(p_key)
-			call sodium_free(p_out)
-			call sodium_free(p_expected_out)
+			call sodium_free(key)
+			call sodium_free(out)
+			call sodium_free(expected_out)
 			if (allocated(error)) return
 		endsubroutine test_generichash
 

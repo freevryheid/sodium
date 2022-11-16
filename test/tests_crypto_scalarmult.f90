@@ -23,7 +23,7 @@ module tests_crypto_scalarmult
 			character(len=:),allocatable::hex,res
 			integer(kind=c_signed_char),dimension(32)::a,b,c
 			integer(kind=c_signed_char)::z
-			type(c_ptr)::ap,bp,kp ! pointers to secure memory strings
+			! type(c_ptr)::ap,bp,kp ! pointers to secure memory strings
 			integer(kind=c_size_t)::siz,hexlen
 			character(len=:),pointer::alicepk,bobpk,k
 			integer::ret
@@ -48,9 +48,9 @@ module tests_crypto_scalarmult
 			alicesk=transfer(a,alicesk)
 			bobsk=transfer(b,bobsk)
 			small_order_p=transfer(c,small_order_p)
-			ap=sodium_malloc(alicepk,siz)
-			bp=sodium_malloc(bobpk,siz)
-			kp=sodium_malloc(k,siz)
+			call sodium_malloc(alicepk,siz)
+			call sodium_malloc(bobpk,siz)
+			call sodium_malloc(k,siz)
 			ret=crypto_scalarmult_base(alicepk,alicesk)
 			call check(error,ret,0)
 			res=sodium_bin2hex(hex,hexlen,alicepk,siz)
@@ -79,9 +79,9 @@ module tests_crypto_scalarmult
 			print*,"hex:"//hex
 			ret=crypto_scalarmult(k,bobsk,small_order_p)
 			call check(error,ret,-1)
-			call sodium_free(ap)
-			call sodium_free(bp)
-			call sodium_free(kp)
+			call sodium_free(alicepk)
+			call sodium_free(bobpk)
+			call sodium_free(k)
 			call check(error,crypto_scalarmult_primitive(),"curve25519")
 			if (allocated(error)) return
 		endsubroutine test_scalarmult

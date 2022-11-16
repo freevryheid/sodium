@@ -34,7 +34,7 @@ module tests_crypto_aead_aes256gcm2
 			type(tests)::test
 			integer::u,iostat
 			character(len=:),pointer::key,nonce,msg,ad,mac,detached_ciphertext,decrypted
-			type(c_ptr)::pkey,pnonce,pmsg,pad,pmac,pdetached_ciphertext,pdecrypted
+			! type(c_ptr)::pkey,pnonce,pmsg,pad,pmac,pdetached_ciphertext,pdecrypted
 			integer(kind=c_size_t)::kb,pb,ab,msg_len,ad_len,detached_ciphertext_len
 			integer(kind=c_size_t),pointer::binlen=>null()
 			integer::ret
@@ -47,9 +47,10 @@ module tests_crypto_aead_aes256gcm2
 			kb=crypto_aead_aes256gcm_keybytes()
 			pb=crypto_aead_aes256gcm_npubbytes()
 			ab=crypto_aead_aes256gcm_abytes()
-			pkey=sodium_malloc(key,kb)
-			pnonce=sodium_malloc(nonce,pb)
-			pmac=sodium_malloc(mac,ab)
+
+			call sodium_malloc(key,kb)
+			call sodium_malloc(nonce,pb)
+			call sodium_malloc(mac,ab)
 
 			u=open('test/aead_aes256gcm2.data',iostat=iostat)
 			do while(iostat.eq.0)
@@ -68,21 +69,21 @@ module tests_crypto_aead_aes256gcm2
 					ret=sodium_hex2bin(nonce,pb,test%nonce_hex,len(test%nonce_hex,kind=c_size_t),c_null_char,binlen,c_null_ptr)
 					call check(error,ret,0)
 					msg_len=len(test%message_hex)/2
-					pmsg=sodium_malloc(msg,msg_len)
+					call sodium_malloc(msg,msg_len)
 					ret=sodium_hex2bin(msg,msg_len,test%message_hex,len(test%message_hex,kind=c_size_t),c_null_char,binlen,c_null_ptr)
 					call check(error,ret,0)
 					ad_len=len(test%ad_hex)/2
-					pad=sodium_malloc(ad,ad_len)
+					call sodium_malloc(ad,ad_len)
 					ret=sodium_hex2bin(ad,ad_len,test%ad_hex,len(test%ad_hex,kind=c_size_t),c_null_char,binlen,c_null_ptr)
 					call check(error,ret,0)
 					ret=sodium_hex2bin(mac,ab,test%mac_hex,len(test%mac_hex,kind=c_size_t),c_null_char,binlen,c_null_ptr)
 					call check(error,ret,0)
 					detached_ciphertext_len=msg_len
-					pdetached_ciphertext=sodium_malloc(detached_ciphertext,detached_ciphertext_len)
+					call sodium_malloc(detached_ciphertext,detached_ciphertext_len)
 					ret=sodium_hex2bin(detached_ciphertext,detached_ciphertext_len,test%detached_ciphertext_hex,&
 					&len(test%detached_ciphertext_hex,kind=c_size_t),c_null_char,binlen,c_null_ptr)
 					call check(error,ret,0)
-					pdecrypted=sodium_malloc(decrypted,msg_len)
+					call sodium_malloc(decrypted,msg_len)
 					ret=crypto_aead_aes256gcm_decrypt_detached(decrypted,c_null_char,detached_ciphertext,&
 					&detached_ciphertext_len,mac,ad,ad_len,nonce,key)
 
@@ -92,19 +93,19 @@ module tests_crypto_aead_aes256gcm2
 						call check(error,test%outcome,"invalid")
 					endif
 
-					call sodium_free(pmsg)
-					call sodium_free(pad)
-					call sodium_free(pdecrypted)
-					call sodium_free(pdetached_ciphertext)
+					call sodium_free(msg)
+					call sodium_free(ad)
+					call sodium_free(decrypted)
+					call sodium_free(detached_ciphertext)
 
 				endif
 
 			enddo
 			close(u)
 
-			call sodium_free(pkey)
-			call sodium_free(pmac)
-			call sodium_free(pnonce)
+			call sodium_free(key)
+			call sodium_free(mac)
+			call sodium_free(nonce)
 
 			if (allocated(error)) return
 
