@@ -260,7 +260,8 @@ module mod_utils
 			character(len=*)::bin
 			! character(len=*),intent(in)::bin
 			character(len=:),allocatable::res
-			integer(kind=c_size_t)::hex_maxlen,bin_len
+			integer(kind=c_size_t)::hex_maxlen
+			integer(kind=c_size_t)::bin_len
 			type(c_ptr)::res1
 			res1=bind_sodium_bin2hex(hex,hex_maxlen,bin,bin_len)
 			allocate(character(len=hex_maxlen)::res)

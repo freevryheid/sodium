@@ -43,7 +43,8 @@ module ende
 		endfunction getargs
 
 		subroutine encrypt(fin,fout,key)
-			character(len=:),allocatable::fin,fout,key
+			character(len=:),allocatable::fin,fout
+			character(len=:),pointer::key
 			character(len=:),allocatable::bin,bout,header,ad
 			integer::in,out,stin,stout,siz,pos,remaining,abytes,hbytes,ret
 			! integer(kind=c_signed_char)::tag
@@ -89,7 +90,8 @@ module ende
 		endsubroutine encrypt
 
 		subroutine decrypt(fin,fout,key)
-			character(len=:),allocatable::fin,fout,key
+			character(len=:),allocatable::fin,fout
+			character(len=:),pointer::key
 			character(len=:),allocatable::bin,bout,header,ad
 			integer::in,out,stin,stout,siz,pos,remaining,abytes,hbytes,ret
 			integer(kind=c_long_long)::binlen,adlen
