@@ -12,7 +12,7 @@ program epm
 	type(account)::a
 	type(account),allocatable::aa(:)
 
-	character(len=:),allocatable::non,seed,inp,gen,tmp,res,fin,fout
+	character(len=:),allocatable::non,seed,inp,acc,uid,gen,tmp,res,fin,fout,fzip
 	character(len=:),pointer::key
 	character(len=256)::input
 
@@ -24,7 +24,13 @@ program epm
 
 	cmd_ret=cmd()
 	if(cmd_ret.eq.0)stop
-	write(*,'(a)')"epm version 0.1"
+
+	! prevent ctrl-c
+	call signal(2,1)
+	! prevent ctrl-\
+	call signal(3,1)
+
+	write(*,'(a)')"xyz version 0.1"
 	write(*,'(a)')""
 
 	ret=sodium_init()
@@ -39,21 +45,31 @@ program epm
 	allocate(character(len=sb)::seed)
 	allocate(character(len=sb)::gen)
 	n=0
-	fin="savemy.tmp"
-	fout="savemy.pwd"
+	fin="xy.t"
+	fout="xy.p"
+	fzip="xy.z"
 
-	write(*,'(a)')"type and enter your key"
-	write(*,'(a)')"note that input is hidden and it will"
-	write(*,'(a)')"take a while to process after entered"
-	call c_setmode(1)
-	write(*,'(a)',advance='no')"key? "
-	read(*,'(a)')input
-	call c_setmode(0)
+	do
+		write(*,'(a)')"type and enter your key"
+		write(*,'(a)')"note that input is hidden and it will"
+		write(*,'(a)')"take a while to process after entered"
+		! write(*,'(a)')"if you hit CTRL-C now to exit then run 'reset'"
+		! write(*,'(a)')"to flush/reset the hidden terminal"
+		call c_setmode(1)
+		write(*,'(a)',advance='no')"key? "
+		read(*,'(a)')input
+		call c_setmode(0)
+		if(len(trim(input)).gt.0)then
+			exit
+		else
+			write(*,'(a,a)')new_line('a'),"your key cannot be blank"
+		endif
+	enddo
 
 	call sodium_malloc(key,kb)
 	ret=crypto_pwhash(key,kb,input,len(input,kind=c_size_t),seed,opslimit,memlimit,alg)
 
-	inquire(file=fout,exist=exists)
+	inquire(file=fzip,exist=exists)
 	if(.not.exists)then
 		call randombytes_buf(seed,sb)
 		open(newunit=u,file=fin,status="new",access="stream",iostat=iostat)
@@ -63,10 +79,16 @@ program epm
 		call encrypt(fin,fout,key)
 		open(newunit=u,file=fin,status="old",iostat=iostat)
 		if(iostat.eq.0)close(u,status="delete")
+		ret=zip_deflate_file(fout,fzip)
+		open(newunit=u,file=fout,status="old",iostat=iostat)
+		if(iostat.eq.0)close(u,status="delete")
 	endif
 
 	a=account(siz1=0,siz2=0,siz3=0)
 	aa=[a]
+	ret=zip_inflate_file(fzip,fout)
+	open(newunit=u,file=fzip,status="old",iostat=iostat)
+	if(iostat.eq.0)close(u,status="delete")
 	call decrypt(fout,fin,key)
 	open(newunit=u,file=fout,status="old",iostat=iostat)
 	if(iostat.eq.0)close(u,status="delete")
@@ -113,6 +135,7 @@ program epm
 					read(*,'(a)') input
 					inp=trim(input)
 					siz=len(inp)
+					acc=inp
 					if(siz.eq.0)exit outer
 					found=.false.
 					do i=2,size(aa)
@@ -123,7 +146,7 @@ program epm
 						endif
 					enddo
 					if(found)then
-						write(*,'(a)')"account "//inp//" already exists"
+						write(*,'(a)')"account "//acc//" already exists"
 						exit outer
 					else
 						a%inp1=enc(inp,mb,a%non1,key)
@@ -180,7 +203,7 @@ program epm
 					write(u)aa(i)%inp3
 				enddo
 				close(u)
-				write(*,'(a)')"account added"
+				write(*,'(a,a,a)')"account ",acc," added"
 			enddo outer
 			write(*,'(a)')"... done."
 
@@ -203,6 +226,7 @@ program epm
 				read(*,'(a)')input
 				inp=trim(input)
 				siz=len(inp)
+				acc=inp
 				if(siz.eq.0)then
 					write(*,'(a)')"... done."
 					exit
@@ -213,11 +237,17 @@ program epm
 						if(inp.eq.tmp)then
 							write(*,'(a)')"enter to keep existing uid"
 							write(*,'(a)')"shown in parenthesis"
-							write(*,'(a,a,a)',advance='no')"uid (",dec(aa(i)%inp2,mb,aa(i)%non2,key),")? "
+							uid=dec(aa(i)%inp2,mb,aa(i)%non2,key)
+							if(len(uid).gt.0)write(*,'(a)')"enter 'clr' to clear it"
+							write(*,'(a,a,a)',advance='no')"uid (",uid,")? "
 							read(*,'(a)')input
 							inp=trim(input)
 							siz=len(inp)
 							if(siz.gt.0)then
+								if(inp.eq."clr")then
+									inp=""
+									siz=0
+								endif
 								deallocate(aa(i)%non2)
 								allocate(character(len=nb)::aa(i)%non2)
 								call randombytes_buf(aa(i)%non2,nb)
@@ -284,7 +314,7 @@ program epm
 							write(u)aa(i)%inp3
 						enddo
 						close(u)
-						write(*,'(a)')"account updated"
+						write(*,'(a,a,a)')"account ",acc," updated"
 					endif
 				endif
 			enddo
@@ -324,6 +354,7 @@ program epm
 				read(*,'(a)')input
 				inp=trim(input)
 				siz=len(inp)
+				acc=inp
 				if(siz.eq.0)then
 					write(*,'(a)')"... done."
 					exit
@@ -356,7 +387,7 @@ program epm
 							write(u)aa(i)%inp3
 						enddo
 						close(u)
-						write(*,'(a)')"account deleted"
+						write(*,'(a,a,a)')"account ",acc," deleted"
 					endif
 				endif
 			enddo
@@ -366,9 +397,12 @@ program epm
 	endselect
 
 	call encrypt(fin,fout,key)
+	call sodium_free(key)
+
 	open(newunit=u,file=fin,status="old",iostat=iostat)
 	if(iostat.eq.0)close(u,status="delete")
-
-	call sodium_free(key)
+	ret=zip_deflate_file(fout,fzip)
+	open(newunit=u,file=fout,status="old",iostat=iostat)
+	if(iostat.eq.0)close(u,status="delete")
 
 endprogram epm

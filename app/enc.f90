@@ -9,13 +9,15 @@ program enc
 	implicit none
 
 	type(cli)::args
-	character(len=:),allocatable::key
-	integer::u,iostat,ret,kbytes
+	character(len=:),pointer::key
+	integer::u,iostat,ret
+	integer(kind=c_size_t)::kbytes
 	logical::keyexists
+
 	ret=sodium_init()
 	if(ret.ne.0) call error_stop("error: cannot init sodium")
 	kbytes=crypto_secretstream_xchacha20poly1305_keybytes()
-	allocate(character(len=kbytes)::key)
+	call sodium_malloc(key,kbytes)
 	args=getargs()
 	if(ends_with(args%fin,".enc"))then
 		inquire(file="key",exist=keyexists)
@@ -35,5 +37,6 @@ program enc
 		call encrypt(args%fin,args%fout,key)
 	endif
 
-endprogram enc
+	call sodium_free(key)
 
+endprogram enc

@@ -5,6 +5,7 @@ author = "Andre Smit"
 maintainer = "freevryheid@gmail.com"
 copyright = "Copyright 2022, Andre Smit"
 executable = [
+  { name = "xyz", main = "xyz.f90", link = "z" },
   { name = "enc", main = "enc.f90" },
   { name = "ffi", main = "ffi.f90" },
   { name = "ende", main = "ende.c" },
@@ -15,9 +16,11 @@ auto-executables = true
 auto-tests = true
 # auto-examples = true
 [dependencies]
-stdlib = { git="https://github.com/fortran-lang/stdlib", branch="stdlib-fpm" }
+# none
 [dev-dependencies]
+stdlib = { git="https://github.com/fortran-lang/stdlib", branch="stdlib-fpm" }
 test-drive = { git="https://github.com/fortran-lang/test-drive" }
 scanner = { git="https://github.com/freevryheid/scanner" }
+fortran-zlib = { git="https://github.com/interkosmos/fortran-zlib" }
 [install]
 library = false
