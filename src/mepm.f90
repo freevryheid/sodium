@@ -20,7 +20,7 @@ module mod_epm
 		character(len=:),allocatable::inp3
 	endtype
 
-	public::cmd,enc,dec,zip_inflate_file,zip_deflate_file
+	public::cmd,enc,dec,zip_inflate_file,zip_deflate_file,del_if_exists
 	integer, parameter :: CHUNK = 16384
 
 	contains
@@ -41,24 +41,23 @@ module mod_epm
 					ret=0
 				case("hlp")
 					write(*,'(a)')"xyz version 0.1"
-					write(*,'(a)')"encrypted password manager"
+					write(*,'(a)')"simple encrypted password manager"
 					write(*,'(a)')"a cli to manage encrypted passwords for user accounts"
 					write(*,'(a)')""
 					write(*,'(a)')"usage: xyz cmd"
 					write(*,'(a)')""
 					write(*,'(a)')"where cmd is one of following:"
 					write(*,'(a)')""
-					write(*,'(a)')"hlp - display this help message,"
-					write(*,'(a)')"add - add new account(s),"
-					write(*,'(a)')"lst - list account(s),"
-					write(*,'(a)')"chg - change account(s) info,"
-					write(*,'(a)')"shw - show account(s) info,"
-					write(*,'(a)')"del - delete account(s)."
+					write(*,'(a)')"hlp - display this help message"
+					write(*,'(a)')"add - add new account(s)"
+					write(*,'(a)')"lst - list account(s)"
+					write(*,'(a)')"chg - change account(s) info"
+					write(*,'(a)')"shw - show account(s) info"
+					write(*,'(a)')"del - delete account(s)"
 					write(*,'(a)')""
 					write(*,'(a)')"you will be prompted for a key (password)"
 					write(*,'(a)')"that is used to encrpyt/decrypt the data you enter"
 					write(*,'(a)')"and the only password you need to remember."
-					write(*,'(a)')""
 					write(*,'(a)')"use the same key for all commands."
 					write(*,'(a)')""
 					write(*,'(a)')"for security reasons your key is never saved"
@@ -66,16 +65,13 @@ module mod_epm
 					write(*,'(a)')"run 'pwd lst' or 'pwd shw' to verify that"
 					write(*,'(a)')"your key returns valid info."
 					write(*,'(a)')""
-					write(*,'(a)')"for security reasons your key is never saved,"
-					write(*,'(a)')"ctrl-c is also disabled. 'clear' your screen"
-					write(*,'(a)')"to remove visible account info."
-					write(*,'(a)')""
 					write(*,'(a)')"account info is stored in xy.z, a compressed"
 					write(*,'(a)')"encrypted binary file with encrypted account"
 					write(*,'(a)')"info that can only be decrypted using your key."
+					write(*,'(a)')"keep a backup of your xy.z file: 'cp xy.z xy.b'"
 					write(*,'(a)')""
 					write(*,'(a)')"xyz optionally uses pwgen to generate passwords."
-					write(*,'(a)')"run 'pwgen' now to check if it is installed."
+					write(*,'(a)')"run 'pwgen' to check if it is installed."
 					ret=0
 				case("add")
 					ret=1
@@ -114,7 +110,7 @@ module mod_epm
 			ret=crypto_secretbox_open_easy(out,in,siz,non,key)
 		endfunction dec
 
-		! from zlib test
+		! from zlib test - revised to optionally delete input file
 		integer function zip_deflate_file(source, dest) result(rc)
 			character(len=*), intent(in) :: source
 			character(len=*), intent(in) :: dest
@@ -171,33 +167,6 @@ module mod_epm
 			close (in_unit)
 		end function zip_deflate_file
 
-		integer function zip_deflate_mem(source, dest, level) result(rc)
-			character(len=*), target,      intent(in)  :: source
-			character(len=:), allocatable, intent(out) :: dest
-			integer,                       intent(in)  :: level
-			character(len=len(source)), target :: buffer
-			integer                            :: err, have
-			type(z_stream)                     :: strm
-			dest = ''
-			rc = deflate_init(strm, level)
-			if (rc /= Z_OK) return
-			def_block: block
-				strm%total_in = len(source)
-				strm%avail_in = len(source)
-				strm%next_in = c_loc(source)
-				strm%total_out = len(buffer)
-				strm%avail_out = len(buffer)
-				strm%next_out = c_loc(buffer)
-				rc = deflate(strm, Z_FINISH)
-				if (rc == Z_STREAM_ERROR) exit def_block
-				have = len(buffer) - strm%avail_out
-				dest = buffer(1:have)
-				if (rc /= Z_STREAM_END) exit def_block
-				rc = Z_OK
-			end block def_block
-			err = deflate_end(strm)
-		end function zip_deflate_mem
-
 		integer function zip_inflate_file(source, dest) result(rc)
 			character(len=*), intent(in) :: source
 			character(len=*), intent(in) :: dest
@@ -248,31 +217,15 @@ module mod_epm
 			close (in_unit)
 		end function zip_inflate_file
 
-		integer function zip_inflate_mem(source, dest, buffer_size) result(rc)
-			character(len=*), target,      intent(in)  :: source
-			character(len=:), allocatable, intent(out) :: dest
-			integer,                       intent(in)  :: buffer_size
-			character(len=buffer_size), target :: buffer
-			integer                            :: err, have
-			type(z_stream)                     :: strm
-			dest = ''
-			rc = inflate_init(strm)
-			if (rc /= Z_OK) return
-			inf_block: block
-				strm%total_in = len(source)
-				strm%avail_in = len(source)
-				strm%next_in = c_loc(source)
-				strm%total_out = len(buffer)
-				strm%avail_out = len(buffer)
-				strm%next_out = c_loc(buffer)
-				rc = inflate(strm, Z_FINISH)
-				if (rc == Z_STREAM_ERROR) exit inf_block
-				have = len(buffer) - strm%avail_out
-				dest = buffer(1:have)
-				if (rc /= Z_STREAM_END) exit inf_block
-				rc = Z_OK
-			end block inf_block
-			err = inflate_end(strm)
-		end function zip_inflate_mem
+		subroutine del_if_exists(f)
+			character(len=*)::f
+			integer::u,iostat
+			logical::exists
+			inquire(file=f,exist=exists)
+			if(exists)then
+				open(newunit=u,file=f,status="old",access="stream",iostat=iostat)
+				if(iostat.eq.0)close(u,status="delete")
+			endif
+		endsubroutine del_if_exists
 
 endmodule mod_epm

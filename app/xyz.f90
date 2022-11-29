@@ -17,7 +17,7 @@ program epm
 	character(len=256)::input
 
 	integer::i,n,m,cmd_ret,ret,alg,u,v,iotemp,iostat,siz
-	logical::exists,found
+	logical::exists,found,resave
 	integer(kind=c_size_t)::sb,kb,nb,mb,memlimit,hlen,blen,nlen,mlen
 	integer(kind=c_long_long)::opslimit
 	integer(kind=c_size_t),pointer::plen=>null()
@@ -48,13 +48,12 @@ program epm
 	fin="xy.t"
 	fout="xy.p"
 	fzip="xy.z"
+	resave=.false.
 
 	do
 		write(*,'(a)')"type and enter your key"
 		write(*,'(a)')"note that input is hidden and it will"
 		write(*,'(a)')"take a while to process after entered"
-		! write(*,'(a)')"if you hit CTRL-C now to exit then run 'reset'"
-		! write(*,'(a)')"to flush/reset the hidden terminal"
 		call c_setmode(1)
 		write(*,'(a)',advance='no')"key? "
 		read(*,'(a)')input
@@ -76,22 +75,45 @@ program epm
 		write(u)seed
 		write(u)n
 		close(u)
-		call encrypt(fin,fout,key)
-		open(newunit=u,file=fin,status="old",iostat=iostat)
-		if(iostat.eq.0)close(u,status="delete")
+		ret=encrypt(fin,fout,key)
+		if(ret.ne.0)then
+			call del_if_exists(fin)
+			call del_if_exists(fout)
+			write(*,'(a,a)')new_line('a'),"error: failed to encrypt"
+			stop
+		else
+			call del_if_exists(fin)
+		endif
 		ret=zip_deflate_file(fout,fzip)
-		open(newunit=u,file=fout,status="old",iostat=iostat)
-		if(iostat.eq.0)close(u,status="delete")
+		if(ret.ne.0)then
+			call del_if_exists(fin)
+			call del_if_exists(fout)
+			call del_if_exists(fzip)
+			write(*,'(a,a)')new_line('a'),"error: failed to deflate"
+			stop
+		else
+			call del_if_exists(fout)
+		endif
 	endif
 
 	a=account(siz1=0,siz2=0,siz3=0)
 	aa=[a]
 	ret=zip_inflate_file(fzip,fout)
-	open(newunit=u,file=fzip,status="old",iostat=iostat)
-	if(iostat.eq.0)close(u,status="delete")
-	call decrypt(fout,fin,key)
-	open(newunit=u,file=fout,status="old",iostat=iostat)
-	if(iostat.eq.0)close(u,status="delete")
+	if(ret.ne.0)then
+		call del_if_exists(fout)
+		write(*,'(a,a)')new_line('a'),"error: failed to inflate"
+		write(*,'(a,a)')"either a corrupted xy.z or it's read protected"
+		stop
+	endif
+	ret=decrypt(fout,fin,key)
+	if(ret.ne.0)then
+		call del_if_exists(fout)
+		call del_if_exists(fin)
+		write(*,'(a,a)')new_line('a'),"error: failed to decrypt (invalid key)"
+		stop
+	else
+		call del_if_exists(fout)
+	endif
 	open(newunit=u,file=fin,status="old",access="stream",iostat=iostat)
 	read(u)seed
 	read(u)n
@@ -116,7 +138,7 @@ program epm
 			aa=[aa,a]
 		enddo
 	endif
-	close(u)
+	close(u,status="delete")
 
 	selectcase(cmd_ret)
 		case(1)
@@ -136,7 +158,10 @@ program epm
 					inp=trim(input)
 					siz=len(inp)
 					acc=inp
-					if(siz.eq.0)exit outer
+					if(siz.eq.0)then
+						write(*,'(a)')"... done."
+						exit outer
+					endif
 					found=.false.
 					do i=2,size(aa)
 						tmp=dec(aa(i)%inp1,mb,aa(i)%non1,key)
@@ -146,7 +171,7 @@ program epm
 						endif
 					enddo
 					if(found)then
-						write(*,'(a)')"account "//acc//" already exists"
+						write(*,'(a)')"account '"//acc//"' already exists"
 						exit outer
 					else
 						a%inp1=enc(inp,mb,a%non1,key)
@@ -203,9 +228,9 @@ program epm
 					write(u)aa(i)%inp3
 				enddo
 				close(u)
-				write(*,'(a,a,a)')"account ",acc," added"
+				write(*,'(a,a,a)')"account '",acc,"' added"
+				resave=.true.
 			enddo outer
-			write(*,'(a)')"... done."
 
 		case(2)
 			write(*,'(a)')new_line('a')//"listing accounts ..."
@@ -297,7 +322,7 @@ program epm
 						endif
 					enddo
 					if(.not.found)then
-						write(*,'(a)')"account "//inp//" not found"
+						write(*,'(a)')"account '"//inp//"' not found"
 					else
 						open(newunit=u,file=fin,status="replace",access="stream",iostat=iostat)
 						write(u)seed
@@ -314,7 +339,8 @@ program epm
 							write(u)aa(i)%inp3
 						enddo
 						close(u)
-						write(*,'(a,a,a)')"account ",acc," updated"
+						write(*,'(a,a,a)')"account '",acc,"' updated"
+						resave=.true.
 					endif
 				endif
 			enddo
@@ -342,7 +368,7 @@ program epm
 							exit
 						endif
 					enddo
-					if(.not.found)write(*,'(a)')"account "//inp//" not found"
+					if(.not.found)write(*,'(a)')"account '"//inp//"' not found"
 				endif
 			enddo
 
@@ -369,7 +395,7 @@ program epm
 						endif
 					enddo
 					if(.not.found)then
-						write(*,'(a)')"account "//inp//" not found"
+						write(*,'(a)')"account '"//inp//"' not found"
 					else
 						aa=[aa(:n-1),aa(n+1:)]
 						open(newunit=u,file=fin,status="replace",access="stream",iostat=iostat)
@@ -387,7 +413,8 @@ program epm
 							write(u)aa(i)%inp3
 						enddo
 						close(u)
-						write(*,'(a,a,a)')"account ",acc," deleted"
+						write(*,'(a,a,a)')"account '",acc,"' deleted"
+						resave=.true.
 					endif
 				endif
 			enddo
@@ -396,13 +423,28 @@ program epm
 
 	endselect
 
-	call encrypt(fin,fout,key)
-	call sodium_free(key)
+	if(resave)then
+		ret=encrypt(fin,fout,key)
+		if(ret.ne.0)then
+			call del_if_exists(fin)
+			call del_if_exists(fout)
+			write(*,'(a,a)')new_line('a'),"error: failed to encrypt"
+			stop
+		else
+			call del_if_exists(fin)
+		endif
+		ret=zip_deflate_file(fout,fzip)
+		if(ret.ne.0)then
+			call del_if_exists(fout)
+			! call del_if_exists(fzip) ! hopefully, it's not corrupted
+			write(*,'(a,a)')new_line('a'),"error: failed to deflate"
+			write(*,'(a)')"xy.z cannot be write protected"
+			stop
+		else
+			call del_if_exists(fout)
+		endif
+	endif
 
-	open(newunit=u,file=fin,status="old",iostat=iostat)
-	if(iostat.eq.0)close(u,status="delete")
-	ret=zip_deflate_file(fout,fzip)
-	open(newunit=u,file=fout,status="old",iostat=iostat)
-	if(iostat.eq.0)close(u,status="delete")
+	call sodium_free(key)
 
 endprogram epm

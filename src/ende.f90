@@ -42,7 +42,7 @@ module ende
 			endif
 		endfunction getargs
 
-		subroutine encrypt(fin,fout,key)
+		function encrypt(fin,fout,key)result(ret)
 			character(len=:),allocatable::fin,fout
 			character(len=:),pointer::key
 			character(len=:),allocatable::bin,bout,header,ad
@@ -64,7 +64,11 @@ module ende
 			adlen=0
 			tag=char(crypto_secretstream_xchacha20poly1305_tag_message())
 			ret=crypto_secretstream_xchacha20poly1305_init_push(state,header,key)
-			if(ret.ne.0) call error_stop("error: cannot init push")
+			if(ret.ne.0)then
+				! call error_stop("error: cannot init push")
+				write(*,'(a,a)')new_line('a'),"error: cannot init push"
+				return
+			endif
 			open(newunit=in,file=fin,status="old",access="stream",iostat=stin)
 			open(newunit=out,file=fout,status="replace",access="stream",iostat=stout)
 			write(out) header
@@ -82,14 +86,20 @@ module ende
 				read(in) bin
 				binlen=len(bin)
 				ret=crypto_secretstream_xchacha20poly1305_push(state,bout,blen,bin,binlen,ad,adlen,tag)
-				if(ret.ne.0) call error_stop("error: cannot push")
+				if(ret.ne.0)then
+					! call error_stop("error: cannot push")
+					write(*,'(a,a)')new_line('a'),"error: cannot init push"
+					close(out)
+					close(in)
+					return
+				endif
 				write(out) bout
 			enddo
 			close(out)
 			close(in)
-		endsubroutine encrypt
+		endfunction encrypt
 
-		subroutine decrypt(fin,fout,key)
+		function decrypt(fin,fout,key)result(ret)
 			character(len=:),allocatable::fin,fout
 			character(len=:),pointer::key
 			character(len=:),allocatable::bin,bout,header,ad
@@ -111,10 +121,15 @@ module ende
 			ad=c_null_char
 			adlen=0
 			open(newunit=in,file=fin,status="old",access="stream",iostat=stin)
-			open(newunit=out,file=fout,status="replace",access="stream",iostat=stout)
 			read(in) header
 			ret=crypto_secretstream_xchacha20poly1305_init_pull(state,header,key)
-			if(ret.ne.0) call error_stop("error: cannot init pull (incomplete header)")
+			if(ret.ne.0)then
+				close(in)
+				! call error_stop("error: cannot init pull (incomplete header)")
+				write(*,'(a,a)')new_line('a'),"error: cannot init pull (incomplete header)"
+				return
+			endif
+			open(newunit=out,file=fout,status="replace",access="stream",iostat=stout)
 			do while(.not.eof)
 				inquire(in,pos=pos)
 				remaining=siz-pos+1
@@ -128,14 +143,21 @@ module ende
 				read(in) bin
 				binlen=len(bin)
 				ret=crypto_secretstream_xchacha20poly1305_pull(state,bout,blen,tag,bin,binlen,ad,adlen)
-				if(ret.ne.0) call error_stop("error: cannot pull (corrupted chunk)")
+				if(ret.ne.0)then
+					close(out)
+					close(in)
+					! call error_stop("error: cannot pull (corrupted chunk)")
+					write(*,'(a,a)')new_line('a'),"error: cannot pull (corrupted chunk)"
+					return
+				endif
 				write(out) bout
 			enddo
 			close(out)
 			close(in)
-			if(tag.ne.char(crypto_secretstream_xchacha20poly1305_tag_final())) error stop "decryption failed"
-		endsubroutine decrypt
+			if(tag.ne.char(crypto_secretstream_xchacha20poly1305_tag_final()))then
+				write(*,'(a,a)')new_line('a'),"decryption failed"
+				ret=-1
+			endif
+		endfunction decrypt
 
 endmodule ende
-
-

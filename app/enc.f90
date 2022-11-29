@@ -25,7 +25,7 @@ program enc
 			open(newunit=u,file="key",status="old",access="stream",iostat=iostat)
 			read(u) key
 			close(u)
-			call decrypt(args%fin,args%fout,key)
+			ret=decrypt(args%fin,args%fout,key)
 		else
 			call error_stop("error: cannot decrypt file without a key")
 		endif
@@ -34,7 +34,7 @@ program enc
 		open(newunit=u,file="key",status="replace",access="stream",iostat=iostat)
 		write(u) key
 		close(u)
-		call encrypt(args%fin,args%fout,key)
+		ret=encrypt(args%fin,args%fout,key)
 	endif
 
 	call sodium_free(key)
