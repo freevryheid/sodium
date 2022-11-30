@@ -30,8 +30,7 @@ program epm
 	! prevent ctrl-\
 	call signal(3,1)
 
-	write(*,'(a)')"xyz version 0.1"
-	write(*,'(a)')""
+	write(*,'(a,a)')"xyz version 0.1",new_line('a')
 
 	ret=sodium_init()
 	if(ret.eq.-1)errorstop "cannot init sodium"
@@ -436,7 +435,6 @@ program epm
 		ret=zip_deflate_file(fout,fzip)
 		if(ret.ne.0)then
 			call del_if_exists(fout)
-			! call del_if_exists(fzip) ! hopefully, it's not corrupted
 			write(*,'(a,a)')new_line('a'),"error: failed to deflate"
 			write(*,'(a)')"xy.z cannot be write protected"
 			stop

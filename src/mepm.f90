@@ -110,7 +110,7 @@ module mod_epm
 			ret=crypto_secretbox_open_easy(out,in,siz,non,key)
 		endfunction dec
 
-		! from zlib test - revised to optionally delete input file
+		! from zlib test
 		integer function zip_deflate_file(source, dest) result(rc)
 			character(len=*), intent(in) :: source
 			character(len=*), intent(in) :: dest
