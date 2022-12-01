@@ -26,7 +26,7 @@ module mod_epm
 	contains
 
 		function cmd()result(ret)
-			integer::nargs,ret
+			integer::nargs,ret,iotemp
 			character(len=3)::c3
 			nargs=command_argument_count()
 			if(nargs.ne.1)then
@@ -54,6 +54,7 @@ module mod_epm
 					write(*,'(a)')"chg - change account(s) info"
 					write(*,'(a)')"shw - show account(s) info"
 					write(*,'(a)')"del - delete account(s)"
+					write(*,'(a)')"git - stage and commit changes"
 					write(*,'(a)')""
 					write(*,'(a)')"you will be prompted for a key (password)"
 					write(*,'(a)')"that is used to encrpyt/decrypt the data you enter"
@@ -72,6 +73,13 @@ module mod_epm
 					write(*,'(a)')""
 					write(*,'(a)')"xyz optionally uses pwgen to generate passwords."
 					write(*,'(a)')"run 'pwgen' to check if it is installed."
+					write(*,'(a)')""
+					write(*,'(a)')"xyz git will commit changes without a message"
+					write(*,'(a)')"but requires a working git repo"
+					ret=0
+				case("git")
+					call execute_command_line("git commit -a --allow-empty-message -m ''",exitstat=iotemp)
+					if(iotemp.ne.0)write(*,'(a)')"error: unable to commit changes"
 					ret=0
 				case("add")
 					ret=1
