@@ -1,14 +1,11 @@
 module mod_common
-
   use, intrinsic::iso_c_binding, only : c_ptr, c_size_t, c_char, c_null_char, c_associated, c_f_pointer
-
   implicit none
-
   private
 
-  public::c_strlen
-  public::c_f_str_ptr
-  public::c_str
+  public :: c_strlen
+  public :: c_f_str_ptr
+  public :: c_str
 
   interface
 

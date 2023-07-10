@@ -49,10 +49,7 @@ module mod_version
     function sodium_version_string() result(res)
       character(len=:), allocatable :: res
       type(c_ptr) :: cptr
-      ! integer(kind=c_size_t) :: siz
       cptr = bind_sodium_version_string()
-      ! siz = c_strlen(cptr)
-      ! allocate (character(len=siz) :: res)
       call c_f_str_ptr(cptr, res)
     end function sodium_version_string
 

@@ -362,51 +362,51 @@ module mod_utils
 
     function sodium_is_zero(a, alen) result(res)
       character(len=*) ::  a
-      integer, intent(in), optional :: alen
+      integer(kind=c_size_t), optional :: alen
       integer(kind=c_size_t) :: blen 
-      integer :: res
+      integer(kind=c_int) :: res
       if (.not.present(alen)) then
         blen = len(a)
       else
-        blen = int(alen, kind=c_size_t)
+        blen = alen
       end if
-      res = int(bind_sodium_is_zero(a, blen))
+      res = bind_sodium_is_zero(a, blen)
     end function sodium_is_zero
 
     function sodium_pad(padded_buflen_p, buf, unpadded_buflen, blocksize, max_buflen) result(res)
       character(len=*) :: buf
-      integer :: res
-      integer(kind=8) :: padded_buflen_p, unpadded_buflen, max_buflen
-      integer :: blocksize
-      res = int(bind_sodium_pad( &
+      integer(kind=c_int) :: res
+      integer(kind=c_size_t) :: padded_buflen_p, unpadded_buflen, max_buflen, blocksize
+      ! integer :: blocksize
+      res = bind_sodium_pad( &
         padded_buflen_p, buf, &
-        int(unpadded_buflen, kind=c_size_t), &
-        int(blocksize, kind=c_size_t), &
-        int(max_buflen, kind=c_size_t)))
+        unpadded_buflen, &
+        blocksize, &
+        max_buflen)
     end function sodium_pad
 
     function sodium_unpad(unpadded_buflen_p, buf, padded_buflen, blocksize) result(res)
       character(len=*) :: buf
-      integer :: res
-      integer(kind=8) :: padded_buflen, unpadded_buflen_p
-      integer :: blocksize
-      res = int(bind_sodium_unpad( &
+      integer(kind=c_int) :: res
+      integer(kind=c_size_t) :: padded_buflen, unpadded_buflen_p, blocksize
+      ! integer :: blocksize
+      res = bind_sodium_unpad( &
         unpadded_buflen_p, buf, &
-        int(padded_buflen, kind=c_size_t), &
-        int(blocksize, kind=c_size_t)))
+        padded_buflen, &
+        blocksize)
     end function sodium_unpad
 
     subroutine sodium_memzero(pnt, len) 
       character(len=*) :: pnt
-      integer :: len
-      call bind_sodium_memzero(pnt, int(len, kind=c_size_t))
+      integer(kind=c_size_t) :: len
+      call bind_sodium_memzero(pnt, len)
     end subroutine sodium_memzero
 
     function sodium_malloc(siz) result(res)
       character(len=:), pointer:: res
-      integer :: siz
+      integer(kind=c_size_t) :: siz
       type(c_ptr) :: res1
-      res1 = bind_sodium_malloc(int(siz, kind=c_size_t))
+      res1 = bind_sodium_malloc(siz)
       call c_f_pointer(res1, res)
       res => res(1:siz)
     end function sodium_malloc

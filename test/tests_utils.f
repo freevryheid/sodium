@@ -113,11 +113,8 @@ program tests_utils
   end block
 
   block
-    integer(kind=8) :: buflen        ! note the kind of int used here
-    integer(kind=8) :: padded_buflen ! note the kind of int used here
-    integer :: blocksize
-    integer(kind=8) :: max_buflen
-    integer :: i, res
+    integer(kind=c_size_t) :: buflen, padded_buflen, blocksize, max_buflen
+    integer(kind=c_int) :: i, res
     ! character(len=max_buflen) :: buf
     character(len=20) :: buf
     blocksize = 4
@@ -134,7 +131,8 @@ program tests_utils
 
   block
     character(len=20) :: buf
-    integer :: blen, res
+    integer(kind=c_size_t) :: blen
+    integer(kind=c_int) :: res
     blen = 20
     call sodium_memzero(buf, blen)
     res = sodium_is_zero(buf)
@@ -150,7 +148,7 @@ program tests_utils
 
   block
     character(len=:), pointer :: res => null()
-    res => sodium_malloc(64)
+    res => sodium_malloc(64_c_size_t)
     call sodium_free(res)
   end block
 
