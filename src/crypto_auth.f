@@ -2,9 +2,8 @@ module mod_crypto_auth
 
   use, intrinsic :: iso_c_binding, only : c_size_t, c_ptr, c_long_long, c_char, c_int
   use :: mod_common
-
+  use :: mod_crypto_auth_hmacsha512256
   implicit none
-
   private
 
   public :: crypto_auth_bytes
@@ -13,6 +12,10 @@ module mod_crypto_auth
   public :: crypto_auth
   public :: crypto_auth_verify
   public :: crypto_auth_keygen
+
+  integer, parameter, public :: PARAM_crypto_auth_BYTES = PARAM_crypto_auth_hmacsha512256_BYTES
+  integer, parameter, public :: PARAM_crypto_auth_KEYBYTES = PARAM_crypto_auth_hmacsha512256_KEYBYTES
+  character(len=*), parameter, public :: PARAM_crypto_auth_PRIMITIVE = "hmacsha512256"
 
   interface
 

@@ -1,5 +1,5 @@
 module mod_randombytes
-  use, intrinsic :: iso_c_binding
+  use, intrinsic :: iso_c_binding, only : c_char, c_size_t, c_int64_t, c_int, c_long_long
   implicit none
   private
   public :: randombytes_seedbytes
@@ -14,7 +14,7 @@ module mod_randombytes
   public :: randombytes
 
   ! #define randombytes_BYTES_MAX SODIUM_MIN(SODIUM_SIZE_MAX,0xffffffffUL)
-  ! #define randombytes_SEEDBYTES 32U
+  integer, parameter, public :: PARAM_randombytes_SEEDBYTES = 32
 
   interface
 
@@ -25,12 +25,12 @@ module mod_randombytes
       integer(kind=c_size_t) :: res
     end function randombytes_seedbytes
 
-    subroutine randombytes_buf(buf, size) &
+    subroutine bind_randombytes_buf(buf, size) &
     bind(c, name='randombytes_buf')
       import :: c_char, c_size_t
       character(kind=c_char) :: buf
       integer(kind=c_size_t), value :: size
-    end subroutine randombytes_buf
+    end subroutine bind_randombytes_buf
 
     subroutine randombytes_buf_deterministic(buf, size, seed) &
     bind(c, name='randombytes_buf_deterministic')
@@ -86,9 +86,16 @@ module mod_randombytes
 
   contains
 
+    subroutine randombytes_buf(buf)
+      character(len=*) :: buf
+      integer(kind=c_size_t) :: size
+      size = len(buf)
+      call bind_randombytes_buf(buf, size)
+    end subroutine randombytes_buf
+
     subroutine randombytes(buf) 
       character(len=*) :: buf
-      integer(kind=c_long_long)  ::  buf_len
+      integer(kind=c_long_long) :: buf_len
       buf_len = len(buf)
       call bind_randombytes(buf, buf_len)
     end subroutine randombytes

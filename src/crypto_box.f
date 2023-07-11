@@ -1,11 +1,8 @@
 module mod_crypto_box
-
-  use, intrinsic :: iso_c_binding
+  use, intrinsic :: iso_c_binding, only : c_size_t, c_ptr, c_char, c_long_long, c_int
   use :: mod_crypto_box_curve25519xsalsa20poly1305
   use :: mod_common
-
   implicit none
-
   private
 
   public :: crypto_box_seedbytes
@@ -37,28 +34,27 @@ module mod_crypto_box
   public :: crypto_box_afternm
   public :: crypto_box_open_afternm
 
-  integer, parameter, public :: PARAM_CRYPTO_BOX_SEEDBYTES        = &
-    PARAM_CRYPTO_BOX_CURVE25519XSALSA20POLY1305_SEEDBYTES
-  integer, parameter, public :: PARAM_CRYPTO_BOX_PUBLICKEYBYTES   = &
-    PARAM_CRYPTO_BOX_CURVE25519XSALSA20POLY1305_PUBLICKEYBYTES
-  integer, parameter, public :: PARAM_CRYPTO_BOX_SECRETKEYBYTES   = &
-    PARAM_CRYPTO_BOX_CURVE25519XSALSA20POLY1305_SECRETKEYBYTES
-  integer, parameter, public :: PARAM_CRYPTO_BOX_NONCEBYTES       = &
-    PARAM_CRYPTO_BOX_CURVE25519XSALSA20POLY1305_NONCEBYTES
-  integer, parameter, public :: PARAM_CRYPTO_BOX_MACBYTES         = &
-    PARAM_CRYPTO_BOX_CURVE25519XSALSA20POLY1305_MACBYTES
-  ! integer, parameter, public :: PARAM_CRYPTO_BOX_MESSAGEBYTES_MAX = &
-  !   PARAM_CRYPTO_BOX_CURVE25519XSALSA20POLY1305_MESSAGEBYTES_MAX
-  ! integer, parameter, public :: PARAM_CRYPTO_BOX_PRIMITIVE        = &
-    ! PARAM_"curve25519xsalsa20poly1305"
-  integer, parameter, public :: PARAM_CRYPTO_BOX_BEFORENMBYTES    = &
-    PARAM_CRYPTO_BOX_CURVE25519XSALSA20POLY1305_BEFORENMBYTES
-  integer, parameter, public :: PARAM_CRYPTO_BOX_SEALBYTES        = &
-    PARAM_(CRYPTO_BOX_PUBLICKEYBYTES + CRYPTO_BOX_MACBYTES)
-  integer, parameter, public :: PARAM_CRYPTO_BOX_ZEROBYTES        = &
-    PARAM_CRYPTO_BOX_CURVE25519XSALSA20POLY1305_ZEROBYTES
-  integer, parameter, public :: PARAM_CRYPTO_BOX_BOXZEROBYTES     = &
-    PARAM_CRYPTO_BOX_CURVE25519XSALSA20POLY1305_BOXZEROBYTES
+  integer, parameter, public :: PARAM_crypto_box_SEEDBYTES          = &
+    PARAM_crypto_box_curve25519xsalsa20poly1305_SEEDBYTES
+  integer, parameter, public :: PARAM_crypto_box_PUBLICKEYBYTES     = &
+    PARAM_crypto_box_curve25519xsalsa20poly1305_PUBLICKEYBYTES
+  integer, parameter, public :: PARAM_crypto_box_SECRETKEYBYTES     = &
+    PARAM_crypto_box_curve25519xsalsa20poly1305_SECRETKEYBYTES
+  integer, parameter, public :: PARAM_crypto_box_NONCEBYTES         = &
+    PARAM_crypto_box_curve25519xsalsa20poly1305_NONCEBYTES
+  integer, parameter, public :: PARAM_crypto_box_MACBYTES           = &
+    PARAM_crypto_box_curve25519xsalsa20poly1305_MACBYTES
+  ! integer, parameter, public :: PARAM_crypto_box_MESSAGEBYTES_MAX = &
+  !   PARAM_crypto_box_CURVE25519XSALSA20POLY1305_MESSAGEBYTES_MAX
+  character(len=*), parameter, public :: PARAM_crypto_box_PRIMITIVE = "curve25519xsalsa20poly1305"
+  integer, parameter, public :: PARAM_crypto_box_BEFORENMBYTES      = &
+    PARAM_crypto_box_curve25519xsalsa20poly1305_BEFORENMBYTES
+  ! integer, parameter, public :: PARAM_crypto_box_SEALBYTES          = &
+  !   PARAM_crypto_box_PUBLICKEYBYTES + crypto_box_MACBYTES
+  ! integer, parameter, public :: PARAM_crypto_box_ZEROBYTES          = &
+    ! PARAM_crypto_box_curve25519xsalsa20poly1305_ZEROBYTES
+  integer, parameter, public :: PARAM_crypto_box_BOXZEROBYTES       = &
+    PARAM_crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES
 
   interface
 
@@ -321,43 +317,13 @@ module mod_crypto_box
 
   end interface
 
-  ! contains
-
-  !   function crypto_box_seedbytes() result(res)
-  !     integer res
-  !     res = int(bind_crypto_box_seedbytes())
-  !   end function crypto_box_seedbytes
-
-  !   function crypto_box_publickeybytes() result(res)
-  !     integer res
-  !     res = int(bind_crypto_box_publickeybytes())
-  !   end function crypto_box_publickeybytes
-
-  !   function crypto_box_secretkeybytes() result(res)
-  !     integer res
-  !     res = int(bind_crypto_box_secretkeybytes())
-  !   end function crypto_box_secretkeybytes
-
-  !   function crypto_box_noncebytes() result(res)
-  !     integer res
-  !     res = int(bind_crypto_box_noncebytes())
-  !   end function crypto_box_noncebytes
-
-  !   function crypto_box_macbytes() result(res)
-  !     integer res
-  !     res = int(bind_crypto_box_macbytes())
-  !   end function crypto_box_macbytes
-
-  !   function crypto_box_messagebytes_max() result(res)
-  !     integer res
-  !     res = int(bind_crypto_box_messagebytes_max())
-  !   end function crypto_box_messagebytes_max
-
-  !   function crypto_box_primitive() result(res)
-  !     type(c_ptr) :: res1
-  !     character(len=:), allocatable :: res
-  !     res1 = bind_crypto_box_primitive()
-  !     call c_f_str_ptr(res1, res)
-  !   end function crypto_box_primitive
+  contains
+  
+    function crypto_box_primitive() result(res)
+      type(c_ptr) :: res1
+      character(len=:), allocatable :: res
+      res1 = bind_crypto_box_primitive()
+      call c_f_str_ptr(res1, res)
+    end function crypto_box_primitive
 
 end module mod_crypto_box

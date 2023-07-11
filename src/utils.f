@@ -1,9 +1,7 @@
 module mod_utils
-
   use, intrinsic :: iso_c_binding, only : c_size_t, c_char, c_int, c_ptr, c_loc, &
     c_f_pointer, c_null_char, c_null_ptr
   use :: mod_common
-
   implicit none
 
   private
@@ -377,7 +375,6 @@ module mod_utils
       character(len=*) :: buf
       integer(kind=c_int) :: res
       integer(kind=c_size_t) :: padded_buflen_p, unpadded_buflen, max_buflen, blocksize
-      ! integer :: blocksize
       res = bind_sodium_pad( &
         padded_buflen_p, buf, &
         unpadded_buflen, &
@@ -389,7 +386,6 @@ module mod_utils
       character(len=*) :: buf
       integer(kind=c_int) :: res
       integer(kind=c_size_t) :: padded_buflen, unpadded_buflen_p, blocksize
-      ! integer :: blocksize
       res = bind_sodium_unpad( &
         unpadded_buflen_p, buf, &
         padded_buflen, &

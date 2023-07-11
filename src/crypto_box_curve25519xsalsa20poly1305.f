@@ -1,5 +1,5 @@
 module mod_crypto_box_curve25519xsalsa20poly1305
-  use, intrinsic :: iso_c_binding
+  use, intrinsic :: iso_c_binding, only : c_size_t, c_char, c_long_long, c_int
   implicit none
   private
 
@@ -27,7 +27,9 @@ module mod_crypto_box_curve25519xsalsa20poly1305
   integer, parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_NONCEBYTES       = 24
   integer, parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_MACBYTES         = 16
   integer, parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES     = 16
- 
+  ! integer, parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_ZEROBYTES        = &
+  !   (crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES + crypto_box_curve25519xsalsa20poly1305_MACBYTES)       
+   
   interface
 
     function crypto_box_curve25519xsalsa20poly1305_seedbytes() &
@@ -164,42 +166,5 @@ module mod_crypto_box_curve25519xsalsa20poly1305
     end function crypto_box_curve25519xsalsa20poly1305_open_afternm
 
   end interface
-
-  ! contains
-
-  !   function crypto_box_curve25519xsalsa20poly1305_seedbytes() result(res)
-  !     integer res
-  !     res = int(bind_crypto_box_curve25519xsalsa20poly1305_seedbytes())
-  !   end function crypto_box_curve25519xsalsa20poly1305_seedbytes
-
-  !   function crypto_box_curve25519xsalsa20poly1305_publickeybytes() result(res)
-  !     integer res
-  !     res = int(bind_crypto_box_curve25519xsalsa20poly1305_publickeybytes())
-  !   end function crypto_box_curve25519xsalsa20poly1305_publickeybytes
-
-  !   function crypto_box_curve25519xsalsa20poly1305_secretkeybytes() result(res)
-  !     integer res
-  !   res = int(bind_crypto_box_curve25519xsalsa20poly1305_secretkeybytes())
-  !   end function crypto_box_curve25519xsalsa20poly1305_secretkeybytes
-
-  !   function crypto_box_curve25519xsalsa20poly1305_beforenmbytes() result(res)
-  !     integer res
-  !   res = int(bind_crypto_box_curve25519xsalsa20poly1305_beforenmbytes())
-  !   end function crypto_box_curve25519xsalsa20poly1305_beforenmbytes
-
-  !   function crypto_box_curve25519xsalsa20poly1305_noncebytes() result(res)
-  !     integer res
-  !   res = int(bind_crypto_box_curve25519xsalsa20poly1305_noncebytes())
-  !   end function crypto_box_curve25519xsalsa20poly1305_noncebytes
-
-  !   function crypto_box_curve25519xsalsa20poly1305_macbytes() result(res)
-  !     integer res
-  !   res = int(bind_crypto_box_curve25519xsalsa20poly1305_macbytes())
-  !   end function crypto_box_curve25519xsalsa20poly1305_macbytes
-
-  !   function crypto_box_curve25519xsalsa20poly1305_messagebytes_max() result(res)
-  !     integer res
-  !   res = int(bind_crypto_box_curve25519xsalsa20poly1305_messagebytes_max())
-  !   end function crypto_box_curve25519xsalsa20poly1305_messagebytes_max
 
 end module mod_crypto_box_curve25519xsalsa20poly1305

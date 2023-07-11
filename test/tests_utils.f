@@ -1,6 +1,5 @@
 program tests_utils
-
-  use, intrinsic :: iso_c_binding!, only : c_size_t
+  use, intrinsic :: iso_c_binding, only : c_size_t, c_int
   use sodium
   implicit none
 
@@ -114,7 +113,7 @@ program tests_utils
 
   block
     integer(kind=c_size_t) :: buflen, padded_buflen, blocksize, max_buflen
-    integer(kind=c_int) :: i, res
+    integer :: i, res
     ! character(len=max_buflen) :: buf
     character(len=20) :: buf
     blocksize = 4
