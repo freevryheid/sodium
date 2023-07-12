@@ -34,7 +34,7 @@ module sodium
 !   use :: mod_crypto_pwhash_scryptsalsa208sha256
 !   use :: mod_crypto_scalarmult_curve25519
 !   use :: mod_crypto_scalarmult_ed25519
-!   use :: mod_crypto_scalarmult
+  use :: mod_crypto_scalarmult
 !   use :: mod_crypto_scalarmult_ristretto255
 !   use :: mod_crypto_secretbox
 !   use :: mod_crypto_secretbox_xchacha20poly1305
