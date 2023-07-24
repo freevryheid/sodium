@@ -71,4 +71,31 @@ program tests_crypto_box
       error stop "error: crypto_box_seal_open"
   end block
 
+  block
+    if (crypto_box_seedbytes().ne.PARAM_crypto_box_SEEDBYTES) &
+      error stop "error: crypto_box_seedbytes failed"
+    if (crypto_box_publickeybytes().ne.PARAM_crypto_box_PUBLICKEYBYTES) &
+      error stop "error: crypto_box_publicbytes failed"
+    if (crypto_box_secretkeybytes().ne.PARAM_crypto_box_SECRETKEYBYTES) &
+      error stop "error: crypto_box_secretkeybytes failed"
+    if (crypto_box_noncebytes().ne.PARAM_crypto_box_NONCEBYTES) &
+      error stop "error: crypto_box_noncebytes failed"
+    if (crypto_box_macbytes().ne.PARAM_crypto_box_MACBYTES) &
+      error stop "error: crypto_box_macbytes failed"
+    ! print '(i0)', crypto_box_messagebytes_max()
+    ! print '(i0)', PARAM_crypto_box_MESSAGEBYTES_MAX
+    ! if (crypto_box_messagebytes_max().ne.PARAM_crypto_box_MESSAGEBYTES_MAX) &
+    !   error stop "error: crypto_box_messagebytes_max failed"
+    if (crypto_box_primitive().ne.PARAM_crypto_box_PRIMITIVE) &
+      error stop "error: crypto_box_primitive failed"
+    if (crypto_box_beforenmbytes().ne.PARAM_crypto_box_BEFORENMBYTES) &
+      error stop "error: crypto_box_beforenmbytes failed"
+    if (crypto_box_sealbytes().ne.PARAM_crypto_box_SEALBYTES) &
+      error stop "error: crypto_box_sealbytes failed"
+    if (crypto_box_zerobytes().ne.PARAM_crypto_box_ZEROBYTES) &
+      error stop "error: crypto_box_zerobytes failed"
+    if (crypto_box_boxzerobytes().ne.PARAM_crypto_box_BOXZEROBYTES) &
+      error stop "error: crypto_box_boxzerobytes failed"
+  end block
+
 end program tests_crypto_box

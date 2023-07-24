@@ -1,5 +1,5 @@
 module mod_crypto_box
-  use, intrinsic :: iso_c_binding, only : c_size_t, c_ptr, c_char, c_long_long, c_int
+  use, intrinsic :: iso_c_binding, only : c_size_t, c_ptr, c_char, c_long_long, c_int, c_int128_t, c_int64_t
   use :: mod_crypto_box_curve25519xsalsa20poly1305
   use :: mod_common
   implicit none
@@ -10,7 +10,7 @@ module mod_crypto_box
   public :: crypto_box_secretkeybytes
   public :: crypto_box_noncebytes
   public :: crypto_box_macbytes
-  public :: crypto_box_messagebytes_max
+  ! public :: crypto_box_messagebytes_max
   public :: crypto_box_primitive
   public :: crypto_box_seed_keypair
   public :: crypto_box_keypair
@@ -34,27 +34,32 @@ module mod_crypto_box
   public :: crypto_box_afternm
   public :: crypto_box_open_afternm
 
-  integer, parameter, public :: PARAM_crypto_box_SEEDBYTES          = &
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_SEEDBYTES          = &
     PARAM_crypto_box_curve25519xsalsa20poly1305_SEEDBYTES
-  integer, parameter, public :: PARAM_crypto_box_PUBLICKEYBYTES     = &
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_PUBLICKEYBYTES     = &
     PARAM_crypto_box_curve25519xsalsa20poly1305_PUBLICKEYBYTES
-  integer, parameter, public :: PARAM_crypto_box_SECRETKEYBYTES     = &
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_SECRETKEYBYTES     = &
     PARAM_crypto_box_curve25519xsalsa20poly1305_SECRETKEYBYTES
-  integer, parameter, public :: PARAM_crypto_box_NONCEBYTES         = &
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_NONCEBYTES         = &
     PARAM_crypto_box_curve25519xsalsa20poly1305_NONCEBYTES
-  integer, parameter, public :: PARAM_crypto_box_MACBYTES           = &
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_MACBYTES           = &
     PARAM_crypto_box_curve25519xsalsa20poly1305_MACBYTES
-  ! integer, parameter, public :: PARAM_crypto_box_MESSAGEBYTES_MAX = &
+  ! integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_MESSAGEBYTES_MAX   = &
   !   PARAM_crypto_box_CURVE25519XSALSA20POLY1305_MESSAGEBYTES_MAX
-  character(len=*), parameter, public :: PARAM_crypto_box_PRIMITIVE = "curve25519xsalsa20poly1305"
-  integer, parameter, public :: PARAM_crypto_box_BEFORENMBYTES      = &
+  integer(kind=c_int128_t), parameter, public :: PARAM_crypto_box_MESSAGEBYTES_MAX   = &
+    PARAM_crypto_box_CURVE25519XSALSA20POLY1305_MESSAGEBYTES_MAX
+  character(len=*), parameter, public :: PARAM_crypto_box_PRIMITIVE = &
+    "curve25519xsalsa20poly1305"
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_BEFORENMBYTES      = &
     PARAM_crypto_box_curve25519xsalsa20poly1305_BEFORENMBYTES
-  ! integer, parameter, public :: PARAM_crypto_box_SEALBYTES          = &
-  !   PARAM_crypto_box_PUBLICKEYBYTES + crypto_box_MACBYTES
-  ! integer, parameter, public :: PARAM_crypto_box_ZEROBYTES          = &
-    ! PARAM_crypto_box_curve25519xsalsa20poly1305_ZEROBYTES
-  integer, parameter, public :: PARAM_crypto_box_BOXZEROBYTES       = &
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_SEALBYTES          = &
+    (PARAM_crypto_box_PUBLICKEYBYTES + PARAM_crypto_box_MACBYTES)
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_ZEROBYTES          = &
+    PARAM_crypto_box_curve25519xsalsa20poly1305_ZEROBYTES
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_BOXZEROBYTES       = &
     PARAM_crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES
+
+  ! integer, parameter :: int128 = selected_int_kind(19)
 
   interface
 
@@ -93,12 +98,19 @@ module mod_crypto_box
       integer(kind=c_size_t) :: res
     end function crypto_box_macbytes
 
-    function crypto_box_messagebytes_max() &
-    bind(c, name='crypto_box_messagebytes_max') &
-    result(res)
-      import :: c_size_t
-      integer(kind=c_size_t) :: res
-    end function crypto_box_messagebytes_max
+    ! fortran doesn't have unsigned integers 
+    ! - so cannot assign a variable for the returned value 
+    ! function crypto_box_messagebytes_max() &
+    ! bind(c, name='crypto_box_messagebytes_max') &
+    ! result(res)
+    ! integer(8) :: res
+    !   ! import :: c_size_t
+    !   ! integer(kind=c_size_t) :: res
+    !   ! import :: c_int64_t
+    !   ! integer(kind=c_int64_t) :: res
+    !   ! import :: c_int128_t
+    !   ! integer(kind=c_int128_t) :: res
+    ! end function crypto_box_messagebytes_max
 
     function bind_crypto_box_primitive() &
     bind(c, name='crypto_box_primitive') &

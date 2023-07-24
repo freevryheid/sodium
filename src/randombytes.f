@@ -1,7 +1,9 @@
 module mod_randombytes
   use, intrinsic :: iso_c_binding, only : c_char, c_size_t, c_int64_t, c_int, c_long_long
+  use :: mod_core
   implicit none
   private
+
   public :: randombytes_seedbytes
   public :: randombytes_buf
   public :: randombytes_buf_deterministic
@@ -13,8 +15,8 @@ module mod_randombytes
   ! public :: randombytes_implementation_name
   public :: randombytes
 
-  ! #define randombytes_BYTES_MAX SODIUM_MIN(SODIUM_SIZE_MAX,0xffffffffUL)
-  integer, parameter, public :: PARAM_randombytes_SEEDBYTES = 32
+  integer(kind=c_size_t), parameter, public :: PARAM_randombytes_BYTES_MAX = PARAM_SODIUM_SIZE_MAX
+  integer(kind=c_size_t), parameter, public :: PARAM_randombytes_SEEDBYTES = 32
 
   interface
 

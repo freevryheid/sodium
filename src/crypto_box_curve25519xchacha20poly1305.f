@@ -1,5 +1,5 @@
 module mod_crypto_box_curve25519xchacha20poly1305
-  use, intrinsic :: iso_c_binding
+  use, intrinsic :: iso_c_binding, only : c_size_t, c_char, c_int, c_long_long 
   implicit none
   private
   public :: crypto_box_curve25519xchacha20poly1305_seedbytes
@@ -33,54 +33,54 @@ module mod_crypto_box_curve25519xchacha20poly1305
 
   interface
 
-    function bind_crypto_box_curve25519xchacha20poly1305_seedbytes() &
+    function crypto_box_curve25519xchacha20poly1305_seedbytes() &
     bind(c, name='crypto_box_curve25519xchacha20poly1305_seedbytes') &
     result(res)
       import :: c_size_t
       integer(kind=c_size_t) :: res
-    end function bind_crypto_box_curve25519xchacha20poly1305_seedbytes
+    end function crypto_box_curve25519xchacha20poly1305_seedbytes
 
-    function bind_crypto_box_curve25519xchacha20poly1305_publickeybytes() &
+    function crypto_box_curve25519xchacha20poly1305_publickeybytes() &
     bind(c, name='crypto_box_curve25519xchacha20poly1305_publickeybytes') &
     result(res)
       import :: c_size_t
       integer(kind=c_size_t) :: res
-    end function bind_crypto_box_curve25519xchacha20poly1305_publickeybytes
+    end function crypto_box_curve25519xchacha20poly1305_publickeybytes
 
-    function bind_crypto_box_curve25519xchacha20poly1305_secretkeybytes() &
+    function crypto_box_curve25519xchacha20poly1305_secretkeybytes() &
     bind(c, name='crypto_box_curve25519xchacha20poly1305_secretkeybytes') &
     result(res)
       import :: c_size_t
       integer(kind=c_size_t) :: res
-    end function bind_crypto_box_curve25519xchacha20poly1305_secretkeybytes
+    end function crypto_box_curve25519xchacha20poly1305_secretkeybytes
 
-    function bind_crypto_box_curve25519xchacha20poly1305_beforenmbytes() &
+    function crypto_box_curve25519xchacha20poly1305_beforenmbytes() &
     bind(c, name='crypto_box_curve25519xchacha20poly1305_beforenmbytes') &
     result(res)
       import :: c_size_t
       integer(kind=c_size_t) :: res
-    end function bind_crypto_box_curve25519xchacha20poly1305_beforenmbytes
+    end function crypto_box_curve25519xchacha20poly1305_beforenmbytes
 
-    function bind_crypto_box_curve25519xchacha20poly1305_noncebytes() &
+    function crypto_box_curve25519xchacha20poly1305_noncebytes() &
     bind(c, name='crypto_box_curve25519xchacha20poly1305_noncebytes') &
     result(res)
       import :: c_size_t
       integer(kind=c_size_t) :: res
-    end function bind_crypto_box_curve25519xchacha20poly1305_noncebytes
+    end function crypto_box_curve25519xchacha20poly1305_noncebytes
 
-    function bind_crypto_box_curve25519xchacha20poly1305_macbytes() &
+    function crypto_box_curve25519xchacha20poly1305_macbytes() &
     bind(c, name='crypto_box_curve25519xchacha20poly1305_macbytes') &
     result(res)
       import :: c_size_t
       integer(kind=c_size_t) :: res
-    end function bind_crypto_box_curve25519xchacha20poly1305_macbytes
+    end function crypto_box_curve25519xchacha20poly1305_macbytes
 
-    function bind_crypto_box_curve25519xchacha20poly1305_messagebytes_max() &
+    function crypto_box_curve25519xchacha20poly1305_messagebytes_max() &
     bind(c, name='crypto_box_curve25519xchacha20poly1305_messagebytes_max') &
     result(res)
       import :: c_size_t
       integer(kind=c_size_t) :: res
-    end function bind_crypto_box_curve25519xchacha20poly1305_messagebytes_max
+    end function crypto_box_curve25519xchacha20poly1305_messagebytes_max
 
     function crypto_box_curve25519xchacha20poly1305_seed_keypair(pk, sk, seed) &
     bind(c, name='crypto_box_curve25519xchacha20poly1305_seed_keypair') &
@@ -226,42 +226,5 @@ module mod_crypto_box_curve25519xchacha20poly1305
     end function crypto_box_curve25519xchacha20poly1305_seal_open
 
   end interface
-
-  contains
-
-    function crypto_box_curve25519xchacha20poly1305_seedbytes() result(res)
-      integer res
-      res = int(bind_crypto_box_curve25519xchacha20poly1305_seedbytes())
-    end function crypto_box_curve25519xchacha20poly1305_seedbytes
-
-    function crypto_box_curve25519xchacha20poly1305_publickeybytes() result(res)
-      integer res
-      res = int(bind_crypto_box_curve25519xchacha20poly1305_publickeybytes())
-    end function crypto_box_curve25519xchacha20poly1305_publickeybytes
-
-    function crypto_box_curve25519xchacha20poly1305_secretkeybytes() result(res)
-      integer res
-      res = int(bind_crypto_box_curve25519xchacha20poly1305_secretkeybytes())
-    end function crypto_box_curve25519xchacha20poly1305_secretkeybytes
-
-    function crypto_box_curve25519xchacha20poly1305_beforenmbytes() result(res)
-      integer res
-      res = int(bind_crypto_box_curve25519xchacha20poly1305_beforenmbytes())
-    end function crypto_box_curve25519xchacha20poly1305_beforenmbytes
-
-    function crypto_box_curve25519xchacha20poly1305_noncebytes() result(res)
-      integer res
-      res = int(bind_crypto_box_curve25519xchacha20poly1305_noncebytes())
-    end function crypto_box_curve25519xchacha20poly1305_noncebytes
-
-    function crypto_box_curve25519xchacha20poly1305_macbytes() result(res)
-      integer res
-      res = int(bind_crypto_box_curve25519xchacha20poly1305_macbytes())
-    end function crypto_box_curve25519xchacha20poly1305_macbytes
-
-    function crypto_box_curve25519xchacha20poly1305_messagebytes_max() result(res)
-      integer res
-      res = int(bind_crypto_box_curve25519xchacha20poly1305_messagebytes_max())
-    end function crypto_box_curve25519xchacha20poly1305_messagebytes_max
 
 end module mod_crypto_box_curve25519xchacha20poly1305

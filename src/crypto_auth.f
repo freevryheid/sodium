@@ -13,9 +13,9 @@ module mod_crypto_auth
   public :: crypto_auth_verify
   public :: crypto_auth_keygen
 
-  integer, parameter, public :: PARAM_crypto_auth_BYTES = PARAM_crypto_auth_hmacsha512256_BYTES
-  integer, parameter, public :: PARAM_crypto_auth_KEYBYTES = PARAM_crypto_auth_hmacsha512256_KEYBYTES
-  character(len=*), parameter, public :: PARAM_crypto_auth_PRIMITIVE = "hmacsha512256"
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_auth_BYTES    = PARAM_crypto_auth_hmacsha512256_BYTES
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_auth_KEYBYTES = PARAM_crypto_auth_hmacsha512256_KEYBYTES
+  character(len=*), parameter, public :: PARAM_crypto_auth_PRIMITIVE      = "hmacsha512256"
 
   interface
 

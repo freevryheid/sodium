@@ -36,7 +36,7 @@ module sodium
 !   use :: mod_crypto_scalarmult_ed25519
   use :: mod_crypto_scalarmult
 !   use :: mod_crypto_scalarmult_ristretto255
-!   use :: mod_crypto_secretbox
+  use :: mod_crypto_secretbox
 !   use :: mod_crypto_secretbox_xchacha20poly1305
 !   use :: mod_crypto_secretbox_xsalsa20poly1305
 !   use :: mod_crypto_secretstream_xchacha20poly1305
@@ -56,7 +56,7 @@ module sodium
 !   use :: mod_crypto_verify_32
 !   use :: mod_crypto_verify_64
   use :: mod_randombytes
-!   use :: mod_runtime
+  use :: mod_runtime
   use :: mod_utils
   use :: mod_version
 end module sodium

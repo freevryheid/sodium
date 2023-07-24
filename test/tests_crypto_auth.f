@@ -38,4 +38,13 @@ program tests_crypto_auth
       error stop "error: crypto_auth_verify failed"
   end block
 
+  block
+    if (crypto_auth_bytes().ne.PARAM_crypto_auth_BYTES) &
+      error stop "error: crypto_auth_bytes failed"
+    if (crypto_auth_keybytes().ne.PARAM_crypto_auth_KEYBYTES) &
+      error stop "error: crypto_auth_keybytes failed"
+    if (crypto_auth_primitive().ne.PARAM_crypto_auth_PRIMITIVE) &
+      error stop "error: crypto_auth_primitive failed"
+  end block
+
 end program tests_crypto_auth
