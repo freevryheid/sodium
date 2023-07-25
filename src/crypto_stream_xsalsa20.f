@@ -14,8 +14,8 @@ module mod_crypto_stream_xsalsa20
 
   integer(kind=c_size_t), parameter, public :: PARAM_crypto_stream_xsalsa20_KEYBYTES         = 32
   integer(kind=c_size_t), parameter, public :: PARAM_crypto_stream_xsalsa20_NONCEBYTES       = 24
-  ! integer(kind=c_size_t), parameter, public :: PARAM_crypto_stream_xsalsa20_MESSAGEBYTES_MAX = PARAM_SODIUM_SIZE_MAX
-  integer(kind=c_int128_t), parameter, public :: PARAM_crypto_stream_xsalsa20_MESSAGEBYTES_MAX = PARAM_SODIUM_SIZE_MAX
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_stream_xsalsa20_MESSAGEBYTES_MAX = PARAM_SODIUM_SIZE_MAX
+  ! integer(kind=c_int128_t), parameter, public :: PARAM_crypto_stream_xsalsa20_MESSAGEBYTES_MAX = PARAM_SODIUM_SIZE_MAX
 
   interface
 

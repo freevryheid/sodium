@@ -1,5 +1,5 @@
 program tests_crypto_box
-  use, intrinsic :: iso_c_binding, only : c_long_long, c_size_t
+  use, intrinsic :: iso_c_binding, only : c_long_long, c_size_t, c_int64_t, c_int128_t
   use :: mod_crypto_scalarmult
   use sodium
   implicit none
@@ -72,6 +72,7 @@ program tests_crypto_box
   end block
 
   block
+    ! integer(kind=c_int128_t) :: i
     if (crypto_box_seedbytes().ne.PARAM_crypto_box_SEEDBYTES) &
       error stop "error: crypto_box_seedbytes failed"
     if (crypto_box_publickeybytes().ne.PARAM_crypto_box_PUBLICKEYBYTES) &
@@ -82,10 +83,14 @@ program tests_crypto_box
       error stop "error: crypto_box_noncebytes failed"
     if (crypto_box_macbytes().ne.PARAM_crypto_box_MACBYTES) &
       error stop "error: crypto_box_macbytes failed"
-    ! print '(i0)', crypto_box_messagebytes_max()
-    ! print '(i0)', PARAM_crypto_box_MESSAGEBYTES_MAX
-    ! if (crypto_box_messagebytes_max().ne.PARAM_crypto_box_MESSAGEBYTES_MAX) &
-    !   error stop "error: crypto_box_messagebytes_max failed"
+    ! print '(z16.16)', crypto_box_messagebytes_max()
+    ! i = crypto_box_messagebytes_max()
+    ! print '(i0)', i
+    ! print '(i0)', huge(i)
+    ! print '(i0)', transfer(crypto_box_messagebytes_max(), i, 1)
+    ! print '(z16.16)', PARAM_crypto_box_MESSAGEBYTES_MAX
+    if (crypto_box_messagebytes_max().ne.PARAM_crypto_box_MESSAGEBYTES_MAX) &
+      error stop "error: crypto_box_messagebytes_max failed"
     if (crypto_box_primitive().ne.PARAM_crypto_box_PRIMITIVE) &
       error stop "error: crypto_box_primitive failed"
     if (crypto_box_beforenmbytes().ne.PARAM_crypto_box_BEFORENMBYTES) &

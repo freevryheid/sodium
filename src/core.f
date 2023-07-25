@@ -7,9 +7,10 @@ module mod_core
 
   ! integer, parameter :: int128 = selected_int_kind(19)
   ! integer(kind=int128), parameter, public :: PARAM_SODIUM_SIZE_MAX = 2*huge(0_c_size_t)+1
-  integer(kind=c_int128_t), parameter, public :: PARAM_SODIUM_SIZE_MAX = 2*huge(0_c_size_t)+1
+  ! integer(kind=c_int128_t), parameter, public :: PARAM_SODIUM_SIZE_MAX = 2*huge(0_c_size_t)+1
   ! integer(kind=c_int128_t), parameter, public :: PARAM_SODIUM_SIZE_MAX = 18446744073709551615 
-  ! integer(kind=c_size_t), parameter, public :: PARAM_SODIUM_SIZE_MAX = huge(0_c_size_t) ! TODO: let's see if this works
+ ! integer(kind=c_size_t), parameter, public :: PARAM_SODIUM_SIZE_MAX = huge(0_c_size_t) ! TODO: let's see if this works
+  integer(kind=c_size_t), parameter, public :: PARAM_SODIUM_SIZE_MAX = int(z"FFFFFFFFFFFFFFFF")
 
   interface
 

@@ -1,5 +1,5 @@
 module mod_crypto_aead_aes256gcm
-  use, intrinsic :: iso_c_binding
+  use, intrinsic :: iso_c_binding, only : c_int, c_size_t, c_char, c_long_long
   implicit none
   private
 
@@ -21,10 +21,11 @@ module mod_crypto_aead_aes256gcm
   public :: crypto_aead_aes256gcm_decrypt_detached_afternm
   public :: crypto_aead_aes256gcm_keygen
 
-  integer, parameter, public :: PARAM_crypto_aead_aes256gcm_KEYBYTES  = 32
-  integer, parameter, public :: PARAM_crypto_aead_aes256gcm_NSECBYTES = 0
-  integer, parameter, public :: PARAM_crypto_aead_aes256gcm_NPUBBYTES = 12
-  integer, parameter, public :: PARAM_crypto_aead_aes256gcm_ABYTES    = 16
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_aead_aes256gcm_KEYBYTES  = 32
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_aead_aes256gcm_NSECBYTES = 0
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_aead_aes256gcm_NPUBBYTES = 12
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_aead_aes256gcm_ABYTES    = 16
+  ! integer(kind=c_int128_t), parameter, public PARAM_crypto_aead_aes256gcm_MESSAGEBYTES_MAX
 
   type, bind(c) :: aead
     character(kind=c_char) :: opaque(512)

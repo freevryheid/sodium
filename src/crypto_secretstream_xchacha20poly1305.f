@@ -13,8 +13,8 @@ module mod_crypto_secretstream_xchacha20poly1305
   !  &crypto_secretstream_xchacha20poly1305_tag_push_,crypto_secretstream_xchacha20poly1305_tag_rekey_)
 
   type, public, bind(c) :: crypto_secretstream_xchacha20poly1305_state
-    character(kind=c_char) :: k(CRYPTO_STREAM_CHACHA20_IETF_KEYBYTES)
-    character(kind=c_char) :: nonce(CRYPTO_STREAM_CHACHA20_IETF_NONCEBYTES)
+    character(kind=c_char) :: k(PARAM_crypto_stream_chacha20_ietf_KEYBYTES)
+    character(kind=c_char) :: nonce(PARAM_crypto_stream_chacha20_ietf_NONCEBYTES)
     character(kind=c_char) :: pad(8)
   end type
 

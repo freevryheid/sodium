@@ -10,7 +10,7 @@ module mod_crypto_box
   public :: crypto_box_secretkeybytes
   public :: crypto_box_noncebytes
   public :: crypto_box_macbytes
-  ! public :: crypto_box_messagebytes_max
+  public :: crypto_box_messagebytes_max
   public :: crypto_box_primitive
   public :: crypto_box_seed_keypair
   public :: crypto_box_keypair
@@ -44,10 +44,10 @@ module mod_crypto_box
     PARAM_crypto_box_curve25519xsalsa20poly1305_NONCEBYTES
   integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_MACBYTES           = &
     PARAM_crypto_box_curve25519xsalsa20poly1305_MACBYTES
-  ! integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_MESSAGEBYTES_MAX   = &
-  !   PARAM_crypto_box_CURVE25519XSALSA20POLY1305_MESSAGEBYTES_MAX
-  integer(kind=c_int128_t), parameter, public :: PARAM_crypto_box_MESSAGEBYTES_MAX   = &
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_MESSAGEBYTES_MAX   = &
     PARAM_crypto_box_CURVE25519XSALSA20POLY1305_MESSAGEBYTES_MAX
+  ! integer(kind=c_int128_t), parameter, public :: PARAM_crypto_box_MESSAGEBYTES_MAX   = &
+    ! PARAM_crypto_box_CURVE25519XSALSA20POLY1305_MESSAGEBYTES_MAX
   character(len=*), parameter, public :: PARAM_crypto_box_PRIMITIVE = &
     "curve25519xsalsa20poly1305"
   integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_BEFORENMBYTES      = &
@@ -100,17 +100,17 @@ module mod_crypto_box
 
     ! fortran doesn't have unsigned integers 
     ! - so cannot assign a variable for the returned value 
-    ! function crypto_box_messagebytes_max() &
-    ! bind(c, name='crypto_box_messagebytes_max') &
-    ! result(res)
+    function crypto_box_messagebytes_max() &
+    bind(c, name='crypto_box_messagebytes_max') &
+    result(res)
     ! integer(8) :: res
-    !   ! import :: c_size_t
-    !   ! integer(kind=c_size_t) :: res
-    !   ! import :: c_int64_t
-    !   ! integer(kind=c_int64_t) :: res
-    !   ! import :: c_int128_t
-    !   ! integer(kind=c_int128_t) :: res
-    ! end function crypto_box_messagebytes_max
+      import :: c_size_t
+      integer(kind=c_size_t) :: res
+      ! import :: c_int64_t
+      ! integer(kind=c_int64_t) :: res
+      ! import :: c_int128_t
+      ! integer(kind=c_int128_t) :: res
+    end function crypto_box_messagebytes_max
 
     function bind_crypto_box_primitive() &
     bind(c, name='crypto_box_primitive') &
@@ -338,4 +338,11 @@ module mod_crypto_box
       call c_f_str_ptr(res1, res)
     end function crypto_box_primitive
 
+    ! function crypto_box_messagebytes_max() result(res)
+    !   integer(kind=c_size_t) :: res
+    !   res = bind_crypto_box_messagebytes_max()
+    !   ! res = res + ishft(1_c_size_t, 32)
+    !   ! res = res + 2**32
+    ! end function crypto_box_messagebytes_max
+  
 end module mod_crypto_box

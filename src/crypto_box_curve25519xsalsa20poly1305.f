@@ -27,10 +27,10 @@ module mod_crypto_box_curve25519xsalsa20poly1305
   integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_BEFORENMBYTES    = 32
   integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_NONCEBYTES       = 24
   integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_MACBYTES         = 16
-  ! integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_MESSAGEBYTES_MAX = &
-  !   (PARAM_crypto_stream_xsalsa20_MESSAGEBYTES_MAX - PARAM_crypto_box_curve25519xsalsa20poly1305_MACBYTES)
-  integer(kind=c_int128_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_MESSAGEBYTES_MAX = &
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_MESSAGEBYTES_MAX = &
     (PARAM_crypto_stream_xsalsa20_MESSAGEBYTES_MAX - PARAM_crypto_box_curve25519xsalsa20poly1305_MACBYTES)
+  ! integer(kind=c_int128_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_MESSAGEBYTES_MAX = &
+    ! (PARAM_crypto_stream_xsalsa20_MESSAGEBYTES_MAX - PARAM_crypto_box_curve25519xsalsa20poly1305_MACBYTES)
   integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES     = 16
   integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_ZEROBYTES        = &
     (PARAM_crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES + PARAM_crypto_box_curve25519xsalsa20poly1305_MACBYTES)       
