@@ -5,5 +5,4 @@ fortran bindings for libsodium
 
 [documentation](https://doc.libsodium.org/)
 
-rewrite underway
 

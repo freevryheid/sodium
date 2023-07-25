@@ -1,16 +1,10 @@
 module mod_crypto_secretstream_xchacha20poly1305
   use, intrinsic :: iso_c_binding, only : c_size_t, c_signed_char, c_int, c_char, c_long_long
+  use :: mod_crypto_aead_xchacha20poly1305
+  use :: mod_crypto_stream_chacha20
+  use :: mod_core
   implicit none
   private
-
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_stream_chacha20_ietf_KEYBYTES   = 32
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_stream_chacha20_ietf_NONCEBYTES = 12
-
-  ! integer(kind=c_signed_char),public,parameter :: crypto_secretstream_xchacha20poly1305_tag_message_=0
-  ! integer(kind=c_signed_char),public,parameter :: crypto_secretstream_xchacha20poly1305_tag_push_=1
-  ! integer(kind=c_signed_char),public,parameter :: crypto_secretstream_xchacha20poly1305_tag_rekey_=2
-  ! integer(kind=c_signed_char),public,parameter :: crypto_secretstream_xchacha20poly1305_tag_final_=ior( &
-  !  &crypto_secretstream_xchacha20poly1305_tag_push_,crypto_secretstream_xchacha20poly1305_tag_rekey_)
 
   type, public, bind(c) :: crypto_secretstream_xchacha20poly1305_state
     character(kind=c_char) :: k(PARAM_crypto_stream_chacha20_ietf_KEYBYTES)
@@ -33,6 +27,21 @@ module mod_crypto_secretstream_xchacha20poly1305
   public :: crypto_secretstream_xchacha20poly1305_init_pull
   public :: crypto_secretstream_xchacha20poly1305_pull
   public :: crypto_secretstream_xchacha20poly1305_rekey
+
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_secretstream_xchacha20poly1305_ABYTES           = &
+    (1 + PARAM_crypto_aead_xchacha20poly1305_ietf_ABYTES)
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_secretstream_xchacha20poly1305_HEADERBYTES      = &
+    PARAM_crypto_aead_xchacha20poly1305_ietf_NPUBBYTES
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_secretstream_xchacha20poly1305_KEYBYTES         = &
+    PARAM_crypto_aead_xchacha20poly1305_ietf_KEYBYTES
+  integer(kind=c_size_t), parameter, public :: PARAM_crypto_secretstream_xchacha20poly1305_MESSAGEBYTES_MAX = &
+    (PARAM_SODIUM_SIZE_MAX - PARAM_crypto_secretstream_xchacha20poly1305_ABYTES)
+
+  integer(kind=c_signed_char), public, parameter :: PARAM_crypto_secretstream_xchacha20poly1305_TAG_MESSAGE = 0
+  integer(kind=c_signed_char), public, parameter :: PARAM_crypto_secretstream_xchacha20poly1305_TAG_PUSH    = 1
+  integer(kind=c_signed_char), public, parameter :: PARAM_crypto_secretstream_xchacha20poly1305_TAG_REKEY   = 2
+  integer(kind=c_signed_char), public, parameter :: PARAM_crypto_secretstream_xchacha20poly1305_TAG_FINAL   = &
+    ior(PARAM_crypto_secretstream_xchacha20poly1305_TAG_PUSH, PARAM_crypto_secretstream_xchacha20poly1305_TAG_REKEY)
 
   interface
 

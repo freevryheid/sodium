@@ -45,16 +45,21 @@ module mod_randombytes
     function randombytes_random() &
     bind(c, name='randombytes_random') &
     result(res)
-      import :: c_int64_t
-      integer(kind=c_int64_t) :: res
+      ! import :: c_int64_t
+      ! integer(kind=c_int64_t) :: res
+      import :: c_size_t
+      integer(kind=c_size_t) :: res
     end function randombytes_random
 
     function randombytes_uniform(upper_bound) &
     bind(c, name='randombytes_uniform') &
     result(res)
-      import :: c_int64_t
-      integer(kind=c_int64_t), value :: upper_bound
-      integer(kind=c_int64_t) :: res
+      ! import :: c_int64_t
+      ! integer(kind=c_int64_t), value :: upper_bound
+      ! integer(kind=c_int64_t) :: res
+      import :: c_size_t
+      integer(kind=c_size_t), value :: upper_bound
+      integer(kind=c_size_t) :: res
     end function randombytes_uniform
 
     subroutine randombytes_stir() &
