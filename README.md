@@ -3,4 +3,4 @@ fortran bindings for [libsodium c encryption library](https://github.com/jedisct
 
 [documentation](https://doc.libsodium.org/)
 
-[Cryptography-Guidelines](https://github.com/samuel-lucas6/Cryptography-Guidelines)
+[guidelines](https://github.com/samuel-lucas6/Cryptography-Guidelines)
