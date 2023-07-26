@@ -15,14 +15,14 @@ module mod_crypto_aead_xchacha20poly1305
   public :: crypto_aead_xchacha20poly1305_ietf_decrypt_detached
   public :: crypto_aead_xchacha20poly1305_ietf_keygen
 
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_aead_xchacha20poly1305_ietf_KEYBYTES         = 32
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_aead_xchacha20poly1305_ietf_NSECBYTES        = 0
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_aead_xchacha20poly1305_ietf_NPUBBYTES        = 24
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_aead_xchacha20poly1305_ietf_ABYTES           = 16
-  ! integer(kind=c_size_t), parameter, public :: PARAM_crypto_aead_xchacha20poly1305_IETF_KEYBYTES         = &
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_xchacha20poly1305_ietf_KEYBYTES         = 32
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_xchacha20poly1305_ietf_NSECBYTES        = 0
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_xchacha20poly1305_ietf_NPUBBYTES        = 24
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_xchacha20poly1305_ietf_ABYTES           = 16
+  ! integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_xchacha20poly1305_IETF_KEYBYTES         = &
   !   crypto_aead_xchacha20poly1305_ietf_KEYBYTES
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_aead_xchacha20poly1305_ietf_MESSAGEBYTES_MAX = &
-    (PARAM_SODIUM_SIZE_MAX - PARAM_crypto_aead_xchacha20poly1305_ietf_ABYTES)
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_xchacha20poly1305_ietf_MESSAGEBYTES_MAX = &
+    (SODIUM_SIZE_MAX - SODIUM_crypto_aead_xchacha20poly1305_ietf_ABYTES)
 
   interface
 

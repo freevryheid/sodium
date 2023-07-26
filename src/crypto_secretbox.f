@@ -20,20 +20,20 @@ module mod_crypto_secretbox
   public :: crypto_secretbox
   public :: crypto_secretbox_open
 
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_secretbox_KEYBYTES           = &
-    PARAM_crypto_secretbox_xsalsa20poly1305_KEYBYTES
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_secretbox_NONCEBYTES         = &
-    PARAM_crypto_secretbox_xsalsa20poly1305_NONCEBYTES
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_secretbox_MACBYTES           = &
-    PARAM_crypto_secretbox_xsalsa20poly1305_MACBYTES
-  character(len=*), parameter, public :: PARAM_crypto_secretbox_PRIMITIVE                = &
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_secretbox_KEYBYTES           = &
+    SODIUM_crypto_secretbox_xsalsa20poly1305_KEYBYTES
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_secretbox_NONCEBYTES         = &
+    SODIUM_crypto_secretbox_xsalsa20poly1305_NONCEBYTES
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_secretbox_MACBYTES           = &
+    SODIUM_crypto_secretbox_xsalsa20poly1305_MACBYTES
+  character(len=*), parameter, public :: SODIUM_crypto_secretbox_PRIMITIVE                = &
     "xsalsa20poly1305"
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_secretbox_MESSAGEBYTES_MAX = &
-    PARAM_crypto_secretbox_xsalsa20poly1305_MESSAGEBYTES_MAX
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_secretbox_ZEROBYTES          = &
-    PARAM_crypto_secretbox_xsalsa20poly1305_ZEROBYTES
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_secretbox_BOXZEROBYTES       = &
-    PARAM_crypto_secretbox_xsalsa20poly1305_BOXZEROBYTES
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_secretbox_MESSAGEBYTES_MAX = &
+    SODIUM_crypto_secretbox_xsalsa20poly1305_MESSAGEBYTES_MAX
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_secretbox_ZEROBYTES          = &
+    SODIUM_crypto_secretbox_xsalsa20poly1305_ZEROBYTES
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_secretbox_BOXZEROBYTES       = &
+    SODIUM_crypto_secretbox_xsalsa20poly1305_BOXZEROBYTES
 
   interface
 

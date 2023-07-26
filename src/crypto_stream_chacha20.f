@@ -19,14 +19,14 @@ module mod_crypto_stream_chacha20
   public :: crypto_stream_chacha20_ietf_xor_ic
   public :: crypto_stream_chacha20_ietf_keygen
 
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_stream_chacha20_KEYBYTES              = 32
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_stream_chacha20_NONCEBYTES            = 8
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_stream_chacha20_MESSAGEBYTES_MAX      = &
-    PARAM_SODIUM_SIZE_MAX
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_stream_chacha20_ietf_KEYBYTES         = 32
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_stream_chacha20_ietf_NONCEBYTES       = 12
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_stream_chacha20_ietf_MESSAGEBYTES_MAX = &
-    PARAM_SODIUM_SIZE_MAX
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_stream_chacha20_KEYBYTES              = 32
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_stream_chacha20_NONCEBYTES            = 8
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_stream_chacha20_MESSAGEBYTES_MAX      = &
+    SODIUM_SIZE_MAX
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_stream_chacha20_ietf_KEYBYTES         = 32
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_stream_chacha20_ietf_NONCEBYTES       = 12
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_stream_chacha20_ietf_MESSAGEBYTES_MAX = &
+    SODIUM_SIZE_MAX
 
   interface
 

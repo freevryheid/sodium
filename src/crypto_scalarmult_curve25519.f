@@ -9,8 +9,8 @@ module mod_crypto_scalarmult_curve25519
   public :: crypto_scalarmult_curve25519
   public :: crypto_scalarmult_curve25519_base
 
-  integer, parameter, public :: PARAM_crypto_scalarmult_curve25519_BYTES       = 32
-  integer, parameter, public :: PARAM_crypto_scalarmult_curve25519_SCALARBYTES = 32
+  integer, parameter, public :: SODIUM_crypto_scalarmult_curve25519_BYTES       = 32
+  integer, parameter, public :: SODIUM_crypto_scalarmult_curve25519_SCALARBYTES = 32
 
   interface
 

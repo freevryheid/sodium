@@ -11,9 +11,9 @@ module mod_crypto_scalarmult
   public :: crypto_scalarmult_base
   public :: crypto_scalarmult
 
-  integer, parameter, public :: PARAM_crypto_scalarmult_BYTES = PARAM_crypto_scalarmult_curve25519_BYTES
-  character(len=*), parameter, public :: PARAM_crypto_scalarmult_PRIMITIVE = "curve25519"
-  integer, parameter, public :: PARAM_crypto_scalarmult_SCALARBYTES = PARAM_crypto_scalarmult_curve25519_SCALARBYTES
+  integer, parameter, public :: SODIUM_crypto_scalarmult_BYTES = SODIUM_crypto_scalarmult_curve25519_BYTES
+  character(len=*), parameter, public :: SODIUM_crypto_scalarmult_PRIMITIVE = "curve25519"
+  integer, parameter, public :: SODIUM_crypto_scalarmult_SCALARBYTES = SODIUM_crypto_scalarmult_curve25519_SCALARBYTES
 
   interface
 

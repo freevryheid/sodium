@@ -26,8 +26,8 @@ program tests_crypto_auth
   end block
 
   block
-    character(len=PARAM_crypto_auth_KEYBYTES) :: key
-    character(len=PARAM_crypto_auth_BYTES) :: mac
+    character(len=SODIUM_crypto_auth_KEYBYTES) :: key
+    character(len=SODIUM_crypto_auth_BYTES) :: mac
     integer :: res
     call crypto_auth_keygen(key)
     res = crypto_auth(mac, "Hello, world!", 13_c_size_t, key)
@@ -39,11 +39,11 @@ program tests_crypto_auth
   end block
 
   block
-    if (crypto_auth_bytes().ne.PARAM_crypto_auth_BYTES) &
+    if (crypto_auth_bytes().ne.SODIUM_crypto_auth_BYTES) &
       error stop "error: crypto_auth_bytes failed"
-    if (crypto_auth_keybytes().ne.PARAM_crypto_auth_KEYBYTES) &
+    if (crypto_auth_keybytes().ne.SODIUM_crypto_auth_KEYBYTES) &
       error stop "error: crypto_auth_keybytes failed"
-    if (crypto_auth_primitive().ne.PARAM_crypto_auth_PRIMITIVE) &
+    if (crypto_auth_primitive().ne.SODIUM_crypto_auth_PRIMITIVE) &
       error stop "error: crypto_auth_primitive failed"
   end block
 

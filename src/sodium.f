@@ -44,7 +44,7 @@ module sodium
 !   use :: mod_crypto_shorthash_siphash24
 !   use :: mod_crypto_sign_ed25519
 !   use :: mod_crypto_sign_edwards25519sha512batch
-!   use :: mod_crypto_sign
+  use :: mod_crypto_sign
 !   use :: mod_crypto_stream_chacha20
 !   use :: mod_crypto_stream
 !   use :: mod_crypto_stream_salsa2012

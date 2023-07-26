@@ -3,7 +3,7 @@ program tests_randombytes
   implicit none
 
   block
-    if (randombytes_seedbytes().ne.PARAM_randombytes_SEEDBYTES) &
+    if (randombytes_seedbytes().ne.SODIUM_randombytes_SEEDBYTES) &
       error stop "error: randombytes_seedbytes failed"
   end block
 

@@ -21,19 +21,19 @@ module mod_crypto_box_curve25519xsalsa20poly1305
   public :: crypto_box_curve25519xsalsa20poly1305_afternm
   public :: crypto_box_curve25519xsalsa20poly1305_open_afternm
 
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_SEEDBYTES        = 32
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_PUBLICKEYBYTES   = 32
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_SECRETKEYBYTES   = 32
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_BEFORENMBYTES    = 32
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_NONCEBYTES       = 24
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_MACBYTES         = 16
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_MESSAGEBYTES_MAX = &
-    (PARAM_crypto_stream_xsalsa20_MESSAGEBYTES_MAX - PARAM_crypto_box_curve25519xsalsa20poly1305_MACBYTES)
-  ! integer(kind=c_int128_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_MESSAGEBYTES_MAX = &
-    ! (PARAM_crypto_stream_xsalsa20_MESSAGEBYTES_MAX - PARAM_crypto_box_curve25519xsalsa20poly1305_MACBYTES)
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES     = 16
-  integer(kind=c_size_t), parameter, public :: PARAM_crypto_box_curve25519xsalsa20poly1305_ZEROBYTES        = &
-    (PARAM_crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES + PARAM_crypto_box_curve25519xsalsa20poly1305_MACBYTES)       
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_box_curve25519xsalsa20poly1305_SEEDBYTES        = 32
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_box_curve25519xsalsa20poly1305_PUBLICKEYBYTES   = 32
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_box_curve25519xsalsa20poly1305_SECRETKEYBYTES   = 32
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_box_curve25519xsalsa20poly1305_BEFORENMBYTES    = 32
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_box_curve25519xsalsa20poly1305_NONCEBYTES       = 24
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_box_curve25519xsalsa20poly1305_MACBYTES         = 16
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_box_curve25519xsalsa20poly1305_MESSAGEBYTES_MAX = &
+    (SODIUM_crypto_stream_xsalsa20_MESSAGEBYTES_MAX - SODIUM_crypto_box_curve25519xsalsa20poly1305_MACBYTES)
+  ! integer(kind=c_int128_t), parameter, public :: SODIUM_crypto_box_curve25519xsalsa20poly1305_MESSAGEBYTES_MAX = &
+    ! (SODIUM_crypto_stream_xsalsa20_MESSAGEBYTES_MAX - SODIUM_crypto_box_curve25519xsalsa20poly1305_MACBYTES)
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES     = 16
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_box_curve25519xsalsa20poly1305_ZEROBYTES        = &
+    (SODIUM_crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES + SODIUM_crypto_box_curve25519xsalsa20poly1305_MACBYTES)       
    
   interface
 

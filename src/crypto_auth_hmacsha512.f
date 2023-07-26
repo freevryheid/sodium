@@ -14,8 +14,8 @@ module mod_crypto_auth_hmacsha512
   public :: crypto_auth_hmacsha512_final
   public :: crypto_auth_hmacsha512_keygen
 
-  integer, parameter, public :: PARAM_crypto_auth_hmacsha512_BYTES    = 64
-  integer, parameter, public :: PARAM_crypto_auth_hmacsha512_KEYBYTES = 32
+  integer, parameter, public :: SODIUM_crypto_auth_hmacsha512_BYTES    = 64
+  integer, parameter, public :: SODIUM_crypto_auth_hmacsha512_KEYBYTES = 32
 
   type, public, bind(c) :: crypto_auth_hmacsha512_state
     type(crypto_hash_sha512_state) :: ictx

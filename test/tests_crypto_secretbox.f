@@ -3,8 +3,8 @@ program tests_crypto_secretbox
   use sodium
   implicit none
   block
-    character(len=PARAM_crypto_secretbox_KEYBYTES) :: key
-    character(len=PARAM_crypto_secretbox_NONCEBYTES) :: nonce
+    character(len=SODIUM_crypto_secretbox_KEYBYTES) :: key
+    character(len=SODIUM_crypto_secretbox_NONCEBYTES) :: nonce
     character(len=:), allocatable :: msg, cipher, decrypted
     integer(kind=c_long_long) :: ml, cl
     integer :: ret
@@ -12,7 +12,7 @@ program tests_crypto_secretbox
     call randombytes_buf(nonce)
     msg = "test"
     ml = int(len(msg), kind=c_long_long)
-    cl = ml + PARAM_crypto_secretbox_MACBYTES
+    cl = ml + SODIUM_crypto_secretbox_MACBYTES
     allocate (character(len=cl)::cipher)
     allocate (character(len=ml)::decrypted)
     ret = crypto_secretbox_easy(cipher, c_str(msg), ml, nonce, key)

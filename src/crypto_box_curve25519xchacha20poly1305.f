@@ -24,12 +24,12 @@ module mod_crypto_box_curve25519xchacha20poly1305
   public :: crypto_box_curve25519xchacha20poly1305_seal
   public :: crypto_box_curve25519xchacha20poly1305_seal_open
 
-  integer, parameter, public :: PARAM_crypto_box_curve25519xchacha20poly1305_SEEDBYTES      = 32
-  integer, parameter, public :: PARAM_crypto_box_curve25519xchacha20poly1305_PUBLICKEYBYTES = 32
-  integer, parameter, public :: PARAM_crypto_box_curve25519xchacha20poly1305_SECRETKEYBYTES = 32
-  integer, parameter, public :: PARAM_crypto_box_curve25519xchacha20poly1305_BEFORENMBYTES  = 32
-  integer, parameter, public :: PARAM_crypto_box_curve25519xchacha20poly1305_NONCEBYTES     = 24
-  integer, parameter, public :: PARAM_crypto_box_curve25519xchacha20poly1305_MACBYTES       = 16
+  integer, parameter, public :: SODIUM_crypto_box_curve25519xchacha20poly1305_SEEDBYTES      = 32
+  integer, parameter, public :: SODIUM_crypto_box_curve25519xchacha20poly1305_PUBLICKEYBYTES = 32
+  integer, parameter, public :: SODIUM_crypto_box_curve25519xchacha20poly1305_SECRETKEYBYTES = 32
+  integer, parameter, public :: SODIUM_crypto_box_curve25519xchacha20poly1305_BEFORENMBYTES  = 32
+  integer, parameter, public :: SODIUM_crypto_box_curve25519xchacha20poly1305_NONCEBYTES     = 24
+  integer, parameter, public :: SODIUM_crypto_box_curve25519xchacha20poly1305_MACBYTES       = 16
 
   interface
 

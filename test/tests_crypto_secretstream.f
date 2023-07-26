@@ -5,8 +5,8 @@ program tests_crypto_secretstream
   implicit none
   block
     type(crypto_secretstream_xchacha20poly1305_state) :: state
-    character(len=PARAM_crypto_secretstream_xchacha20poly1305_KEYBYTES) :: key
-    character(len=PARAM_crypto_secretstream_xchacha20poly1305_HEADERBYTES) :: header
+    character(len=SODIUM_crypto_secretstream_xchacha20poly1305_KEYBYTES) :: key
+    character(len=SODIUM_crypto_secretstream_xchacha20poly1305_HEADERBYTES) :: header
     character(len=*), parameter :: m1 = "Arbitrary data to encrypt"
     character(len=*), parameter :: m2 = "split into"
     character(len=*), parameter :: m3 = "three messages"
@@ -17,9 +17,9 @@ program tests_crypto_secretstream
     m1l = len(m1)
     m2l = len(m2)
     m3l = len(m3)
-    r1l = m1l + PARAM_crypto_secretstream_xchacha20poly1305_ABYTES
-    r2l = m2l + PARAM_crypto_secretstream_xchacha20poly1305_ABYTES
-    r3l = m3l + PARAM_crypto_secretstream_xchacha20poly1305_ABYTES
+    r1l = m1l + SODIUM_crypto_secretstream_xchacha20poly1305_ABYTES
+    r2l = m2l + SODIUM_crypto_secretstream_xchacha20poly1305_ABYTES
+    r3l = m3l + SODIUM_crypto_secretstream_xchacha20poly1305_ABYTES
     allocate (character(len=r1l) :: c1)
     allocate (character(len=r2l) :: c2)
     allocate (character(len=r3l) :: c3)
@@ -36,13 +36,13 @@ program tests_crypto_secretstream
     ! encrypt the first chunk.
     ! c1 will contain an encrypted, authenticated representation of m1
     ret = crypto_secretstream_xchacha20poly1305_push(state, c1, c1l, c_str(m1), m1l, c_null_char, 0_c_long_long, &
-      char(PARAM_crypto_secretstream_xchacha20poly1305_TAG_MESSAGE))
+      char(SODIUM_crypto_secretstream_xchacha20poly1305_TAG_MESSAGE))
     if (ret.ne.0) &
       error stop "push1 failed"
     ! encrypt the second chunk.
     ! c2 will contain an encrypted, authenticated representation of m2
     ret = crypto_secretstream_xchacha20poly1305_push(state, c2, c2l, c_str(m2), m2l, c_null_char, 0_c_long_long, &
-      char(PARAM_crypto_secretstream_xchacha20poly1305_TAG_MESSAGE))
+      char(SODIUM_crypto_secretstream_xchacha20poly1305_TAG_MESSAGE))
     if (ret.ne.0) &
       error stop "push2 failed"
     ! encrypt the last chunk.
@@ -51,7 +51,7 @@ program tests_crypto_secretstream
     ! tag0=crypto_secretstream_xchacha20poly1305_tag_final()
     ! tag0 = char(crypto_secretstream_xchacha20poly1305_tag_final())
     ret = crypto_secretstream_xchacha20poly1305_push(state, c3, c3l, c_str(m3), m3l, c_null_char, 0_c_long_long, &
-      char(PARAM_crypto_secretstream_xchacha20poly1305_TAG_FINAL))
+      char(SODIUM_crypto_secretstream_xchacha20poly1305_TAG_FINAL))
     if (ret.ne.0) &
       error stop "push3 failed"
     ! decrypt
@@ -66,7 +66,7 @@ program tests_crypto_secretstream
     ret = crypto_secretstream_xchacha20poly1305_pull(state, r1, c1l, tag, c1, r1l, c_null_char, 0_c_long_long)
     if (ret.ne.0) &
       error stop "pull1 failed"
-    if (tag.ne.char(PARAM_crypto_secretstream_xchacha20poly1305_TAG_MESSAGE)) &
+    if (tag.ne.char(SODIUM_crypto_secretstream_xchacha20poly1305_TAG_MESSAGE)) &
       error stop "tag failed"
     if (r1.ne.m1) &
       error stop "decrypt1 failed"
@@ -74,7 +74,7 @@ program tests_crypto_secretstream
     ret = crypto_secretstream_xchacha20poly1305_pull(state, r2, c2l, tag, c2, r2l, c_null_char, 0_c_long_long)
     if (ret.ne.0) &
       error stop "pull2 failed"
-    if (tag.ne.char(PARAM_crypto_secretstream_xchacha20poly1305_TAG_MESSAGE)) &
+    if (tag.ne.char(SODIUM_crypto_secretstream_xchacha20poly1305_TAG_MESSAGE)) &
       error stop "tag failed"
     if (r2.ne.m2) &
       error stop "decrypt2 failed"
@@ -82,7 +82,7 @@ program tests_crypto_secretstream
     ret = crypto_secretstream_xchacha20poly1305_pull(state, r3, c3l, tag, c3, r3l, c_null_char, 0_c_long_long)
     if (ret.ne.0) &
       error stop "pull3 failed"
-    if (tag.ne.char(PARAM_crypto_secretstream_xchacha20poly1305_TAG_FINAL)) &
+    if (tag.ne.char(SODIUM_crypto_secretstream_xchacha20poly1305_TAG_FINAL)) &
       error stop "tag failed"
     if (r3.ne.m3) &
       error stop "decrypt3 failed"

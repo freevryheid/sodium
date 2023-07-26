@@ -10,7 +10,7 @@ module mod_crypto_hash_sha512
   public :: crypto_hash_sha512_update
   public :: crypto_hash_sha512_final
 
-  integer, parameter, public :: PARAM_crypto_hash_sha512_BYTES = 64
+  integer, parameter, public :: SODIUM_crypto_hash_sha512_BYTES = 64
 
   ! TODO: perhaps bump these up to match unsigned equivalents
   type, public, bind(c) :: crypto_hash_sha512_state

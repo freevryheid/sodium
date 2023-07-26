@@ -8,8 +8,8 @@ module mod_crypto_scalarmult_ristretto255
   public :: crypto_scalarmult_ristretto255
   public :: crypto_scalarmult_ristretto255_base
 
-  integer, parameter, public :: PARAM_crypto_scalarmult_ristretto255_BYTES       = 32
-  integer, parameter, public :: PARAM_crypto_scalarmult_ristretto255_SCALARBYTES = 32
+  integer, parameter, public :: SODIUM_crypto_scalarmult_ristretto255_BYTES       = 32
+  integer, parameter, public :: SODIUM_crypto_scalarmult_ristretto255_SCALARBYTES = 32
 
   interface
 

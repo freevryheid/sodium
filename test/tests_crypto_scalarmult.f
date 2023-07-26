@@ -22,14 +22,14 @@ program tests_crypto_scalarmult
     z'da', z'09', z'8d', z'eb', z'9c', z'32', z'b1', z'fd',&
     z'86', z'62', z'05', z'16', z'5f', z'49', z'b8', z'00'/
   data z/z'80'/
-  hexlen = PARAM_crypto_scalarmult_BYTES*2 + 1
+  hexlen = SODIUM_crypto_scalarmult_BYTES*2 + 1
   ret = sodium_init()
   if(ret.ne.0) &
     error stop "error: sodium_init"
   alicesk = transfer(a, alicesk)
   bobsk = transfer(b, bobsk)
   small_order_p = transfer(c, small_order_p)
-  siz = PARAM_crypto_scalarmult_BYTES
+  siz = SODIUM_crypto_scalarmult_BYTES
   alicepk => sodium_malloc(siz)
   bobpk => sodium_malloc(siz)
   k => sodium_malloc(siz)

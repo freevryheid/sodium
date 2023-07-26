@@ -14,8 +14,8 @@ module mod_crypto_auth_hmacsha512256
   public :: crypto_auth_hmacsha512256_final
   public :: crypto_auth_hmacsha512256_keygen
 
-  integer, parameter, public :: PARAM_crypto_auth_hmacsha512256_BYTES    = 32
-  integer, parameter, public :: PARAM_crypto_auth_hmacsha512256_KEYBYTES = 32
+  integer, parameter, public :: SODIUM_crypto_auth_hmacsha512256_BYTES    = 32
+  integer, parameter, public :: SODIUM_crypto_auth_hmacsha512256_KEYBYTES = 32
 
   interface
 

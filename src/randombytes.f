@@ -1,6 +1,6 @@
 module mod_randombytes
   use, intrinsic :: iso_c_binding, only : c_char, c_size_t, c_int64_t, c_int, c_long_long
-  use :: mod_core
+  use :: mod_core, only : SODIUM_SIZE_MAX
   implicit none
   private
 
@@ -15,8 +15,8 @@ module mod_randombytes
   ! public :: randombytes_implementation_name
   public :: randombytes
 
-  integer(kind=c_size_t), parameter, public :: PARAM_randombytes_BYTES_MAX = PARAM_SODIUM_SIZE_MAX
-  integer(kind=c_size_t), parameter, public :: PARAM_randombytes_SEEDBYTES = 32
+  integer(kind=c_size_t), parameter, public :: SODIUM_randombytes_BYTES_MAX = SODIUM_SIZE_MAX
+  integer(kind=c_size_t), parameter, public :: SODIUM_randombytes_SEEDBYTES = 32
 
   interface
 

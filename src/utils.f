@@ -29,10 +29,10 @@ module mod_utils
   public :: sodium_pad
   public :: sodium_unpad
 
-  integer(kind=c_int), parameter, public :: PARAM_SODIUM_BASE64_VARIANT_ORIGINAL            = 1
-  integer(kind=c_int), parameter, public :: PARAM_SODIUM_BASE64_VARIANT_ORIGINAL_NO_PADDING = 3
-  integer(kind=c_int), parameter, public :: PARAM_SODIUM_BASE64_VARIANT_URLSAFE             = 5
-  integer(kind=c_int), parameter, public :: PARAM_SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING  = 7
+  integer(kind=c_int), parameter, public :: SODIUM_SODIUM_BASE64_VARIANT_ORIGINAL            = 1
+  integer(kind=c_int), parameter, public :: SODIUM_SODIUM_BASE64_VARIANT_ORIGINAL_NO_PADDING = 3
+  integer(kind=c_int), parameter, public :: SODIUM_SODIUM_BASE64_VARIANT_URLSAFE             = 5
+  integer(kind=c_int), parameter, public :: SODIUM_SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING  = 7
 
   interface
 
@@ -297,7 +297,7 @@ module mod_utils
       integer(kind=c_int) :: variant
       type(c_ptr) :: res1
       binlen = len(bin)
-      variant = PARAM_SODIUM_BASE64_VARIANT_ORIGINAL
+      variant = SODIUM_SODIUM_BASE64_VARIANT_ORIGINAL
       max_b64len = sodium_base64_encoded_len(binlen, variant)
       allocate (character(len=max_b64len) :: b64)
       res1 = bind_sodium_bin2base64(b64, max_b64len, bin, binlen, variant)
@@ -317,7 +317,7 @@ module mod_utils
       b64len = len(b64)
       ignore = c_null_char ! disallow any non-hexadecimal character
       b64_end = c_null_ptr
-      variant = PARAM_SODIUM_BASE64_VARIANT_ORIGINAL
+      variant = SODIUM_SODIUM_BASE64_VARIANT_ORIGINAL
       max_binlen = b64len/4*3
       binlen = max_binlen
       allocate (character(len=binlen) :: bin)

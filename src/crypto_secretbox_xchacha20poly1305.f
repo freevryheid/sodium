@@ -12,9 +12,9 @@ module mod_crypto_secretbox_xchacha20poly1305
   public :: crypto_secretbox_xchacha20poly1305_detached
   public :: crypto_secretbox_xchacha20poly1305_open_detached
 
-  integer, parameter, public :: PARAM_crypto_secretbox_xchacha20poly1305_KEYBYTES   = 32
-  integer, parameter, public :: PARAM_crypto_secretbox_xchacha20poly1305_NONCEBYTES = 24
-  integer, parameter, public :: PARAM_crypto_secretbox_xchacha20poly1305_MACBYTES   = 16
+  integer, parameter, public :: SODIUM_crypto_secretbox_xchacha20poly1305_KEYBYTES   = 32
+  integer, parameter, public :: SODIUM_crypto_secretbox_xchacha20poly1305_NONCEBYTES = 24
+  integer, parameter, public :: SODIUM_crypto_secretbox_xchacha20poly1305_MACBYTES   = 16
 
   interface
 

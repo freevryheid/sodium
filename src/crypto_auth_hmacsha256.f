@@ -14,8 +14,8 @@ module mod_crypto_auth_hmacsha256
   public :: crypto_auth_hmacsha256_final
   public :: crypto_auth_hmacsha256_keygen
 
-  integer, parameter, public :: PARAM_crypto_auth_hmacsha256_BYTES    = 32
-  integer, parameter, public :: PARAM_crypto_auth_hmacsha256_KEYBYTES = 32
+  integer, parameter, public :: SODIUM_crypto_auth_hmacsha256_BYTES    = 32
+  integer, parameter, public :: SODIUM_crypto_auth_hmacsha256_KEYBYTES = 32
 
   type, public, bind(c) :: crypto_auth_hmacsha256_state
     type(crypto_hash_sha256_state) :: ictx
