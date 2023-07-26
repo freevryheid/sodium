@@ -1,106 +1,122 @@
 program tests_crypto_sign
-  ! use, intrinsic::iso_c_binding, only : 
+  use, intrinsic::iso_c_binding, only : c_long_long
   use :: sodium
-  ! use testdrive
+  use :: mod_crypto_sign_ed25519
   implicit none
-  ! private
-
-  ! public::collect_tests_crypto_sign
-
-! contains
-
-  ! subroutine collect_tests_crypto_sign(testsuite)
-  !   type(unittest_type), allocatable, intent(out)::testsuite(:)
-  !   testsuite = [new_unittest("test for sign", test_sign)]
-  ! end subroutine collect_tests_crypto_sign
-
 
   block
+
     integer :: ret
     character(len=SODIUM_crypto_sign_PUBLICKEYBYTES) :: pk
     character(len=SODIUM_crypto_sign_SECRETKEYBYTES) :: sk
+    character(len=SODIUM_crypto_sign_BYTES) :: sig
+    character(len=:), allocatable :: msg, signed_msg, unsigned_msg
+    integer(kind=c_long_long) :: mlen, signed_mlen, unsigned_mlen, slen
 
+    msg = "hello"
+    mlen = len(msg)
+    allocate (character(len=SODIUM_crypto_sign_BYTES+mlen) :: signed_msg)
+    allocate (character(len=mlen) :: unsigned_msg)
 
-  ! subroutine test_sign(error)
-    ! type(error_type), allocatable, intent(out)::error
-!     character(len=:), allocatable::pk, sk, msg, signed_message, unsigned_message, sig, m1, m2, seed, seed1, pk1
-!     integer(kind=c_size_t)::pb, sb, b, sbb
-!     integer(kind=c_long_long), pointer::signed_message_len, unsigned_message_len, siglen
-!     integer(kind=c_long_long)::mlen, m1l, m2l
-!     type(crypto_sign_state)::state
-!     integer::res
-!     pb = crypto_sign_publickeybytes()
-!     sb = crypto_sign_secretkeybytes()
-!     b = crypto_sign_bytes()
-!     msg = "hello"
-!     mlen = 5
-!     allocate (character(len=pb)::pk)
-!     allocate (character(len=sb)::sk)
-!     allocate (character(len=b + mlen)::signed_message)
-!     allocate (character(len=mlen)::unsigned_message)
-!     allocate (character(len=b)::sig)
-!     allocate (signed_message_len)
-!     allocate (unsigned_message_len)
     ! combined mode
     ret = crypto_sign_keypair(pk, sk)
     if (ret.ne.0) &
       error stop "crypto_sign_keypair failed"
-!     call check(error, res, 0)
-!     res = crypto_sign(signed_message, signed_message_len, msg, mlen, sk)
-!     call check(error, res, 0)
-!     res = crypto_sign_open(unsigned_message, unsigned_message_len, signed_message, signed_message_len, pk)
-!     call check(error, res, 0)
-!     call check(error, unsigned_message, msg)
-!     call check(error, unsigned_message_len, mlen)
-!     ! detached mode
-!     res = crypto_sign_keypair(pk, sk)
-!     call check(error, res, 0)
-!     allocate (siglen)
-!     res = crypto_sign_detached(sig, siglen, msg, mlen, sk)
-!     call check(error, res, 0)
-!     res = crypto_sign_verify_detached(sig, msg, mlen, pk)
-!     call check(error, res, 0)
-!     ! multi-part message
-!     m1 = "Arbitrary data to hash"
-!     m1l = len(m1)
-!     m2 = "is longer than expected"
-!     m2l = len(m2)
-!     ! + signature creation
-!     res = crypto_sign_init(state)
-!     call check(error, res, 0)
-!     res = crypto_sign_update(state, m1, m1l)
-!     call check(error, res, 0)
-!     res = crypto_sign_update(state, m2, m2l)
-!     call check(error, res, 0)
-!     res = crypto_sign_final_create(state, sig, siglen, sk)
-!     call check(error, res, 0)
-!     ! + signature verification
-!     res = crypto_sign_init(state)
-!     call check(error, res, 0)
-!     res = crypto_sign_update(state, m1, m1l)
-!     call check(error, res, 0)
-!     res = crypto_sign_update(state, m2, m2l)
-!     call check(error, res, 0)
-!     res = crypto_sign_final_verify(state, sig, pk)
-!     call check(error, res, 0)
-!     ! extract seend and pk
-!     sbb = crypto_sign_seedbytes()
-!     allocate (character(len=sbb)::seed)
-!     allocate (character(len=sbb)::seed1)
-!     allocate (character(len=pb)::pk1)
-!     call randombytes_buf(seed, sbb)
-!     res = crypto_sign_seed_keypair(pk, sk, seed)
-!     call check(error, res, 0)
-!     res = crypto_sign_ed25519_sk_to_seed(seed1, sk)
-!     call check(error, res, 0)
-!     call check(error, seed, seed1)
-!     res = crypto_sign_ed25519_sk_to_pk(pk1, sk)
-!     call check(error, res, 0)
-!     call check(error, pk, pk1)
-!     if (allocated(error)) return
-!   ! end subroutine test_sign
+    ret = crypto_sign(signed_msg, signed_mlen, msg, mlen, sk)
+    if (ret.ne.0) &
+      error stop "crypto_sign failed"
+    ret = crypto_sign_open(unsigned_msg, unsigned_mlen, signed_msg, signed_mlen, pk)
+    if (ret.ne.0) &
+      error stop "crypto_sign_open failed"
+    if (unsigned_msg.ne.msg) &
+      error stop "crypto_sign_open failed"
+
+    ! detached mode
+    ret = crypto_sign_keypair(pk, sk)
+    if (ret.ne.0) &
+      error stop "crypto_sign_keypair failed"
+    ret = crypto_sign_detached(sig, slen, msg, mlen, sk)
+    if (ret.ne.0) &
+      error stop "crypto_sign_detached failed"
+    ret = crypto_sign_verify_detached(sig, msg, mlen, pk)
+    if (ret.ne.0) &
+      error stop "crypto_sign_verify_detached failed"
 
   end block
 
+  block
+
+    character(len=SODIUM_crypto_sign_PUBLICKEYBYTES) :: pk
+    character(len=SODIUM_crypto_sign_SECRETKEYBYTES) :: sk
+    character(len=SODIUM_crypto_sign_BYTES) :: sig
+    character(len=:), allocatable :: m1, m2
+    integer(kind=c_long_long) :: m1len, m2len, slen
+    type(crypto_sign_state) :: state
+    integer :: ret
+
+    ret = crypto_sign_keypair(pk, sk)
+    if (ret.ne.0) &
+      error stop "crypto_sign_keypair failed"
+
+    ! multi-part message
+    m1 = "Arbitrary data to hash"
+    m2 = "is longer than expected"
+    m1len = len(m1)
+    m2len = len(m2)
+
+    ! + signature creation
+    ret = crypto_sign_init(state)
+    if (ret.ne.0) &
+      error stop "crypto_sign_init failed"
+    ret = crypto_sign_update(state, m1, m1len)
+    if (ret.ne.0) &
+      error stop "crypto_sign_update failed"
+    ret = crypto_sign_update(state, m2, m2len)
+    if (ret.ne.0) &
+      error stop "crypto_sign_update failed"
+    ret = crypto_sign_final_create(state, sig, slen, sk)
+    if (ret.ne.0) &
+      error stop "crypto_sign_final_create failed"
+
+    ! + signature verification
+    ret = crypto_sign_init(state)
+    if (ret.ne.0) &
+      error stop "crypto_sign_init failed"
+    ret = crypto_sign_update(state, m1, m1len)
+    if (ret.ne.0) &
+      error stop "crypto_sign_update failed"
+    ret = crypto_sign_update(state, m2, m2len)
+    if (ret.ne.0) &
+      error stop "crypto_sign_update failed"
+    ret = crypto_sign_final_verify(state, sig, pk)
+    if (ret.ne.0) &
+      error stop "crypto_sign_final_verify failed"
+
+  end block
+
+  block
+
+    character(len=SODIUM_crypto_sign_SEEDBYTES) :: sd1, sd2
+    character(len=SODIUM_crypto_sign_PUBLICKEYBYTES) :: pk1, pk2
+    character(len=SODIUM_crypto_sign_SECRETKEYBYTES) :: sk1, sk2
+    integer :: ret
+
+    ! extract seed and pk
+    call randombytes_buf(sd1)
+    ret = crypto_sign_seed_keypair(pk1, sk1, sd1)
+    if (ret.ne.0) &
+      error stop "crypto_sign_keypair failed"
+    ret = crypto_sign_ed25519_sk_to_seed(sd2, sk1)
+    if (ret.ne.0) &
+      error stop "crypto_sign_ed25519_sk_to_seed failed"
+    if (sd1.ne.sd2) &
+      error stop "crypto_sign_ed25519_sk_to_seed failed"
+    ret = crypto_sign_ed25519_sk_to_pk(pk2, sk1)
+    if (ret.ne.0) &
+      error stop "crypto_sign_ed25519_sk_to_pk failed"
+    if (pk1.ne.pk2) &
+      error stop "crypto_sign_ed25519_sk_to_pk failed"
+
+  end block
 
 end program tests_crypto_sign
