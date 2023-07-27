@@ -1,5 +1,5 @@
 module mod_crypto_generichash
-  use, intrinsic :: iso_c_binding, only : c_size_t, c_char, c_int, c_long_long
+  use, intrinsic :: iso_c_binding, only : c_size_t, c_char, c_int, c_long_long, c_ptr, c_null_char
   use :: mod_crypto_generichash_blake2b
   use :: mod_common, only : c_f_str_ptr
   implicit none
@@ -91,7 +91,7 @@ module mod_crypto_generichash
       integer(kind=c_size_t) :: res
     end function crypto_generichash_statebytes
 
-    function crypto_generichash(out, outlen, in, inlen, key, keylen) &
+    function bind_crypto_generichash(out, outlen, in, inlen, key, keylen) &
     bind(c, name='crypto_generichash') &
     result(res)
       import :: c_char, c_int, c_long_long, c_size_t
@@ -101,9 +101,9 @@ module mod_crypto_generichash
       integer(kind=c_size_t), value :: outlen, keylen
       integer(kind=c_long_long), value :: inlen
       character(kind=c_char) :: key
-    end function crypto_generichash
+    end function bind_crypto_generichash
 
-    function crypto_generichash_init(state, key, keylen, outlen) &
+    function bind_crypto_generichash_init(state, key, keylen, outlen) &
     bind(c, name='crypto_generichash_init') &
     result(res)
       import :: c_int, crypto_generichash_blake2b_state, c_char, c_size_t
@@ -111,9 +111,9 @@ module mod_crypto_generichash
       type(crypto_generichash_blake2b_state) :: state
       character(kind=c_char) :: key
       integer(kind=c_size_t), value :: outlen, keylen
-    end function crypto_generichash_init
+    end function bind_crypto_generichash_init
 
-    function crypto_generichash_update(state, in, inlen) &
+    function bind_crypto_generichash_update(state, in, inlen) &
     bind(c, name='crypto_generichash_update') &
     result(res)
       import :: c_int, crypto_generichash_blake2b_state, c_char, c_long_long
@@ -121,9 +121,9 @@ module mod_crypto_generichash
       type(crypto_generichash_blake2b_state) :: state
       character(kind=c_char) :: in
       integer(kind=c_long_long), value :: inlen
-    end function crypto_generichash_update
+    end function bind_crypto_generichash_update
 
-    function crypto_generichash_final(state, out, outlen) &
+    function bind_crypto_generichash_final(state, out, outlen) &
     bind(c, name='crypto_generichash_final') &
     result(res)
       import :: c_int, crypto_generichash_blake2b_state, c_char, c_size_t
@@ -131,7 +131,7 @@ module mod_crypto_generichash
       type(crypto_generichash_blake2b_state) :: state
       character(kind=c_char) :: out
       integer(kind=c_size_t), value :: outlen
-    end function crypto_generichash_final
+    end function bind_crypto_generichash_final
 
     subroutine crypto_generichash_keygen(k) &
     bind(c, name='crypto_generichash_keygen')
@@ -141,13 +141,68 @@ module mod_crypto_generichash
 
   end interface
 
-contains
+  contains
 
-  function crypto_generichash_primitive() result(res)
-    type(c_ptr) :: res1
-    character(len=:), allocatable :: res
-    res1 = bind_crypto_generichash_primitive()
-    call c_f_str_ptr(res1, res)
-  end function crypto_generichash_primitive
+    function crypto_generichash_primitive() result(res)
+      type(c_ptr) :: res1
+      character(len=:), allocatable :: res
+      res1 = bind_crypto_generichash_primitive()
+      call c_f_str_ptr(res1, res)
+    end function crypto_generichash_primitive
+
+    function crypto_generichash(out, in, key) result(res)
+      integer(kind=c_int) :: res
+      character(len=*) :: out
+      character(len=*) :: in
+      integer(kind=c_size_t) :: outlen, keylen
+      integer(kind=c_long_long) :: inlen
+      character(len=*), optional :: key
+      character(len=:), allocatable :: key1
+      outlen = len(out)
+      inlen = len(in)
+      if (present(key)) then
+        key1 = key
+        keylen = len(key)
+      else
+        key1 = c_null_char
+        keylen = 0_c_size_t
+      end if
+      res = bind_crypto_generichash(out, outlen, in, inlen, key1, keylen)
+    end function crypto_generichash
+
+    function crypto_generichash_init(state, key) result(res)
+      integer(kind=c_int) :: res
+      type(crypto_generichash_blake2b_state) :: state
+      character(len=*), optional :: key
+      character(len=:), allocatable :: key1
+      integer(kind=c_size_t) :: outlen, keylen
+      outlen = SODIUM_crypto_generichash_BYTES
+      if (present(key)) then
+        key1 = key
+        keylen = len(key)
+      else
+        key1 = c_null_char
+        keylen = 0
+      end if
+      res = bind_crypto_generichash_init(state, key1, keylen, outlen)
+    end function crypto_generichash_init
+
+    function crypto_generichash_update(state, in) result(res)
+      integer(kind=c_int) :: res
+      type(crypto_generichash_blake2b_state) :: state
+      character(len=*) :: in
+      integer(kind=c_long_long) :: inlen
+      inlen = len(in)
+      res = bind_crypto_generichash_update(state, in, inlen)
+    end function crypto_generichash_update
+
+    function crypto_generichash_final(state, out) result(res)
+      integer(kind=c_int) :: res
+      type(crypto_generichash_blake2b_state) :: state
+      character(len=*) :: out
+      integer(kind=c_size_t) :: outlen
+      outlen = len(out)
+      res = bind_crypto_generichash_final(state, out, outlen)
+    end function crypto_generichash_final
 
 end module mod_crypto_generichash

@@ -1,66 +1,85 @@
 program tests_crypto_hash
-  use, intrinsic::iso_c_binding, only : c_size_t
-  use sodium
+  ! use, intrinsic :: iso_c_binding, only : c_size_t, c_long_long, c_null_char
+  use :: sodium
+  use :: mod_common
+  use :: mod_crypto_generichash_blake2b ! maybe move to sodium
   implicit none
 
+  ! single part without key
   block
-
-
-
-
-  
-  !   type(error_type), allocatable, intent(out)::error
-  !   character(len=:), allocatable::msg, hash, key, m1, m2
-  !   integer(kind=c_size_t)::hb, kb
-  !   integer(kind=c_size_t)::klen
-  !   integer(kind=c_long_long)::mlen, m1l, m2l
-  !   integer::res
-  !   type(crypto_generichash_blake2b_state)::state
-  !   hb = crypto_generichash_bytes()
-  !   kb = crypto_generichash_keybytes()
-  !   allocate (character(len=hb)::hash)
-
-    ! single part without key
-
     character(len=SODIUM_crypto_generichash_BYTES) :: hash
-    character(len=:), allocatable :: msg
-    integer(kind=c_long_long) :: mlen
     integer :: ret
+    ret = crypto_generichash(hash, "Arbitrary data to hash")
+    if (ret.ne.0) &
+      error stop "crypto_generichash failed"
+  end block
 
-  
+  ! single part with a key
+  block
+    character(len=SODIUM_crypto_generichash_KEYBYTES) :: key
+    character(len=SODIUM_crypto_generichash_BYTES) :: hash
+    integer :: ret
+    call randombytes_buf(key)
+    ret = crypto_generichash(hash, "Arbitrary data to hash", key)
+    if (ret.ne.0) &
+      error stop "crypto_generichash failed"
+  end block
 
-    msg = "Arbitrary data to hash"
-    mlen = len(msg)
-    ! msg=c_str(msg)
-  !   key = c_null_char
-  !   klen = 0
-    ret = crypto_generichash(hash, SODIUM_crypto_generichash_BYTES, msg, mlen, c_null_char, klen)
-  !   call check(error, res, 0)
-  !   ! single part with a key
-  !   deallocate (key)
-  !   allocate (character(len=kb)::key)
-  !   call randombytes_buf(key, kb)
-  !   res = crypto_generichash(hash, hb, msg, mlen, key, kb)
-  !   call check(error, res, 0)
-  !   call crypto_generichash_keygen(key)
-  !   res = crypto_generichash(hash, hb, msg, mlen, key, kb)
-  !   call check(error, res, 0)
-  !   ! multi part with a key
-  !   m1 = msg
-  !   m2 = "is longer than expected"
-  !   m1l = len(m1)
-  !   m2l = len(m2)
-  !   res = crypto_generichash_init(state, key, kb, hb)
-  !   call check(error, res, 0)
-  !   res = crypto_generichash_update(state, m1, m1l)
-  !   call check(error, res, 0)
-  !   res = crypto_generichash_update(state, m2, m2l)
-  !   call check(error, res, 0)
-  !   res = crypto_generichash_final(state, hash, hb)
-  !   call check(error, res, 0)
-  !   if (allocated(error)) return
-  ! end subroutine test_hash
+  ! single part with a keygen
+  block
+    character(len=SODIUM_crypto_generichash_KEYBYTES) :: key
+    character(len=SODIUM_crypto_generichash_BYTES) :: hash
+    integer :: ret
+    call crypto_generichash_keygen(key)
+    ret = crypto_generichash(hash, "Arbitrary data to hash", key)
+    if (ret.ne.0) &
+      error stop "crypto_generichash failed"
+  end block
 
+  ! multi part with a key
+  block
+    type(crypto_generichash_blake2b_state) :: state
+    character(len=SODIUM_crypto_generichash_KEYBYTES) :: key
+    character(len=SODIUM_crypto_generichash_BYTES) :: hash
+    integer :: ret
+    call crypto_generichash_keygen(key)
+    ret = crypto_generichash_init(state, key)
+    if (ret.ne.0) &
+      error stop "crypto_generichash_init failed"
+    ret = crypto_generichash_update(state, "one")
+    if (ret.ne.0) &
+      error stop "crypto_generichash_update failed"
+    ret = crypto_generichash_update(state, "two")
+    if (ret.ne.0) &
+      error stop "crypto_generichash_update failed"
+    ret = crypto_generichash_update(state, "three")
+    if (ret.ne.0) &
+      error stop "crypto_generichash_update failed"
+    ret = crypto_generichash_final(state, hash)
+    if (ret.ne.0) &
+      error stop "crypto_generichash_final failed"
+  end block
+
+  ! multi part without key
+  block
+    type(crypto_generichash_blake2b_state) :: state
+    character(len=SODIUM_crypto_generichash_BYTES) :: hash
+    integer :: ret
+    ret = crypto_generichash_init(state)
+    if (ret.ne.0) &
+      error stop "crypto_generichash_init failed"
+    ret = crypto_generichash_update(state, "one")
+    if (ret.ne.0) &
+      error stop "crypto_generichash_update failed"
+    ret = crypto_generichash_update(state, "two")
+    if (ret.ne.0) &
+      error stop "crypto_generichash_update failed"
+    ret = crypto_generichash_update(state, "three")
+    if (ret.ne.0) &
+      error stop "crypto_generichash_update failed"
+    ret = crypto_generichash_final(state, hash)
+    if (ret.ne.0) &
+      error stop "crypto_generichash_final failed"
   end block
 
 end program tests_crypto_hash
