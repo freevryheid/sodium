@@ -10,9 +10,8 @@ module mod_crypto_hash_sha256
   public :: crypto_hash_sha256_update
   public :: crypto_hash_sha256_final
 
-  integer, parameter, public :: SODIUM_crypto_hash_sha256_BYTES = 32
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_hash_sha256_BYTES = 32
 
-  ! TODO: perhaps bump these up to match unsigned equivalents
   type, public, bind(c) :: crypto_hash_sha256_state
     integer(kind=c_int32_t) :: state(8)
     integer(kind=c_int64_t) :: count
