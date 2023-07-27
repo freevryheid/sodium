@@ -18,7 +18,7 @@ module sodium
 !   use :: mod_crypto_core_salsa2012
 !   use :: mod_crypto_core_salsa208
 !   use :: mod_crypto_core_salsa20
-!   use :: mod_crypto_generichash_blake2b
+  use :: mod_crypto_generichash_blake2b
   use :: mod_crypto_generichash
   use :: mod_crypto_hash
 !   use :: mod_crypto_hash_sha256

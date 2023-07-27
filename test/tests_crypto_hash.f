@@ -2,7 +2,7 @@ program tests_crypto_hash
   ! use, intrinsic :: iso_c_binding, only : c_size_t, c_long_long, c_null_char
   use :: sodium
   use :: mod_common
-  use :: mod_crypto_generichash_blake2b ! maybe move to sodium
+  ! use :: mod_crypto_generichash_blake2b ! maybe move to sodium
   implicit none
 
   ! single part without key
