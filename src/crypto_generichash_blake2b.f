@@ -1,5 +1,5 @@
 module mod_crypto_generichash_blake2b
-  use, intrinsic :: iso_c_binding
+  use, intrinsic :: iso_c_binding, only : c_size_t, c_char, c_int, c_long_long
   implicit none
   private
 
