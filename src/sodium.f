@@ -26,7 +26,7 @@ module sodium
 !   use :: mod_crypto_kdf_blake2b
 !   use :: mod_crypto_kdf
 !   use :: mod_crypto_kx
-!   use :: mod_crypto_onetimeauth
+  use :: mod_crypto_onetimeauth
 !   use :: mod_crypto_onetimeauth_poly1305
 !   use :: mod_crypto_pwhash_argon2id
 !   use :: mod_crypto_pwhash_argon2i
@@ -40,7 +40,7 @@ module sodium
 !   use :: mod_crypto_secretbox_xchacha20poly1305
 !   use :: mod_crypto_secretbox_xsalsa20poly1305
 !   use :: mod_crypto_secretstream_xchacha20poly1305
-!   use :: mod_crypto_shorthash
+  use :: mod_crypto_shorthash
 !   use :: mod_crypto_shorthash_siphash24
 !   use :: mod_crypto_sign_ed25519
 !   use :: mod_crypto_sign_edwards25519sha512batch

@@ -1,5 +1,5 @@
 program tests_crypto_pwhash
-  use, intrinsic::iso_c_binding
+  use, intrinsic :: iso_c_binding, only : c_size_t, c_long_long
   use sodium
   block
     character(len=:), allocatable :: pwd
