@@ -30,7 +30,7 @@ module sodium
 !   use :: mod_crypto_onetimeauth_poly1305
 !   use :: mod_crypto_pwhash_argon2id
 !   use :: mod_crypto_pwhash_argon2i
-!   use :: mod_crypto_pwhash
+  use :: mod_crypto_pwhash
 !   use :: mod_crypto_pwhash_scryptsalsa208sha256
 !   use :: mod_crypto_scalarmult_curve25519
 !   use :: mod_crypto_scalarmult_ed25519

@@ -1,5 +1,5 @@
 module mod_crypto_pwhash_argon2id
-  use, intrinsic :: iso_c_binding, only : c_size_t, c_char, c_int, c_long_long
+  use, intrinsic :: iso_c_binding, only : c_size_t, c_char, c_int, c_long_long, c_ptr
   use :: mod_common
   implicit none
   private
@@ -29,16 +29,20 @@ module mod_crypto_pwhash_argon2id
 
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_ALG_ARGON2ID13       = 2
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_BYTES_MIN            = 16
-  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_BYTES_MAX            = 4294967295
+  ! integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_BYTES_MAX            = 4294967295
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_BYTES_MAX            = int(z'FFFFFFFF')
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_PASSWD_MIN           = 0
-  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_PASSWD_MAX           = 4294967295
+  ! integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_PASSWD_MAX           = 4294967295
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_PASSWD_MAX           = int(z'FFFFFFFF')
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_SALTBYTES            = 16
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_STRBYTES             = 128
   character(len=*), parameter, public :: SODIUM_crypto_pwhash_argon2id_STRPREFIX                  = "$argon2id$"
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_OPSLIMIT_MIN         = 1
-  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_OPSLIMIT_MAX         = 4294967295
+  ! integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_OPSLIMIT_MAX         = 4294967295
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_OPSLIMIT_MAX         = int(z'FFFFFFFF')
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_MEMLIMIT_MIN         = 8192
-  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_MEMLIMIT_MAX         = 4398046510080 !TODO
+  ! integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_MEMLIMIT_MAX         = 4398046510080 !TODO
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_MEMLIMIT_MAX         = int(z'3FFFFFFFC00')
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_OPSLIMIT_INTERACTIVE = 2
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_MEMLIMIT_INTERACTIVE = 67108864
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_argon2id_OPSLIMIT_MODERATE    = 3

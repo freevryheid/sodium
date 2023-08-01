@@ -1,6 +1,7 @@
 module mod_crypto_pwhash
-  use, intrinsic :: iso_c_binding, only : c_size_t, c_char, c_int, c_long_long
+  use, intrinsic :: iso_c_binding, only : c_size_t, c_char, c_int, c_long_long, c_ptr
   use :: mod_common
+  use :: mod_crypto_pwhash_argon2i
   use :: mod_crypto_pwhash_argon2id
   implicit none
   private
@@ -33,45 +34,45 @@ module mod_crypto_pwhash
   public :: crypto_pwhash_primitive
 
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_ALG_ARGON2I13 = &
-    crypto_pwhash_argon2i_ALG_ARGON2I13
+    SODIUM_crypto_pwhash_argon2i_ALG_ARGON2I13
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_ALG_ARGON2ID13 = &
-    crypto_pwhash_argon2id_ALG_ARGON2ID13
+    SODIUM_crypto_pwhash_argon2id_ALG_ARGON2ID13
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_ALG_DEFAULT = &
-    crypto_pwhash_ALG_ARGON2ID13
+    SODIUM_crypto_pwhash_ALG_ARGON2ID13
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_BYTES_MIN = &
-    crypto_pwhash_argon2id_BYTES_MIN
+    SODIUM_crypto_pwhash_argon2id_BYTES_MIN
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_BYTES_MAX = &
-    crypto_pwhash_argon2id_BYTES_MAX
+    SODIUM_crypto_pwhash_argon2id_BYTES_MAX
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_PASSWD_MIN = &
-    crypto_pwhash_argon2id_PASSWD_MIN
+    SODIUM_crypto_pwhash_argon2id_PASSWD_MIN
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_PASSWD_MAX = &
-    crypto_pwhash_argon2id_PASSWD_MAX
+    SODIUM_crypto_pwhash_argon2id_PASSWD_MAX
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_SALTBYTES = &
-    crypto_pwhash_argon2id_SALTBYTES
+    SODIUM_crypto_pwhash_argon2id_SALTBYTES
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_STRBYTES = &
-    crypto_pwhash_argon2id_STRBYTES
-  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_STRPREFIX = &
-    crypto_pwhash_argon2id_STRPREFIX
+    SODIUM_crypto_pwhash_argon2id_STRBYTES
+  character(len=*), parameter, public :: SODIUM_crypto_pwhash_STRPREFIX = &
+    SODIUM_crypto_pwhash_argon2id_STRPREFIX
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_OPSLIMIT_MIN = &
-    crypto_pwhash_argon2id_OPSLIMIT_MIN
+    SODIUM_crypto_pwhash_argon2id_OPSLIMIT_MIN
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_OPSLIMIT_MAX = &
-    crypto_pwhash_argon2id_OPSLIMIT_MAX
+    SODIUM_crypto_pwhash_argon2id_OPSLIMIT_MAX
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_MEMLIMIT_MIN = &
-      crypto_pwhash_argon2id_MEMLIMIT_MIN
+    SODIUM_crypto_pwhash_argon2id_MEMLIMIT_MIN
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_MEMLIMIT_MAX = &
-    crypto_pwhash_argon2id_MEMLIMIT_MAX
+    SODIUM_crypto_pwhash_argon2id_MEMLIMIT_MAX
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_OPSLIMIT_INTERACTIVE = &
-    crypto_pwhash_argon2id_OPSLIMIT_INTERACTIVE
+    SODIUM_crypto_pwhash_argon2id_OPSLIMIT_INTERACTIVE
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_MEMLIMIT_INTERACTIVE = &
-    crypto_pwhash_argon2id_MEMLIMIT_INTERACTIVE
+    SODIUM_crypto_pwhash_argon2id_MEMLIMIT_INTERACTIVE
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_OPSLIMIT_MODERATE = &
-    crypto_pwhash_argon2id_OPSLIMIT_MODERATE
+    SODIUM_crypto_pwhash_argon2id_OPSLIMIT_MODERATE
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_MEMLIMIT_MODERATE = &
-    crypto_pwhash_argon2id_MEMLIMIT_MODERATE
+    SODIUM_crypto_pwhash_argon2id_MEMLIMIT_MODERATE
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_OPSLIMIT_SENSITIVE = &
-    crypto_pwhash_argon2id_OPSLIMIT_SENSITIVE
+    SODIUM_crypto_pwhash_argon2id_OPSLIMIT_SENSITIVE
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_pwhash_MEMLIMIT_SENSITIVE = &
-    crypto_pwhash_argon2id_MEMLIMIT_SENSITIVE
+    SODIUM_crypto_pwhash_argon2id_MEMLIMIT_SENSITIVE
   character(len=*), parameter, public :: SODIUM_crypto_pwhash_PRIMITIVE = "argon2i"
 
   interface
@@ -216,7 +217,7 @@ module mod_crypto_pwhash
       integer(kind=c_size_t) :: res
     end function crypto_pwhash_memlimit_sensitive
 
-    function crypto_pwhash(out, outlen, passwd, passwdlen, salt, opslimit, memlimit, alg) &
+    function bind_crypto_pwhash(out, outlen, passwd, passwdlen, salt, opslimit, memlimit, alg) &
     bind(c, name='crypto_pwhash') &
     result(res)
       import :: c_char, c_int, c_long_long, c_size_t
@@ -227,9 +228,9 @@ module mod_crypto_pwhash
       integer(kind=c_long_long), value :: outlen, passwdlen, opslimit
       character(kind=c_char) :: salt
       integer(kind=c_int), value :: alg
-    end function crypto_pwhash
+    end function bind_crypto_pwhash
 
-    function crypto_pwhash_str(out, passwd, passwdlen, opslimit, memlimit) &
+    function bind_crypto_pwhash_str(out, passwd, passwdlen, opslimit, memlimit) &
     bind(c, name='crypto_pwhash_str') &
     result(res)
       import :: c_char, c_int, c_long_long, c_size_t
@@ -238,9 +239,9 @@ module mod_crypto_pwhash
       character(kind=c_char) :: passwd
       integer(kind=c_size_t), value :: memlimit
       integer(kind=c_long_long), value :: passwdlen, opslimit
-    end function crypto_pwhash_str
+    end function bind_crypto_pwhash_str
 
-    function crypto_pwhash_str_alg(out, passwd, passwdlen, opslimit, memlimit, alg) &
+    function bind_crypto_pwhash_str_alg(out, passwd, passwdlen, opslimit, memlimit, alg) &
     bind(c, name='crypto_pwhash_str_alg') &
     result(res)
       import :: c_char, c_int, c_long_long, c_size_t
@@ -250,9 +251,9 @@ module mod_crypto_pwhash
       integer(kind=c_size_t), value :: memlimit
       integer(kind=c_long_long), value :: passwdlen, opslimit
       integer(kind=c_int), value :: alg
-    end function crypto_pwhash_str_alg
+    end function bind_crypto_pwhash_str_alg
 
-    function crypto_pwhash_str_verify(str, passwd, passwdlen) &
+    function bind_crypto_pwhash_str_verify(str, passwd, passwdlen) &
     bind(c, name='crypto_pwhash_str_verify') &
     result(res)
       import :: c_char, c_int, c_long_long
@@ -260,7 +261,7 @@ module mod_crypto_pwhash
       character(kind=c_char) :: str
       character(kind=c_char) :: passwd
       integer(kind=c_long_long), value :: passwdlen
-    end function crypto_pwhash_str_verify
+    end function bind_crypto_pwhash_str_verify
 
     function crypto_pwhash_str_needs_rehash(str, opslimit, memlimit) &
     bind(c, name='crypto_pwhash_str_needs_rehash') &
@@ -281,20 +282,126 @@ module mod_crypto_pwhash
 
   end interface
 
-contains
+  contains
 
-  function crypto_pwhash_strprefix() result(res)
-    type(c_ptr) :: res1
-    character(len=:), allocatable :: res
-    res1 = bind_crypto_pwhash_strprefix()
-    call c_f_str_ptr(res1, res)
-  end function crypto_pwhash_strprefix
+    function crypto_pwhash_strprefix() result(res)
+      type(c_ptr) :: res1
+      character(len=:), allocatable :: res
+      res1 = bind_crypto_pwhash_strprefix()
+      call c_f_str_ptr(res1, res)
+    end function crypto_pwhash_strprefix
 
-  function crypto_pwhash_primitive() result(res)
-    type(c_ptr) :: res1
-    character(len=:), allocatable :: res
-    res1 = bind_crypto_pwhash_primitive()
-    call c_f_str_ptr(res1, res)
-  end function crypto_pwhash_primitive
+    function crypto_pwhash_primitive() result(res)
+      type(c_ptr) :: res1
+      character(len=:), allocatable :: res
+      res1 = bind_crypto_pwhash_primitive()
+      call c_f_str_ptr(res1, res)
+    end function crypto_pwhash_primitive
+
+    function crypto_pwhash(out, passwd, salt, opslimit, memlimit, alg) result(res)
+      integer(kind=c_int) :: res
+      character(len=*) :: out
+      character(len=*) :: passwd
+      character(len=*) :: salt
+      integer(kind=c_long_long), optional :: opslimit
+      integer(kind=c_long_long) :: opslimit1
+      integer(kind=c_size_t), optional :: memlimit
+      integer(kind=c_size_t) :: memlimit1
+      integer(kind=c_int), optional :: alg
+      integer(kind=c_int) :: alg1
+      integer(kind=c_long_long) :: outlen, passwdlen
+      outlen = len(out)
+      passwdlen = len(passwd)
+      if (.not.present(opslimit)) then
+        opslimit1 = SODIUM_crypto_pwhash_OPSLIMIT_INTERACTIVE
+      else
+        opslimit1 = opslimit
+      end if
+      if (.not.present(memlimit)) then
+        memlimit1 = SODIUM_crypto_pwhash_MEMLIMIT_INTERACTIVE
+      else
+        memlimit1 = memlimit
+      end if
+      if (.not.present(alg)) then
+        alg1 = SODIUM_crypto_pwhash_ALG_DEFAULT
+      else
+        alg1 = alg
+      end if
+      res = bind_crypto_pwhash(out, outlen, passwd, passwdlen, salt, opslimit1, memlimit1, alg1)
+    end function crypto_pwhash
+
+    function crypto_pwhash_str(out, passwd, opslimit, memlimit) result(res)
+      integer(kind=c_int) :: res
+      character(len=*) :: out
+      character(len=*) :: passwd
+      ! integer(kind=c_size_t) :: memlimit
+      integer(kind=c_long_long) :: passwdlen
+      integer(kind=c_long_long), optional :: opslimit
+      integer(kind=c_long_long) :: opslimit1
+      integer(kind=c_size_t), optional :: memlimit
+      integer(kind=c_size_t) :: memlimit1
+      ! integer(kind=c_int), optional :: alg
+      ! integer(kind=c_int) :: alg1
+      passwdlen = len(passwd)
+      if (.not.present(opslimit)) then
+        opslimit1 = SODIUM_crypto_pwhash_OPSLIMIT_INTERACTIVE
+      else
+        opslimit1 = opslimit
+      end if
+      if (.not.present(memlimit)) then
+        memlimit1 = SODIUM_crypto_pwhash_MEMLIMIT_INTERACTIVE
+      else
+        memlimit1 = memlimit
+      end if
+      ! if (.not.present(alg)) then
+      !   alg1 = SODIUM_crypto_pwhash_ALG_DEFAULT
+      ! else
+      !   alg1 = alg
+      ! end if
+      res = bind_crypto_pwhash_str(out, passwd, passwdlen, opslimit1, memlimit1)
+    end function crypto_pwhash_str
+
+    function crypto_pwhash_str_alg(out, passwd, opslimit, memlimit, alg) result(res)
+      integer(kind=c_int) :: res
+      character(len=*) :: out
+      character(len=*) :: passwd
+      ! integer(kind=c_size_t) :: memlimit
+      integer(kind=c_long_long) :: passwdlen
+      ! integer(kind=c_int) :: alg
+      integer(kind=c_long_long), optional :: opslimit
+      integer(kind=c_long_long) :: opslimit1
+      integer(kind=c_size_t), optional :: memlimit
+      integer(kind=c_size_t) :: memlimit1
+      integer(kind=c_int), optional :: alg
+      integer(kind=c_int) :: alg1
+      ! integer(kind=c_long_long) :: outlen, passwdlen
+      ! outlen = len(out)
+      passwdlen = len(passwd)
+      if (.not.present(opslimit)) then
+        opslimit1 = SODIUM_crypto_pwhash_OPSLIMIT_INTERACTIVE
+      else
+        opslimit1 = opslimit
+      end if
+      if (.not.present(memlimit)) then
+        memlimit1 = SODIUM_crypto_pwhash_MEMLIMIT_INTERACTIVE
+      else
+        memlimit1 = memlimit
+      end if
+      if (.not.present(alg)) then
+        alg1 = SODIUM_crypto_pwhash_ALG_DEFAULT
+      else
+        alg1 = alg
+      end if
+      res = bind_crypto_pwhash_str_alg(out, passwd, passwdlen, opslimit1, memlimit1, alg1)
+    end function crypto_pwhash_str_alg
+
+    function crypto_pwhash_str_verify(str, passwd) result(res)
+      integer(kind=c_int) :: res
+      character(len=*) :: str
+      character(len=*) :: passwd
+      integer(kind=c_long_long) :: passwdlen
+      passwdlen = len(passwd)
+      res = bind_crypto_pwhash_str_verify(str, passwd, passwdlen)
+    end function crypto_pwhash_str_verify
 
 end module mod_crypto_pwhash
