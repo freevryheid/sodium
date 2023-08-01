@@ -279,8 +279,8 @@ module mod_utils
       ignore = c_null_char ! disallow any non-hexadecimal character
       hex_end = c_null_ptr
       hexlen = len(hex)
-      max_binlen = hexlen/2 + 1
-      binlen = max_binlen
+      max_binlen = hexlen/2
+      binlen = max_binlen 
       allocate (character(len=binlen) :: bin)
       tmp = bind_sodium_hex2bin(bin, max_binlen, hex, hexlen, ignore, binlen, hex_end)
       if (tmp.eq.-1) then

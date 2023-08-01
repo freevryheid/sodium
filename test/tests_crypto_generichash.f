@@ -10,7 +10,7 @@ program tests_crypto_generichash
   end type
 
   block
-    character(len=128) :: a, b, c
+    character(len=1000) :: a, b, c
     integer :: ret, io, iostat
     type(tests) :: test
     character(len=:), pointer :: key, expected_out, out, in
@@ -32,17 +32,16 @@ program tests_crypto_generichash
       if (iostat.eq.0) then
         key = sodium_hex2bin(test%key_hex)
         expected_out = sodium_hex2bin(test%out_hex)
-        hlen = len(test%in_hex)
+        hlen = len(test%in_hex)/2 ! NB - fails otherwise
         in => sodium_malloc(hlen)
         in = sodium_hex2bin(test%in_hex)
         ret = crypto_generichash(out, in, key) ! out hash here
         if (ret.ne.0) &
           error stop "crypto_generichash failed 1"
-        ! print *, "in: ", out
-        ! print *, "out: ", expected_out
         if (out.ne.expected_out) &
           error stop "crypto_generichash failed 2"
         call sodium_free(in)
+        in => null()
       end if
     end do
     close(io)
