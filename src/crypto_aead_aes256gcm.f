@@ -1,5 +1,6 @@
 module mod_crypto_aead_aes256gcm
-  use, intrinsic :: iso_c_binding, only : c_int, c_size_t, c_char, c_long_long
+  use, intrinsic :: iso_c_binding, only : c_int, c_size_t, c_char, c_long_long, c_null_char
+  use :: mod_core
   implicit none
   private
 
@@ -25,7 +26,8 @@ module mod_crypto_aead_aes256gcm
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_aes256gcm_NSECBYTES = 0
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_aes256gcm_NPUBBYTES = 12
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_aes256gcm_ABYTES    = 16
-  ! integer(kind=c_int128_t), parameter, public SODIUM_crypto_aead_aes256gcm_MESSAGEBYTES_MAX
+  integer(kind=c_size_t), parameter, public :: SODIUM_aead_aes256gcm_MESSAGEBYTES_MAX = &
+    (SODIUM_SIZE_MAX - SODIUM_crypto_aead_aes256gcm_ABYTES)
 
   type, bind(c) :: aead
     character(kind=c_char) :: opaque(512)
@@ -86,7 +88,7 @@ module mod_crypto_aead_aes256gcm
       integer(kind=c_size_t) :: res
     end function crypto_aead_aes256gcm_statebytes
 
-    function crypto_aead_aes256gcm_encrypt(c, clen_p, m, mlen, ad, adlen, nsec, npub, k) &
+    function bind_crypto_aead_aes256gcm_encrypt(c, clen_p, m, mlen, ad, adlen, nsec, npub, k) &
     bind(c, name='crypto_aead_aes256gcm_encrypt') &
     result(res)
       import :: c_int, c_char, c_long_long
@@ -96,9 +98,9 @@ module mod_crypto_aead_aes256gcm
       character(kind=c_char) :: m, ad
       integer(kind=c_long_long), value :: mlen, adlen
       character(kind=c_char) :: nsec, npub, k
-    end function crypto_aead_aes256gcm_encrypt
+    end function bind_crypto_aead_aes256gcm_encrypt
 
-    function crypto_aead_aes256gcm_decrypt(m, mlen_p, nsec, c, clen, ad, adlen, npub, k) &
+    function bind_crypto_aead_aes256gcm_decrypt(m, mlen_p, nsec, c, clen, ad, adlen, npub, k) &
     bind(c, name='crypto_aead_aes256gcm_decrypt') &
     result(res)
       import :: c_int, c_char, c_long_long
@@ -108,9 +110,9 @@ module mod_crypto_aead_aes256gcm
       character(kind=c_char) :: m, ad
       integer(kind=c_long_long), value :: clen, adlen
       character(kind=c_char) :: nsec, npub, k
-    end function crypto_aead_aes256gcm_decrypt
+    end function bind_crypto_aead_aes256gcm_decrypt
 
-    function crypto_aead_aes256gcm_encrypt_detached(c, mac, maclen_p, m, mlen, ad, adlen, nsec, npub, k) &
+    function bind_crypto_aead_aes256gcm_encrypt_detached(c, mac, maclen_p, m, mlen, ad, adlen, nsec, npub, k) &
     bind(c, name='crypto_aead_aes256gcm_encrypt_detached') &
     result(res)
       import :: c_int, c_char, c_long_long
@@ -120,9 +122,9 @@ module mod_crypto_aead_aes256gcm
       character(kind=c_char) :: mac, m, ad
       integer(kind=c_long_long), value :: mlen, adlen
       character(kind=c_char) :: nsec, npub, k
-    end function crypto_aead_aes256gcm_encrypt_detached
+    end function bind_crypto_aead_aes256gcm_encrypt_detached
 
-    function crypto_aead_aes256gcm_decrypt_detached(m, nsec, c, clen, mac, ad, adlen, npub, k) &
+    function bind_crypto_aead_aes256gcm_decrypt_detached(m, nsec, c, clen, mac, ad, adlen, npub, k) &
     bind(c, name='crypto_aead_aes256gcm_decrypt_detached') &
     result(res)
       import :: c_int, c_char, c_long_long
@@ -132,7 +134,7 @@ module mod_crypto_aead_aes256gcm
       character(kind=c_char) :: m, ad
       integer(kind=c_long_long), value :: clen, adlen
       character(kind=c_char) :: nsec, npub, k
-    end function crypto_aead_aes256gcm_decrypt_detached
+    end function bind_crypto_aead_aes256gcm_decrypt_detached
 
     function crypto_aead_aes256gcm_beforenm(ctx_, k) &
     bind(c, name='crypto_aead_aes256gcm_beforenm') &
@@ -202,5 +204,82 @@ module mod_crypto_aead_aes256gcm
     end subroutine crypto_aead_aes256gcm_keygen
 
   end interface
+
+  contains
+
+    function crypto_aead_aes256gcm_encrypt(c, m, npub, k, ad) result(res)
+      integer(kind=c_int) :: res
+      character(len=*) :: c, m, npub, k
+      integer(kind=c_long_long) :: clen_p, mlen, adlen
+      character(len=*), optional :: ad
+      character(len=:), allocatable :: ad1
+      character(len=*), parameter :: nsec = c_null_char
+      clen_p = len(c)
+      mlen = len(m)
+      if (present(ad)) then
+        ad1 = ad
+        adlen = len(ad)
+      else
+        ad1 = c_null_char
+        adlen = 0
+      end if
+      res = bind_crypto_aead_aes256gcm_encrypt(c, clen_p, m, mlen, ad1, adlen, nsec, npub, k)
+    end function crypto_aead_aes256gcm_encrypt
+
+    function crypto_aead_aes256gcm_decrypt(m, c, npub, k, ad) result(res)
+      integer(kind=c_int) :: res
+      character(len=*) :: c, m, npub, k
+      integer(kind=c_long_long) :: mlen_p, clen, adlen
+      character(len=*), optional :: ad
+      character(len=:), allocatable :: ad1
+      character(len=*), parameter :: nsec = c_null_char
+      mlen_p = len(m)
+      clen = len(c)
+      if (present(ad)) then
+        ad1 = ad
+        adlen = len(ad)
+      else
+        ad1 = c_null_char
+        adlen = 0
+      end if
+      res = bind_crypto_aead_aes256gcm_decrypt(m, mlen_p, nsec, c, clen, ad1, adlen, npub, k)
+    end function crypto_aead_aes256gcm_decrypt
+
+    function crypto_aead_aes256gcm_encrypt_detached(c, mac, m, npub, k, ad) result(res)
+      integer(kind=c_int) :: res
+      character(len=*) :: c, mac, m, npub, k
+      integer(kind=c_long_long) :: maclen_p ! not used
+      integer(kind=c_long_long) :: mlen, adlen
+      character(len=*), optional:: ad
+      character(len=:), allocatable :: ad1
+      character(len=*), parameter :: nsec = c_null_char
+      mlen = len(m)
+      if (present(ad)) then
+        ad1 = ad
+        adlen = len(ad)
+      else
+        ad1 = c_null_char
+        adlen = 0
+      end if
+      res = bind_crypto_aead_aes256gcm_encrypt_detached(c, mac, maclen_p, m, mlen, ad1, adlen, nsec, npub, k)
+    end function crypto_aead_aes256gcm_encrypt_detached
+
+    function crypto_aead_aes256gcm_decrypt_detached(m, c, mac, npub, k, ad) result(res)
+      integer(kind=c_int) :: res
+      character(len=*) :: c, mac, m, npub, k
+      integer(kind=c_long_long) :: clen, adlen
+      character(len=*), optional:: ad
+      character(len=:), allocatable :: ad1
+      character(len=*), parameter :: nsec = c_null_char
+      clen = len(c)
+      if (present(ad)) then
+        ad1 = ad
+        adlen = len(ad)
+      else
+        ad1 = c_null_char
+        adlen = 0
+      end if
+      res = bind_crypto_aead_aes256gcm_decrypt_detached(m, nsec, c, clen, mac, ad1, adlen, npub, k)
+    end function crypto_aead_aes256gcm_decrypt_detached
 
 end module mod_crypto_aead_aes256gcm

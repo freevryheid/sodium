@@ -1,7 +1,7 @@
 module sodium
   use :: mod_common
   use :: mod_core
-!   use :: mod_crypto_aead_aes256gcm
+  use :: mod_crypto_aead_aes256gcm
 !   use :: mod_crypto_aead_chacha20poly1305
 !   use :: mod_crypto_aead_xchacha20poly1305
   use :: mod_crypto_auth
