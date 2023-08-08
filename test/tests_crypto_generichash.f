@@ -1,6 +1,8 @@
 program tests_crypto_generichash
-  use, intrinsic::iso_c_binding, only : c_size_t 
+
+  use, intrinsic :: iso_c_binding, only : c_size_t
   use sodium
+
   implicit none
 
   type tests
