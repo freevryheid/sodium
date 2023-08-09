@@ -17,7 +17,7 @@ module mod_crypto_aead_aegis256
 
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_aegis256_KEYBYTES         = 32
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_aegis256_NSECBYTES        = 0
-  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_aegis256_NPUBBYTES        = 24
+  integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_aegis256_NPUBBYTES        = 32
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_aegis256_ABYTES           = 16
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_aegis256_MESSAGEBYTES_MAX = &
     (SODIUM_SIZE_MAX - SODIUM_crypto_aead_aegis256_ABYTES)
