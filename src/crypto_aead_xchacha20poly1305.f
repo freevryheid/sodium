@@ -1,5 +1,5 @@
 module mod_crypto_aead_xchacha20poly1305
-  use, intrinsic :: iso_c_binding, only : c_size_t, c_int, c_char, c_long_long
+  use, intrinsic :: iso_c_binding, only : c_size_t, c_int, c_char, c_long_long, c_null_char
   use :: mod_core
   implicit none
   private
@@ -138,7 +138,7 @@ module mod_crypto_aead_xchacha20poly1305
     end function crypto_aead_xchacha20poly1305_ietf_encrypt
 
     ! function crypto_aead_xchacha20poly1305_ietf_decrypt(m, mlen_p, nsec, c, clen, ad, adlen, npub, k) &
-    function crypto_aead_xchacha20poly1305_ietf_decrypt(m, mlen_p, nsec, c, clen, ad, adlen, npub, k) result(res)
+    function crypto_aead_xchacha20poly1305_ietf_decrypt(m, c, npub, k, ad) result(res)
       integer(kind=c_int) :: res
       character(len=*) :: c, m, npub, k
       integer(kind=c_long_long) :: mlen_p, clen, adlen
@@ -158,7 +158,7 @@ module mod_crypto_aead_xchacha20poly1305
     end function crypto_aead_xchacha20poly1305_ietf_decrypt
 
     ! function crypto_aead_xchacha20poly1305_ietf_encrypt_detached(c, mac, maclen_p, m, mlen, ad, adlen, nsec, npub, k) &
-    function crypto_aead_xchacha20poly1305_ietf_encrypt_detached(c, mac, maclen_p, m, mlen, ad, adlen, nsec, npub, k) result(res)
+    function crypto_aead_xchacha20poly1305_ietf_encrypt_detached(c, mac, m, npub, k, ad) result(res)
       integer(kind=c_int) :: res
       character(len=*) :: c, mac, m, npub, k
       integer(kind=c_long_long) :: maclen_p ! not used
@@ -178,7 +178,7 @@ module mod_crypto_aead_xchacha20poly1305
     end function crypto_aead_xchacha20poly1305_ietf_encrypt_detached
 
     ! function crypto_aead_xchacha20poly1305_ietf_decrypt_detached(m, nsec, c, clen, mac, ad, adlen, npub, k) &
-    function crypto_aead_xchacha20poly1305_ietf_decrypt_detached(m, nsec, c, clen, mac, ad, adlen, npub, k) result(res)
+    function crypto_aead_xchacha20poly1305_ietf_decrypt_detached(m, c, mac, npub, k, ad) result(res)
       integer(kind=c_int) :: res
       character(len=*) :: c, mac, m, npub, k
       integer(kind=c_long_long) :: clen, adlen
