@@ -13,11 +13,11 @@ module mod_crypto_kdf
   public crypto_kdf_derive_from_key
   public crypto_kdf_keygen
 
-  integer(kind=c_size_t), paremeter, public :: SODIUM_crypto_kdf_BYTES_MIN = SODIUM_crypto_kdf_blake2b_BYTES_MIN
-  integer(kind=c_size_t), paremeter, public :: SODIUM_crypto_kdf_BYTES_MAX = SODIUM_crypto_kdf_blake2b_BYTES_MAX
+  integer(kind=c_size_t), paremeter, public :: SODIUM_crypto_kdf_BYTES_MIN    = SODIUM_crypto_kdf_blake2b_BYTES_MIN
+  integer(kind=c_size_t), paremeter, public :: SODIUM_crypto_kdf_BYTES_MAX    = SODIUM_crypto_kdf_blake2b_BYTES_MAX
   integer(kind=c_size_t), paremeter, public :: SODIUM_crypto_kdf_CONTEXTBYTES = SODIUM_crypto_kdf_blake2b_CONTEXTBYTES
-  integer(kind=c_size_t), paremeter, public :: SODIUM_crypto_kdf_KEYBYTES = SODIUM_crypto_kdf_blake2b_KEYBYTES
-  character(len=*), parameter, public :: SODIUM_crypto_kdf_PRIMITIVE = "blake2b"
+  integer(kind=c_size_t), paremeter, public :: SODIUM_crypto_kdf_KEYBYTES     = SODIUM_crypto_kdf_blake2b_KEYBYTES
+  character(len=*), parameter, public :: SODIUM_crypto_kdf_PRIMITIVE          = "blake2b"
 
   interface
 

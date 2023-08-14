@@ -3,8 +3,8 @@ module mod_crypto_verify_16
   implicit none
   private
 
-  public :: crypto_verify_16_bytes
-  public :: crypto_verify_16
+  public crypto_verify_16_bytes
+  public crypto_verify_16
 
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_verify_16_BYTES = 16
 
@@ -13,16 +13,16 @@ module mod_crypto_verify_16
     function crypto_verify_16_bytes() &
     bind(c, name='crypto_verify_16_bytes') &
     result(res)
-      import :: c_size_t
-      integer(kind=c_size_t) :: res
+      import c_size_t
+      integer(kind=c_size_t) res
     end function crypto_verify_16_bytes
 
     function crypto_verify_16(x, y) &
     bind(c, name='crypto_verify_16') &
     result(res)
-      import :: c_char, c_int
-      integer(kind=c_int) :: res
-      character(kind=c_char) :: x, y
+      import c_char, c_int
+      integer(kind=c_int) res
+      character(kind=c_char) x, y
     end function crypto_verify_16
 
   end interface

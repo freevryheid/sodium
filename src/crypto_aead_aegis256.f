@@ -117,7 +117,6 @@ module mod_crypto_aead_aegis256
 
   contains
 
-    ! function crypto_aead_aegis256_encrypt(c, clen_p, m, mlen, ad, adlen, nsec, npub, k) &
     function crypto_aead_aegis256_encrypt(c, m, npub, k, ad) result(res)
       integer(kind=c_int) :: res
       character(len=*) :: c, m, npub, k
@@ -137,7 +136,6 @@ module mod_crypto_aead_aegis256
       res = bind_crypto_aead_aegis256_encrypt(c, clen_p, m, mlen, ad1, adlen, nsec, npub, k)
     end function crypto_aead_aegis256_encrypt
 
-    ! function crypto_aead_aegis256_decrypt(m, mlen_p, nsec, c, clen, ad, adlen, npub, k) &
     function crypto_aead_aegis256_decrypt(m, c, npub, k, ad) result(res)
       integer(kind=c_int) :: res
       character(len=*) :: c, m, npub, k
@@ -157,7 +155,6 @@ module mod_crypto_aead_aegis256
       res = bind_crypto_aead_aegis256_decrypt(m, mlen_p, nsec, c, clen, ad1, adlen, npub, k)
     end function crypto_aead_aegis256_decrypt
 
-    ! function crypto_aead_aegis256_encrypt_detached(c, mac, maclen_p, m, mlen, ad, adlen, nsec, npub, k) &
     function crypto_aead_aegis256_encrypt_detached(c, mac, m, npub, k, ad) result(res)
       integer(kind=c_int) :: res
       character(len=*) :: c, mac, m, npub, k
@@ -177,7 +174,6 @@ module mod_crypto_aead_aegis256
       res = bind_crypto_aead_aegis256_encrypt_detached(c, mac, maclen_p, m, mlen, ad1, adlen, nsec, npub, k)
     end function crypto_aead_aegis256_encrypt_detached
 
-    ! function crypto_aead_aegis256_decrypt_detached(m, nsec, c, clen, mac, ad, adlen, npub, k) &
     function crypto_aead_aegis256_decrypt_detached(m, c, mac, npub, k, ad) result(res)
       integer(kind=c_int) :: res
       character(len=*) :: c, mac, m, npub, k
