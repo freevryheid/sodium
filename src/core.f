@@ -3,7 +3,7 @@ module mod_core
   implicit none
   private
 
-  public::sodium_init
+  public sodium_init
 
   ! integer, parameter :: int128 = selected_int_kind(19)
   ! integer(kind=int128), parameter, public :: SODIUM_SIZE_MAX = 2*huge(0_c_size_t)+1
@@ -15,8 +15,8 @@ module mod_core
   interface
 
     function sodium_init() bind(c, name='sodium_init') result(res)
-      import :: c_int
-      integer(kind=c_int) :: res
+      import c_int
+      integer(kind=c_int) res
     end function sodium_init
 
   end interface

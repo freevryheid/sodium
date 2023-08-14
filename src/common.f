@@ -3,17 +3,17 @@ module mod_common
   implicit none
   private
 
-  public :: c_strlen
-  public :: c_f_str_ptr
-  public :: c_str
+  public c_strlen
+  public c_f_str_ptr
+  public c_str
 
   interface
 
     function c_strlen(str) bind(c, name='strlen')
-      import :: c_ptr, c_size_t
+      import c_ptr, c_size_t
       implicit none
       type(c_ptr), intent(in), value :: str
-      integer(c_size_t) :: c_strlen
+      integer(c_size_t) c_strlen
     end function c_strlen
 
   end interface
@@ -33,7 +33,7 @@ module mod_common
       type(c_ptr), intent(in) :: cstr
       character(len=:), allocatable, intent(out) :: fstr
       character(kind=c_char), pointer :: ptrs(:)
-      integer(kind=c_size_t) :: sz
+      integer(kind=c_size_t) sz
       if (.not. c_associated(cstr)) return
       sz = c_strlen(cstr)
       if (sz .lt. 0) return

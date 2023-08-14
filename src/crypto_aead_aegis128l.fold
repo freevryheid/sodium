@@ -1,3 +1,4 @@
+! depreciated?
 module mod_crypto_aead_aegis128l
   use, intrinsic :: iso_c_binding, only : c_size_t, c_int, c_char, c_long_long, c_null_char
   use :: mod_core

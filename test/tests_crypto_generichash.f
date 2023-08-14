@@ -23,7 +23,7 @@ program tests_crypto_generichash
     key => sodium_malloc(SODIUM_crypto_generichash_KEYBYTES_MAX)
     out => sodium_malloc(SODIUM_crypto_generichash_BYTES_MAX)
     expected_out => sodium_malloc(SODIUM_crypto_generichash_BYTES_MAX)
-    open(newunit=io, file="test/tests_crypto_generichash.data", status="old", action="read", iostat=iostat)
+    open(newunit=io, file="test/tests_crypto_generichash.d", status="old", action="read", iostat=iostat)
     do while (iostat.eq.0)
       read(unit=io, fmt='(a)', iostat=iostat) a
       read(unit=io, fmt='(a)', iostat=iostat) b

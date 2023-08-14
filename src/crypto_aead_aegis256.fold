@@ -1,19 +1,19 @@
 module mod_crypto_aead_aegis256
   use, intrinsic :: iso_c_binding, only : c_size_t, c_int, c_char, c_long_long, c_null_char
-  use :: mod_core
+  use mod_core
   implicit none
   private
 
-  public :: crypto_aead_aegis256_keybytes
-  public :: crypto_aead_aegis256_nsecbytes
-  public :: crypto_aead_aegis256_npubbytes
-  public :: crypto_aead_aegis256_abytes
-  public :: crypto_aead_aegis256_messagebytes_max
-  public :: crypto_aead_aegis256_encrypt
-  public :: crypto_aead_aegis256_decrypt
-  public :: crypto_aead_aegis256_encrypt_detached
-  public :: crypto_aead_aegis256_decrypt_detached
-  public :: crypto_aead_aegis256_keygen
+  public crypto_aead_aegis256_keybytes
+  public crypto_aead_aegis256_nsecbytes
+  public crypto_aead_aegis256_npubbytes
+  public crypto_aead_aegis256_abytes
+  public crypto_aead_aegis256_messagebytes_max
+  public crypto_aead_aegis256_encrypt
+  public crypto_aead_aegis256_decrypt
+  public crypto_aead_aegis256_encrypt_detached
+  public crypto_aead_aegis256_decrypt_detached
+  public crypto_aead_aegis256_keygen
 
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_aegis256_KEYBYTES         = 32
   integer(kind=c_size_t), parameter, public :: SODIUM_crypto_aead_aegis256_NSECBYTES        = 0
@@ -27,42 +27,42 @@ module mod_crypto_aead_aegis256
     function crypto_aead_aegis256_keybytes() &
     bind(c, name='crypto_aead_aegis256_keybytes') &
     result(res)
-      import :: c_size_t
+      import c_size_t
       integer(kind=c_size_t) :: res
     end function crypto_aead_aegis256_keybytes
 
     function crypto_aead_aegis256_nsecbytes() &
     bind(c, name='crypto_aead_aegis256_nsecbytes') &
     result(res)
-      import :: c_size_t
+      import c_size_t
       integer(kind=c_size_t) :: res
     end function crypto_aead_aegis256_nsecbytes
 
     function crypto_aead_aegis256_npubbytes() &
     bind(c, name='crypto_aead_aegis256_npubbytes') &
     result(res)
-      import :: c_size_t
+      import c_size_t
       integer(kind=c_size_t) :: res
     end function crypto_aead_aegis256_npubbytes
 
     function crypto_aead_aegis256_abytes() &
     bind(c, name='crypto_aead_aegis256_abytes') &
     result(res)
-      import :: c_size_t
+      import c_size_t
       integer(kind=c_size_t) :: res
     end function crypto_aead_aegis256_abytes
 
     function crypto_aead_aegis256_messagebytes_max() &
     bind(c, name='crypto_aead_aegis256_messagebytes_max') &
     result(res)
-      import :: c_size_t
+      import c_size_t
       integer(kind=c_size_t) :: res
     end function crypto_aead_aegis256_messagebytes_max
 
     function bind_crypto_aead_aegis256_encrypt(c, clen_p, m, mlen, ad, adlen, nsec, npub, k) &
     bind(c, name='crypto_aead_aegis256_encrypt') &
     result(res)
-      import :: c_int, c_char, c_long_long
+      import c_int, c_char, c_long_long
       integer(kind=c_int) :: res
       character(kind=c_char) :: c
       integer(kind=c_long_long) :: clen_p
@@ -74,7 +74,7 @@ module mod_crypto_aead_aegis256
     function bind_crypto_aead_aegis256_decrypt(m, mlen_p, nsec, c, clen, ad, adlen, npub, k) &
     bind(c, name='crypto_aead_aegis256_decrypt') &
     result(res)
-      import :: c_int, c_char, c_long_long
+      import c_int, c_char, c_long_long
       integer(kind=c_int) :: res
       character(kind=c_char) :: c
       integer(kind=c_long_long) :: mlen_p
@@ -86,7 +86,7 @@ module mod_crypto_aead_aegis256
     function bind_crypto_aead_aegis256_encrypt_detached(c, mac, maclen_p, m, mlen, ad, adlen, nsec, npub, k) &
     bind(c, name='crypto_aead_aegis256_encrypt_detached') &
     result(res)
-      import :: c_int, c_char, c_long_long
+      import c_int, c_char, c_long_long
       integer(kind=c_int) :: res
       character(kind=c_char) :: c
       integer(kind=c_long_long) :: maclen_p
@@ -98,7 +98,7 @@ module mod_crypto_aead_aegis256
     function bind_crypto_aead_aegis256_decrypt_detached(m, nsec, c, clen, mac, ad, adlen, npub, k) &
     bind(c, name='crypto_aead_aegis256_decrypt_detached') &
     result(res)
-      import :: c_int, c_char, c_long_long
+      import c_int, c_char, c_long_long
       integer(kind=c_int) :: res
       character(kind=c_char) :: c, mac
       integer(kind=c_long_long) :: mlen_p
@@ -109,7 +109,7 @@ module mod_crypto_aead_aegis256
 
     subroutine crypto_aead_aegis256_keygen(k) &
     bind(c, name='crypto_aead_aegis256_keygen')
-      import :: c_char
+      import c_char
       character(kind=c_char) :: k
     end subroutine crypto_aead_aegis256_keygen
 

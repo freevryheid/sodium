@@ -33,7 +33,7 @@ program tests_crypto_aead_aes256gcm2
     nonce => sodium_malloc(SODIUM_crypto_aead_aes256gcm_NPUBBYTES)
     mac => sodium_malloc(SODIUM_crypto_aead_aes256gcm_ABYTES)
 
-    open(newunit=io, file="test/aead_aes256gcm2.data", status="old", action="read", iostat=iostat)
+    open(newunit=io, file="test/test_aead_aes256gcm2.d", status="old", action="read", iostat=iostat)
 
     do while (iostat.eq.0)
       read(unit=io, fmt='(a)', iostat=iostat) a
