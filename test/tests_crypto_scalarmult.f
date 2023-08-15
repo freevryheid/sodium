@@ -1,14 +1,14 @@
 program tests_crypto_scalarmult
-  use, intrinsic::iso_c_binding, only : c_size_t, c_signed_char
+  use, intrinsic  :: iso_c_binding, only : c_size_t, c_signed_char
   use sodium
   implicit none
-  character(len=32) :: alicesk, bobsk, small_order_p
+  character(len=32) alicesk, bobsk, small_order_p
   character(len=:), allocatable::hex, res
   integer(kind=c_signed_char), dimension(32) :: a, b, c
-  integer(kind=c_signed_char) :: z
-  integer(kind=c_size_t) :: siz, hexlen
+  integer(kind=c_signed_char) z
+  integer(kind=c_size_t) siz, hexlen
   character(len=:), pointer :: alicepk, bobpk, k
-  integer :: ret
+  integer ret
   data a/z'77', z'07', z'6d', z'0a', z'73', z'18', z'a5', z'7d',&
     z'3c', z'16', z'c1', z'72', z'51', z'b2', z'66', z'45',&
     z'df', z'4c', z'2f', z'87', z'eb', z'c0', z'99', z'2a',&

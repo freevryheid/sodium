@@ -39,7 +39,7 @@ module mod_crypto_auth
       type(c_ptr) res
     end function bind_crypto_auth_primitive
 
-    function crypto_auth(out, in, inlen, k) &
+    function bind_crypto_auth(out, in, inlen, k) &
     bind(c, name='crypto_auth') &
     result(res)
       import c_char, c_int, c_long_long
@@ -48,9 +48,9 @@ module mod_crypto_auth
       character(kind=c_char) in
       integer(kind=c_long_long), value :: inlen
       character(kind=c_char) k
-    end function crypto_auth
+    end function bind_crypto_auth
 
-    function crypto_auth_verify(h, in, inlen, k) &
+    function bind_crypto_auth_verify(h, in, inlen, k) &
     bind(c, name='crypto_auth_verify') &
     result(res)
       import c_char, c_int, c_long_long
@@ -59,7 +59,7 @@ module mod_crypto_auth
       character(kind=c_char) in
       integer(kind=c_long_long), value :: inlen
       character(kind=c_char) k
-    end function crypto_auth_verify
+    end function bind_crypto_auth_verify
 
     subroutine crypto_auth_keygen(k) &
     bind(c, name='crypto_auth_keygen')
@@ -77,5 +77,25 @@ module mod_crypto_auth
       cptr = bind_crypto_auth_primitive()
       call c_f_str_ptr(cptr, res)
     end function crypto_auth_primitive
+
+    function crypto_auth(out, in, k) result(res)
+      integer(kind=c_int) res
+      character(kind=c_char) out
+      character(kind=c_char) in
+      integer(kind=c_long_long) inlen
+      character(kind=c_char) k
+      inlen = len(in)
+      res = bind_crypto_auth(out, in, inlen, k)
+    end function crypto_auth
+
+    function crypto_auth_verify(h, in, k) result(res)
+      integer(kind=c_int) res
+      character(kind=c_char) h
+      character(kind=c_char) in
+      integer(kind=c_long_long) :: inlen
+      character(kind=c_char) k
+      inlen = len(in)
+      res = bind_crypto_auth_verify(h, in, inlen, k)
+    end function crypto_auth_verify
 
 end module mod_crypto_auth

@@ -1,5 +1,5 @@
 program tests_randombytes
-  use :: sodium
+  use sodium
   implicit none
 
   block

@@ -1,19 +1,19 @@
 program tests_crypto_secretstream
   use, intrinsic :: iso_c_binding, only : c_long_long, c_null_char, c_char, c_signed_char
-  use :: mod_crypto_secretstream_xchacha20poly1305
-  use :: mod_common
+  use mod_crypto_secretstream_xchacha20poly1305
+  use mod_common
   implicit none
   block
-    type(crypto_secretstream_xchacha20poly1305_state) :: state
-    character(len=SODIUM_crypto_secretstream_xchacha20poly1305_KEYBYTES) :: key
-    character(len=SODIUM_crypto_secretstream_xchacha20poly1305_HEADERBYTES) :: header
+    type(crypto_secretstream_xchacha20poly1305_state) state
+    character(len=SODIUM_crypto_secretstream_xchacha20poly1305_KEYBYTES) key
+    character(len=SODIUM_crypto_secretstream_xchacha20poly1305_HEADERBYTES) header
     character(len=*), parameter :: m1 = "Arbitrary data to encrypt"
     character(len=*), parameter :: m2 = "split into"
     character(len=*), parameter :: m3 = "three messages"
-    integer(kind=c_long_long) :: m1l, m2l, m3l, r1l, r2l, r3l, c1l, c2l, c3l
-    integer :: ret
+    integer(kind=c_long_long) m1l, m2l, m3l, r1l, r2l, r3l, c1l, c2l, c3l
+    integer ret
     character(len=:), allocatable :: c1, c2, c3, r1, r2, r3
-    character(kind=c_char) :: tag
+    character(kind=c_char) tag
     m1l = len(m1)
     m2l = len(m2)
     m3l = len(m3)

@@ -3,11 +3,11 @@ program tests_crypto_secretbox
   use sodium
   implicit none
   block
-    character(len=SODIUM_crypto_secretbox_KEYBYTES) :: key
-    character(len=SODIUM_crypto_secretbox_NONCEBYTES) :: nonce
+    character(len=SODIUM_crypto_secretbox_KEYBYTES) key
+    character(len=SODIUM_crypto_secretbox_NONCEBYTES) nonce
     character(len=:), allocatable :: msg, cipher, decrypted
-    integer(kind=c_long_long) :: ml, cl
-    integer :: ret
+    integer(kind=c_long_long) ml, cl
+    integer ret
     call crypto_secretbox_keygen(key)
     call randombytes_buf(nonce)
     msg = "test"

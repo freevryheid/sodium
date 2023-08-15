@@ -1,14 +1,12 @@
 program tests_crypto_hash
-  ! use, intrinsic :: iso_c_binding, only : c_size_t, c_long_long, c_null_char
-  use :: sodium
-  use :: mod_common
-  ! use :: mod_crypto_generichash_blake2b ! maybe move to sodium
+  use sodium
+  use mod_common
   implicit none
 
   ! single part without key
   block
-    character(len=SODIUM_crypto_generichash_BYTES) :: hash
-    integer :: ret
+    character(len=SODIUM_crypto_generichash_BYTES) hash
+    integer ret
     ret = crypto_generichash(hash, "Arbitrary data to hash")
     if (ret.ne.0) &
       error stop "crypto_generichash failed"
@@ -16,9 +14,9 @@ program tests_crypto_hash
 
   ! single part with a key
   block
-    character(len=SODIUM_crypto_generichash_KEYBYTES) :: key
-    character(len=SODIUM_crypto_generichash_BYTES) :: hash
-    integer :: ret
+    character(len=SODIUM_crypto_generichash_KEYBYTES) key
+    character(len=SODIUM_crypto_generichash_BYTES) hash
+    integer ret
     call randombytes_buf(key)
     ret = crypto_generichash(hash, "Arbitrary data to hash", key)
     if (ret.ne.0) &
@@ -27,9 +25,9 @@ program tests_crypto_hash
 
   ! single part with a keygen
   block
-    character(len=SODIUM_crypto_generichash_KEYBYTES) :: key
-    character(len=SODIUM_crypto_generichash_BYTES) :: hash
-    integer :: ret
+    character(len=SODIUM_crypto_generichash_KEYBYTES) key
+    character(len=SODIUM_crypto_generichash_BYTES) hash
+    integer ret
     call crypto_generichash_keygen(key)
     ret = crypto_generichash(hash, "Arbitrary data to hash", key)
     if (ret.ne.0) &
@@ -38,10 +36,10 @@ program tests_crypto_hash
 
   ! multi part with a key
   block
-    type(crypto_generichash_blake2b_state) :: state
-    character(len=SODIUM_crypto_generichash_KEYBYTES) :: key
-    character(len=SODIUM_crypto_generichash_BYTES) :: hash
-    integer :: ret
+    type(crypto_generichash_blake2b_state) state
+    character(len=SODIUM_crypto_generichash_KEYBYTES) key
+    character(len=SODIUM_crypto_generichash_BYTES) hash
+    integer ret
     call crypto_generichash_keygen(key)
     ret = crypto_generichash_init(state, key)
     if (ret.ne.0) &
@@ -62,9 +60,9 @@ program tests_crypto_hash
 
   ! multi part without key
   block
-    type(crypto_generichash_blake2b_state) :: state
-    character(len=SODIUM_crypto_generichash_BYTES) :: hash
-    integer :: ret
+    type(crypto_generichash_blake2b_state) state
+    character(len=SODIUM_crypto_generichash_BYTES) hash
+    integer ret
     ret = crypto_generichash_init(state)
     if (ret.ne.0) &
       error stop "crypto_generichash_init failed"

@@ -1,20 +1,17 @@
 program tests_crypto_aead_xchacha20poly1305
   use sodium
   implicit none
-  integer :: ret
+  integer ret
 
   ! init
   ret = sodium_init()
   if (ret.ne.0) &
     error stop "sodium_init failed"
-  ! ret = crypto_aead_xchacha20poly1305_ietf_is_available()
-  ! if (ret.eq.0) &
-  !   error stop "not available on this cpu"
 
   ! combined mode
   block
-    character(len=SODIUM_crypto_aead_xchacha20poly1305_ietf_KEYBYTES) :: key
-    character(len=SODIUM_crypto_aead_xchacha20poly1305_ietf_NPUBBYTES) :: nonce
+    character(len=SODIUM_crypto_aead_xchacha20poly1305_ietf_KEYBYTES) key
+    character(len=SODIUM_crypto_aead_xchacha20poly1305_ietf_NPUBBYTES) nonce
     character(len=:), allocatable :: msg, ciphertext, dmsg
     msg = "test1"
     call crypto_aead_xchacha20poly1305_ietf_keygen(key)
@@ -33,9 +30,9 @@ program tests_crypto_aead_xchacha20poly1305
 
   ! detached mode
   block
-    character(len=SODIUM_crypto_aead_xchacha20poly1305_ietf_KEYBYTES) :: key
-    character(len=SODIUM_crypto_aead_xchacha20poly1305_ietf_NPUBBYTES) :: nonce
-    character(len=SODIUM_crypto_aead_xchacha20poly1305_ietf_ABYTES) :: mac
+    character(len=SODIUM_crypto_aead_xchacha20poly1305_ietf_KEYBYTES) key
+    character(len=SODIUM_crypto_aead_xchacha20poly1305_ietf_NPUBBYTES) nonce
+    character(len=SODIUM_crypto_aead_xchacha20poly1305_ietf_ABYTES) mac
     character(len=:), allocatable :: msg, ciphertext, dmsg
     msg = "test2"
     call crypto_aead_xchacha20poly1305_ietf_keygen(key)

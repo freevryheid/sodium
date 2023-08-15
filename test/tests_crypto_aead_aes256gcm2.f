@@ -15,11 +15,11 @@ program tests_crypto_aead_aes256gcm2
 
   block
 
-    integer :: ret, io, iostat
-    character(len=64) :: a, b, c, d, e, f, g
-    type(tests) :: test
+    integer  ret, io, iostat
+    character(len=64)  a, b, c, d, e, f, g
+    type(tests) test
     character(len=:), pointer :: key, nonce, mac, msg, ad, detached_ciphertext, decrypted
-    integer(kind=c_size_t) :: msg_len, ad_len, detached_ciphertext_len
+    integer(kind=c_size_t)  msg_len, ad_len, detached_ciphertext_len
 
     ! init
     ret = sodium_init()

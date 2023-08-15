@@ -1,5 +1,4 @@
 program tests_crypto_generichash
-
   use, intrinsic :: iso_c_binding, only : c_size_t
   use sodium
 
@@ -12,11 +11,11 @@ program tests_crypto_generichash
   end type
 
   block
-    character(len=1000) :: a, b, c
-    integer :: ret, io, iostat
-    type(tests) :: test
+    character(len=1000) a, b, c
+    integer ret, io, iostat
+    type(tests) test
     character(len=:), pointer :: key, expected_out, out, in
-    integer(kind=c_size_t) :: hlen
+    integer(kind=c_size_t) hlen
     ret = sodium_init()
     if (ret.ne.0) &
       error stop "sodium_init failed"

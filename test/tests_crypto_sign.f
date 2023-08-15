@@ -1,17 +1,17 @@
 program tests_crypto_sign
-  use, intrinsic::iso_c_binding, only : c_long_long
-  use :: sodium
-  use :: mod_crypto_sign_ed25519
+  use, intrinsic :: iso_c_binding, only : c_long_long
+  use sodium
+  use mod_crypto_sign_ed25519
   implicit none
 
   block
 
-    integer :: ret
-    character(len=SODIUM_crypto_sign_PUBLICKEYBYTES) :: pk
-    character(len=SODIUM_crypto_sign_SECRETKEYBYTES) :: sk
-    character(len=SODIUM_crypto_sign_BYTES) :: sig
+    integer ret
+    character(len=SODIUM_crypto_sign_PUBLICKEYBYTES) pk
+    character(len=SODIUM_crypto_sign_SECRETKEYBYTES) sk
+    character(len=SODIUM_crypto_sign_BYTES) sig
     character(len=:), allocatable :: msg, signed_msg, unsigned_msg
-    integer(kind=c_long_long) :: mlen, signed_mlen, unsigned_mlen, slen
+    integer(kind=c_long_long) mlen, signed_mlen, unsigned_mlen, slen
 
     msg = "hello"
     mlen = len(msg)
@@ -46,13 +46,13 @@ program tests_crypto_sign
 
   block
 
-    character(len=SODIUM_crypto_sign_PUBLICKEYBYTES) :: pk
-    character(len=SODIUM_crypto_sign_SECRETKEYBYTES) :: sk
-    character(len=SODIUM_crypto_sign_BYTES) :: sig
+    character(len=SODIUM_crypto_sign_PUBLICKEYBYTES) pk
+    character(len=SODIUM_crypto_sign_SECRETKEYBYTES) sk
+    character(len=SODIUM_crypto_sign_BYTES) sig
     character(len=:), allocatable :: m1, m2
-    integer(kind=c_long_long) :: m1len, m2len, slen
-    type(crypto_sign_state) :: state
-    integer :: ret
+    integer(kind=c_long_long) m1len, m2len, slen
+    type(crypto_sign_state) state
+    integer ret
 
     ret = crypto_sign_keypair(pk, sk)
     if (ret.ne.0) &
@@ -96,10 +96,10 @@ program tests_crypto_sign
 
   block
 
-    character(len=SODIUM_crypto_sign_SEEDBYTES) :: sd1, sd2
-    character(len=SODIUM_crypto_sign_PUBLICKEYBYTES) :: pk1, pk2
-    character(len=SODIUM_crypto_sign_SECRETKEYBYTES) :: sk1, sk2
-    integer :: ret
+    character(len=SODIUM_crypto_sign_SEEDBYTES) sd1, sd2
+    character(len=SODIUM_crypto_sign_PUBLICKEYBYTES) pk1, pk2
+    character(len=SODIUM_crypto_sign_SECRETKEYBYTES) sk1, sk2
+    integer ret
 
     ! extract seed and pk
     call randombytes_buf(sd1)

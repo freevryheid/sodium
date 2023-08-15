@@ -1,15 +1,15 @@
+! depreciated - looks like aead_aegis256 is no longer in the link library
 program tests_crypto_aead_aegis256
   use sodium
+  use mod_crypto_aead_aegis256
   implicit none
+
   integer ret
 
   ! init
   ret = sodium_init()
   if (ret.ne.0) &
     error stop "sodium_init failed"
-  ! ret = crypto_aead_aegis256_is_available()
-  ! if (ret.eq.0) &
-  !   error stop "not available on this cpu"
 
   ! combined mode
   block

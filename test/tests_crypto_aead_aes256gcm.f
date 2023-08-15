@@ -1,7 +1,7 @@
 program tests_crypto_aead_aes256gcm
   use sodium
   implicit none
-  integer :: ret
+  integer ret
 
   ! init
   ret = sodium_init()
@@ -13,8 +13,8 @@ program tests_crypto_aead_aes256gcm
 
   ! combined mode
   block
-    character(len=SODIUM_crypto_aead_aes256gcm_KEYBYTES) :: key
-    character(len=SODIUM_crypto_aead_aes256gcm_NPUBBYTES) :: nonce
+    character(len=SODIUM_crypto_aead_aes256gcm_KEYBYTES) key
+    character(len=SODIUM_crypto_aead_aes256gcm_NPUBBYTES) nonce
     character(len=:), allocatable :: msg, ciphertext, dmsg
     msg = "test1"
     call crypto_aead_aes256gcm_keygen(key)
@@ -33,9 +33,9 @@ program tests_crypto_aead_aes256gcm
 
   ! detached mode
   block
-    character(len=SODIUM_crypto_aead_aes256gcm_KEYBYTES) :: key
-    character(len=SODIUM_crypto_aead_aes256gcm_NPUBBYTES) :: nonce
-    character(len=SODIUM_crypto_aead_aes256gcm_ABYTES) :: mac
+    character(len=SODIUM_crypto_aead_aes256gcm_KEYBYTES) key
+    character(len=SODIUM_crypto_aead_aes256gcm_NPUBBYTES) nonce
+    character(len=SODIUM_crypto_aead_aes256gcm_ABYTES) mac
     character(len=:), allocatable :: msg, ciphertext, dmsg
     msg = "test2"
     call crypto_aead_aes256gcm_keygen(key)

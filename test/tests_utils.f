@@ -113,8 +113,7 @@ program tests_utils
 
   block
     integer(kind=c_size_t) :: buflen, padded_buflen, blocksize, max_buflen
-    integer :: i, res
-    ! character(len=max_buflen) :: buf
+    integer i, res
     character(len=20) :: buf
     blocksize = 4
     buflen = 16
@@ -129,9 +128,9 @@ program tests_utils
   end block
 
   block
-    character(len=20) :: buf
-    integer(kind=c_size_t) :: blen
-    integer(kind=c_int) :: res
+    character(len=20) buf
+    integer(kind=c_size_t) blen
+    integer(kind=c_int) res
     blen = 20
     call sodium_memzero(buf, blen)
     res = sodium_is_zero(buf)

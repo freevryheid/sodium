@@ -7,14 +7,11 @@ program tests_crypto_aead_chacha20poly1305
   ret = sodium_init()
   if (ret.ne.0) &
     error stop "sodium_init failed"
-  ! ret = crypto_aead_chacha20poly1305_is_available()
-  ! if (ret.eq.0) &
-  !   error stop "not available on this cpu"
 
   ! ietf combined mode
   block
-    character(len=SODIUM_crypto_aead_chacha20poly1305_ietf_KEYBYTES) :: key
-    character(len=SODIUM_crypto_aead_chacha20poly1305_ietf_NPUBBYTES) :: nonce
+    character(len=SODIUM_crypto_aead_chacha20poly1305_ietf_KEYBYTES) key
+    character(len=SODIUM_crypto_aead_chacha20poly1305_ietf_NPUBBYTES) nonce
     character(len=:), allocatable :: msg, ciphertext, dmsg
     msg = "test1"
     call crypto_aead_chacha20poly1305_ietf_keygen(key)
@@ -33,9 +30,9 @@ program tests_crypto_aead_chacha20poly1305
 
   ! ietf detached mode
   block
-    character(len=SODIUM_crypto_aead_chacha20poly1305_ietf_KEYBYTES) :: key
-    character(len=SODIUM_crypto_aead_chacha20poly1305_ietf_NPUBBYTES) :: nonce
-    character(len=SODIUM_crypto_aead_chacha20poly1305_ietf_ABYTES) :: mac
+    character(len=SODIUM_crypto_aead_chacha20poly1305_ietf_KEYBYTES) key
+    character(len=SODIUM_crypto_aead_chacha20poly1305_ietf_NPUBBYTES) nonce
+    character(len=SODIUM_crypto_aead_chacha20poly1305_ietf_ABYTES) mac
     character(len=:), allocatable :: msg, ciphertext, dmsg
     msg = "test2"
     call crypto_aead_chacha20poly1305_ietf_keygen(key)
@@ -54,8 +51,8 @@ program tests_crypto_aead_chacha20poly1305
 
   ! combined mode
   block
-    character(len=SODIUM_crypto_aead_chacha20poly1305_KEYBYTES) :: key
-    character(len=SODIUM_crypto_aead_chacha20poly1305_NPUBBYTES) :: nonce
+    character(len=SODIUM_crypto_aead_chacha20poly1305_KEYBYTES) key
+    character(len=SODIUM_crypto_aead_chacha20poly1305_NPUBBYTES) nonce
     character(len=:), allocatable :: msg, ciphertext, dmsg
     msg = "test1"
     call crypto_aead_chacha20poly1305_keygen(key)
@@ -74,9 +71,9 @@ program tests_crypto_aead_chacha20poly1305
 
   ! detached mode
   block
-    character(len=SODIUM_crypto_aead_chacha20poly1305_KEYBYTES) :: key
-    character(len=SODIUM_crypto_aead_chacha20poly1305_NPUBBYTES) :: nonce
-    character(len=SODIUM_crypto_aead_chacha20poly1305_ABYTES) :: mac
+    character(len=SODIUM_crypto_aead_chacha20poly1305_KEYBYTES) key
+    character(len=SODIUM_crypto_aead_chacha20poly1305_NPUBBYTES) nonce
+    character(len=SODIUM_crypto_aead_chacha20poly1305_ABYTES) mac
     character(len=:), allocatable :: msg, ciphertext, dmsg
     msg = "test2"
     call crypto_aead_chacha20poly1305_keygen(key)
