@@ -98,7 +98,7 @@ program tests_crypto_sign
 
     character(len=SODIUM_crypto_sign_SEEDBYTES) sd1, sd2
     character(len=SODIUM_crypto_sign_PUBLICKEYBYTES) pk1, pk2
-    character(len=SODIUM_crypto_sign_SECRETKEYBYTES) sk1, sk2
+    character(len=SODIUM_crypto_sign_SECRETKEYBYTES) sk1
     integer ret
 
     ! extract seed and pk

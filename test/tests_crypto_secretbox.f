@@ -13,12 +13,12 @@ program tests_crypto_secretbox
     msg = "test"
     ml = int(len(msg), kind=c_long_long)
     cl = ml + SODIUM_crypto_secretbox_MACBYTES
-    allocate (character(len=cl)::cipher)
-    allocate (character(len=ml)::decrypted)
-    ret = crypto_secretbox_easy(cipher, c_str(msg), ml, nonce, key)
+    allocate (character(len=ml) :: decrypted)
+    allocate (character(len=cl) :: cipher)
+    ret = crypto_secretbox_easy(cipher, msg, nonce, key)
     if (ret.ne.0) &
       error stop "error: crypto_secretbox_easy failed"
-    ret = crypto_secretbox_open_easy(decrypted, cipher, cl, nonce, key)
+    ret = crypto_secretbox_open_easy(decrypted, cipher, nonce, key)
     if (ret.ne.0) &
       error stop "error: crypto_secretbox_open_easy failed"
   end block

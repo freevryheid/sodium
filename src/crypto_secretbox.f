@@ -72,7 +72,7 @@ module mod_crypto_secretbox
       integer(kind=c_size_t) res
     end function crypto_secretbox_messagebytes_max
 
-    function crypto_secretbox_easy(c, m, mlen, n, k) &
+    function bind_crypto_secretbox_easy(c, m, mlen, n, k) &
     bind(c, name='crypto_secretbox_easy') &
     result(res)
       import c_char, c_int, c_long_long
@@ -81,9 +81,9 @@ module mod_crypto_secretbox
       character(kind=c_char) m
       integer(kind=c_long_long), value :: mlen
       character(kind=c_char) n, k
-    end function crypto_secretbox_easy
+    end function bind_crypto_secretbox_easy
 
-    function crypto_secretbox_open_easy(m, c, clen, n, k) &
+    function bind_crypto_secretbox_open_easy(m, c, clen, n, k) &
     bind(c, name='crypto_secretbox_open_easy') &
     result(res)
       import c_char, c_int, c_long_long
@@ -92,9 +92,9 @@ module mod_crypto_secretbox
       character(kind=c_char) c
       integer(kind=c_long_long), value :: clen
       character(kind=c_char) n, k
-    end function crypto_secretbox_open_easy
+    end function bind_crypto_secretbox_open_easy
 
-    function crypto_secretbox_detached(c, mac, m, mlen, n, k) &
+    function bind_crypto_secretbox_detached(c, mac, m, mlen, n, k) &
     bind(c, name='crypto_secretbox_detached') &
     result(res)
       import c_char, c_int, c_long_long
@@ -103,9 +103,9 @@ module mod_crypto_secretbox
       character(kind=c_char) mac, m
       integer(kind=c_long_long), value :: mlen
       character(kind=c_char) n, k
-    end function crypto_secretbox_detached
+    end function bind_crypto_secretbox_detached
 
-    function crypto_secretbox_open_detached(m, c, mac, clen, n, k) &
+    function bind_crypto_secretbox_open_detached(m, c, mac, clen, n, k) &
     bind(c, name='crypto_secretbox_open_detached') &
     result(res)
       import c_char, c_int, c_long_long
@@ -114,7 +114,7 @@ module mod_crypto_secretbox
       character(kind=c_char) c, mac
       integer(kind=c_long_long), value :: clen
       character(kind=c_char) n, k
-    end function crypto_secretbox_open_detached
+    end function bind_crypto_secretbox_open_detached
 
     subroutine crypto_secretbox_keygen(k) &
     bind(c, name='crypto_secretbox_keygen')
@@ -136,7 +136,7 @@ module mod_crypto_secretbox
       integer(kind=c_size_t) res
     end function crypto_secretbox_boxzerobytes
 
-    function crypto_secretbox(c, m, mlen, n, k) &
+    function bind_crypto_secretbox(c, m, mlen, n, k) &
     bind(c, name='crypto_secretbox') &
     result(res)
       import c_char, c_int, c_long_long
@@ -145,9 +145,9 @@ module mod_crypto_secretbox
       character(kind=c_char) m
       integer(kind=c_long_long), value :: mlen
       character(kind=c_char) n, k
-    end function crypto_secretbox
+    end function bind_crypto_secretbox
 
-    function crypto_secretbox_open(m, c, clen, n, k) &
+    function bind_crypto_secretbox_open(m, c, clen, n, k) &
     bind(c, name='crypto_secretbox_open') &
     result(res)
       import c_char, c_int, c_long_long
@@ -156,18 +156,77 @@ module mod_crypto_secretbox
       character(kind=c_char) c
       integer(kind=c_long_long), value :: clen
       character(kind=c_char) n, k
-    end function crypto_secretbox_open
+    end function bind_crypto_secretbox_open
 
   end interface
 
-contains
+  contains
 
-  function crypto_secretbox_primitive() &
-   &result(res)
-    type(c_ptr) res1
-    character(len=:), allocatable :: res
-    res1 = bind_crypto_secretbox_primitive()
-    call c_f_str_ptr(res1, res)
-  end function crypto_secretbox_primitive
+    function crypto_secretbox_primitive() result(res)
+      type(c_ptr) res1
+      character(len=:), allocatable :: res
+      res1 = bind_crypto_secretbox_primitive()
+      call c_f_str_ptr(res1, res)
+    end function crypto_secretbox_primitive
+
+    function crypto_secretbox_easy(c, m, n, k) result(res)
+      integer(kind=c_int) res
+      character(len=*) c
+      character(len=*) m
+      integer(kind=c_long_long) mlen
+      character(len=*) n, k
+      mlen = len(m)
+      res = bind_crypto_secretbox_easy(c, m, mlen, n, k)
+    end function crypto_secretbox_easy
+
+    function crypto_secretbox_open_easy(m, c, n, k) result(res)
+      integer(kind=c_int) res
+      character(len=*) m
+      character(len=*) c
+      integer(kind=c_long_long) clen
+      character(len=*) n, k
+      clen = len(c)
+      res = bind_crypto_secretbox_open_easy(m, c, clen, n, k)
+    end function crypto_secretbox_open_easy
+
+    function crypto_secretbox_detached(c, mac, m, n, k) result(res)
+      integer(kind=c_int) res
+      character(len=*) c
+      character(len=*) mac, m
+      integer(kind=c_long_long) mlen
+      character(len=*) n, k
+      mlen = len(m)
+      res = bind_crypto_secretbox_detached(c, mac, m, mlen, n, k)
+    end function crypto_secretbox_detached
+
+    function crypto_secretbox_open_detached(m, c, mac, n, k) result(res)
+      integer(kind=c_int) res
+      character(len=*) m
+      character(len=*) c, mac
+      integer(kind=c_long_long) clen
+      character(len=*) n, k
+      clen = len(c)
+      res = bind_crypto_secretbox_open_detached(m, c, mac, clen, n, k)
+    end function crypto_secretbox_open_detached
+
+    function crypto_secretbox(c, m, n, k) result(res)
+      integer(kind=c_int) res
+      character(len=*) c
+      character(len=*) m
+      integer(kind=c_long_long) mlen
+      character(len=*) n, k
+      mlen = len(m)
+      res = bind_crypto_secretbox(c, m, mlen, n, k)
+    end function crypto_secretbox
+
+    function crypto_secretbox_open(m, c, n, k) result(res)
+      integer(kind=c_int) res
+      character(len=*) m
+      character(len=*) c
+      integer(kind=c_long_long) clen
+      character(len=*) n, k
+      clen = len(c)
+      res = bind_crypto_secretbox_open(m, c, clen, n, k)
+    end function crypto_secretbox_open
 
 end module mod_crypto_secretbox

@@ -113,8 +113,8 @@ program tests_utils
 
   block
     integer(kind=c_size_t) :: buflen, padded_buflen, blocksize, max_buflen
-    integer i, res
-    character(len=20) :: buf
+    integer res
+    character(len=20) buf
     blocksize = 4
     buflen = 16
     max_buflen = buflen + (blocksize - modulo(buflen, blocksize))

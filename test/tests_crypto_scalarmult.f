@@ -3,7 +3,7 @@ program tests_crypto_scalarmult
   use sodium
   implicit none
   character(len=32) alicesk, bobsk, small_order_p
-  character(len=:), allocatable::hex, res
+  character(len=:), allocatable :: hex
   integer(kind=c_signed_char), dimension(32) :: a, b, c
   integer(kind=c_signed_char) z
   integer(kind=c_size_t) siz, hexlen

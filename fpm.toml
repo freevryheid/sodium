@@ -10,14 +10,6 @@ auto-executables = true
 auto-tests = true
 auto-examples = true
 module-naming = false
-# [dependencies]
-# none
-# [dev-dependencies]
-# stdlib = { git="https://github.com/fortran-lang/stdlib", branch="stdlib-fpm" }
-# stdlib = "*"
-# test-drive = { git="https://github.com/fortran-lang/test-drive" }
-# scanner = { git="https://github.com/freevryheid/scanner" }
-# fortran-zlib = { git="https://github.com/interkosmos/fortran-zlib" }
 [install]
 library = false
 [fortran]
