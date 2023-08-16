@@ -1,5 +1,5 @@
 module mod_crypto_secretbox
-  use, intrinsic :: iso_c_binding, only : c_ptr, c_size_t, c_char, c_int, c_long_long, c_int128_t
+  use, intrinsic :: iso_c_binding, only : c_ptr, c_size_t, c_char, c_int, c_long_long
   use mod_crypto_secretbox_xsalsa20poly1305
   use mod_common
   implicit none

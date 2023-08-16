@@ -46,7 +46,7 @@ module mod_crypto_secretbox_xchacha20poly1305
       integer(kind=c_size_t) res
     end function crypto_secretbox_xchacha20poly1305_messagebytes_max
 
-    function crypto_secretbox_xchacha20poly1305_easy(c, m, mlen, n, k) &
+    function bind_crypto_secretbox_xchacha20poly1305_easy(c, m, mlen, n, k) &
     bind(c, name='crypto_secretbox_xchacha20poly1305_easy') &
     result(res)
       import c_char, c_int, c_long_long
@@ -55,9 +55,9 @@ module mod_crypto_secretbox_xchacha20poly1305
       character(kind=c_char) m
       integer(kind=c_long_long), value :: mlen
       character(kind=c_char) n, k
-    end function crypto_secretbox_xchacha20poly1305_easy
+    end function bind_crypto_secretbox_xchacha20poly1305_easy
 
-    function crypto_secretbox_xchacha20poly1305_open_easy(m, c, clen, n, k) &
+    function bind_crypto_secretbox_xchacha20poly1305_open_easy(m, c, clen, n, k) &
     bind(c, name='crypto_secretbox_xchacha20poly1305_open_easy') &
     result(res)
       import c_char, c_int, c_long_long
@@ -66,9 +66,9 @@ module mod_crypto_secretbox_xchacha20poly1305
       character(kind=c_char) c
       integer(kind=c_long_long), value :: clen
       character(kind=c_char) n, k
-    end function crypto_secretbox_xchacha20poly1305_open_easy
+    end function bind_crypto_secretbox_xchacha20poly1305_open_easy
 
-    function crypto_secretbox_xchacha20poly1305_detached(c, mac, m, mlen, n, k) &
+    function bind_crypto_secretbox_xchacha20poly1305_detached(c, mac, m, mlen, n, k) &
     bind(c, name='crypto_secretbox_xchacha20poly1305_detached') &
     result(res)
       import c_char, c_int, c_long_long
@@ -77,9 +77,9 @@ module mod_crypto_secretbox_xchacha20poly1305
       character(kind=c_char) mac, m
       integer(kind=c_long_long), value :: mlen
       character(kind=c_char) n, k
-    end function crypto_secretbox_xchacha20poly1305_detached
+    end function bind_crypto_secretbox_xchacha20poly1305_detached
 
-    function crypto_secretbox_xchacha20poly1305_open_detached(m, c, mac, clen, n, k) &
+    function bind_crypto_secretbox_xchacha20poly1305_open_detached(m, c, mac, clen, n, k) &
     bind(c, name='crypto_secretbox_xchacha20poly1305_open_detached') &
     result(res)
       import c_char, c_int, c_long_long
@@ -88,8 +88,50 @@ module mod_crypto_secretbox_xchacha20poly1305
       character(kind=c_char) c, mac
       integer(kind=c_long_long), value :: clen
       character(kind=c_char) n, k
-    end function crypto_secretbox_xchacha20poly1305_open_detached
+    end function bind_crypto_secretbox_xchacha20poly1305_open_detached
 
   end interface
+
+  contains
+
+    function crypto_secretbox_xchacha20poly1305_easy(c, m, n, k) result(res)
+      integer(kind=c_int) res
+      character(len=*) c
+      character(len=*) m
+      integer(kind=c_long_long) mlen
+      character(len=*) n, k
+      mlen = len(m)
+      res = bind_crypto_secretbox_xchacha20poly1305_easy(c, m, mlen, n, k)
+    end function crypto_secretbox_xchacha20poly1305_easy
+
+    function crypto_secretbox_xchacha20poly1305_open_easy(m, c, n, k) result(res)
+      integer(kind=c_int) res
+      character(len=*) m
+      character(len=*) c
+      integer(kind=c_long_long) clen
+      character(len=*) n, k
+      clen = len(c)
+      res = bind_crypto_secretbox_xchacha20poly1305_open_easy(m, c, clen, n, k)
+    end function crypto_secretbox_xchacha20poly1305_open_easy
+
+    function crypto_secretbox_xchacha20poly1305_detached(c, mac, m, n, k) result(res)
+      integer(kind=c_int) res
+      character(len=*) c
+      character(len=*) mac, m
+      integer(kind=c_long_long) mlen
+      character(len=*) n, k
+      mlen = len(m)
+      res = bind_crypto_secretbox_xchacha20poly1305_detached(c, mac, m, mlen, n, k)
+    end function crypto_secretbox_xchacha20poly1305_detached
+
+    function crypto_secretbox_xchacha20poly1305_open_detached(m, c, mac, n, k) result(res)
+      integer(kind=c_int) res
+      character(len=*) m
+      character(len=*) c, mac
+      integer(kind=c_long_long) clen
+      character(len=*) n, k
+      clen = len(c)
+      res = bind_crypto_secretbox_xchacha20poly1305_open_detached(m, c, mac, clen, n, k)
+    end function crypto_secretbox_xchacha20poly1305_open_detached
 
 end module mod_crypto_secretbox_xchacha20poly1305

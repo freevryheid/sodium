@@ -1,5 +1,5 @@
 module mod_crypto_secretstream_xchacha20poly1305
-  use, intrinsic :: iso_c_binding, only : c_size_t, c_signed_char, c_int, c_char, c_long_long
+  use, intrinsic :: iso_c_binding, only : c_size_t, c_signed_char, c_int, c_char, c_long_long, c_null_char
   use mod_crypto_aead_xchacha20poly1305
   use mod_crypto_stream_chacha20
   use mod_core
@@ -123,18 +123,18 @@ module mod_crypto_secretstream_xchacha20poly1305
       character(kind=c_char) k
     end function crypto_secretstream_xchacha20poly1305_init_push
 
-    function crypto_secretstream_xchacha20poly1305_push(state, c, clen, m, mlen, ad, adlen, tag) &
+    function bind_crypto_secretstream_xchacha20poly1305_push(state, c, clen, m, mlen, ad, adlen, tag) &
     bind(c, name='crypto_secretstream_xchacha20poly1305_push') &
     result(res)
-      import c_int, c_char, c_long_long, crypto_secretstream_xchacha20poly1305_state
+      import c_int, c_char, c_long_long, crypto_secretstream_xchacha20poly1305_state, c_signed_char
       integer(kind=c_int) res
       type(crypto_secretstream_xchacha20poly1305_state) state
       integer(kind=c_long_long) clen
       character(kind=c_char) c
       integer(kind=c_long_long), value :: mlen, adlen
       character(kind=c_char) m, ad
-      character(kind=c_char), value :: tag
-    end function crypto_secretstream_xchacha20poly1305_push
+      integer(kind=c_signed_char), value :: tag
+    end function bind_crypto_secretstream_xchacha20poly1305_push
 
     function crypto_secretstream_xchacha20poly1305_init_pull(state, header, k) &
     bind(c, name='crypto_secretstream_xchacha20poly1305_init_pull') &
@@ -146,18 +146,18 @@ module mod_crypto_secretstream_xchacha20poly1305
       character(kind=c_char) k
     end function crypto_secretstream_xchacha20poly1305_init_pull
 
-    function crypto_secretstream_xchacha20poly1305_pull(state, m, mlen, tag, c, clen, ad, adlen) &
+    function bind_crypto_secretstream_xchacha20poly1305_pull(state, m, mlen, tag, c, clen, ad, adlen) &
     bind(c, name='crypto_secretstream_xchacha20poly1305_pull') &
     result(res)
-      import c_int, c_char, c_long_long, crypto_secretstream_xchacha20poly1305_state
+      import c_int, c_char, c_long_long, crypto_secretstream_xchacha20poly1305_state, c_signed_char
       integer(kind=c_int) res
       type(crypto_secretstream_xchacha20poly1305_state) state
       integer(kind=c_long_long) mlen
       character(kind=c_char) m
       integer(kind=c_long_long), value :: clen, adlen
       character(kind=c_char) c, ad
-      character(kind=c_char) tag
-    end function crypto_secretstream_xchacha20poly1305_pull
+      integer(kind=c_signed_char) :: tag
+    end function bind_crypto_secretstream_xchacha20poly1305_pull
 
     subroutine crypto_secretstream_xchacha20poly1305_rekey(state) &
     bind(c, name='crypto_secretstream_xchacha20poly1305_rekey')
@@ -166,5 +166,51 @@ module mod_crypto_secretstream_xchacha20poly1305
     end subroutine crypto_secretstream_xchacha20poly1305_rekey
 
   end interface
+
+  contains
+
+    function crypto_secretstream_xchacha20poly1305_push(state, c, m, tag, ad) result(res)
+      integer(kind=c_int) res
+      type(crypto_secretstream_xchacha20poly1305_state) state
+      integer(kind=c_long_long) clen
+      character(len=*) c
+      integer(kind=c_long_long) mlen, adlen
+      character(len=*) m
+      character(len=*), optional :: ad
+      character(len=:), allocatable :: ad1
+      integer(kind=c_signed_char) tag
+      clen = len(c)
+      mlen = len(m)
+      if (present(ad)) then
+        ad1 = ad
+        adlen = len(ad)
+      else
+        ad1 = c_null_char
+        adlen = 0
+      end if
+      res = bind_crypto_secretstream_xchacha20poly1305_push(state, c, clen, m, mlen, ad1, adlen, tag)
+    end function crypto_secretstream_xchacha20poly1305_push
+
+    function crypto_secretstream_xchacha20poly1305_pull(state, m, tag, c, ad) result(res)
+      integer(kind=c_int) res
+      type(crypto_secretstream_xchacha20poly1305_state) state
+      integer(kind=c_long_long) mlen
+      character(len=*) m
+      integer(kind=c_long_long) clen, adlen
+      character(len=*) c
+      character(len=*), optional :: ad
+      character(len=:), allocatable :: ad1
+      integer(kind=c_signed_char) tag
+      clen = len(c)
+      mlen = len(m)
+      if (present(ad)) then
+        ad1 = ad
+        adlen = len(ad)
+      else
+        ad1 = c_null_char
+        adlen = 0
+      end if
+      res = bind_crypto_secretstream_xchacha20poly1305_pull(state, m, mlen, tag, c, clen, ad1, adlen)
+    end function crypto_secretstream_xchacha20poly1305_pull
 
 end module mod_crypto_secretstream_xchacha20poly1305
